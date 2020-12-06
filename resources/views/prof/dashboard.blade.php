@@ -84,7 +84,7 @@ $revenues_formation=$report->dataStore("revenues_formation");
           
           
       </div>
-
+{{-- 
       <div class="row">
         <div class="col-md-4">
           <div class="card card-chart">
@@ -426,7 +426,7 @@ $revenues_formation=$report->dataStore("revenues_formation");
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
   </div>
 </div>
 @endsection

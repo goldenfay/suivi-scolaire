@@ -86,7 +86,6 @@ Route::prefix('/prof')->name('')->group(function(){
 	
     Route::get('/dashboard', 'App\Http\Controllers\Prof\DashboardController@index')->name('dashboard');
     Route::get('/reports', 'App\Http\Controllers\Prof\DashboardController@index')->name('reports');
-    Route::get('/enseignement/{eleveId?}', 'App\Http\Controllers\Prof\DashboardController@enfants')->name('enfants');
-    Route::get('/enfants/{eleveId?}', 'App\Http\Controllers\Prof\DashboardController@enfants')->name('enfants');
+    Route::get('/enseignement/{eleveId?}', 'App\Http\Controllers\Prof\DashboardController@teaching')->name('enseignement');
 });
 Route::get('/logout', [App\Http\Controllers\HomeController::class, 'index'])->name('logout');

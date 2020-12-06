@@ -141,7 +141,7 @@
           
           
       </div>
-
+{{-- 
       <div class="row">
         <div class="col-md-4">
           <div class="card card-chart">
@@ -483,9 +483,9 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div> --}}
   </div>
+</div>
 @endsection
 
 @push('js')

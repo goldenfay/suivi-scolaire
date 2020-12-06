@@ -13,7 +13,7 @@
             <label for="exampleFormControlSelect1">Veuillez choisir un élève à consulter</label>
           <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="exampleFormControlSelect1">
               @foreach ($children as $child)
-            <option selected="{{$child->eleve->Id==$eleve->eleve->Id}}" value="{{__($child->eleve->Id)}}">
+            <option  value="{{__($child->eleve->Id)}}">
               <a href="{{route('enfants')}}/{{$child->eleve->Id}}">{{$child->eleve->Prenom}}
               </a>
             </option>
