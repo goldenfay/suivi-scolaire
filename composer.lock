@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39c2d4e0299be8f3abd6e4b6790b5047",
+    "content-hash": "c71bb9e994fc430dcb60c878f54d6a58",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -936,6 +936,87 @@
                 "source": "https://github.com/koolreport/core/tree/v5.0.0"
             },
             "time": "2020-11-11T10:29:22+00:00"
+        },
+        {
+            "name": "koolreport/laravel",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/laravel.git",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/laravel/zipball/b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "reference": "b6918a3ae7c72d4a4c814691f716f257c9d2a784",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Allow to use KoolReport seamlessly in Laravel",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "Data Report",
+                "KooLReport Laravel",
+                "Laravel Report",
+                "Reporting Tools",
+                "laravel",
+                "laravel reporting",
+                "laravel reporting tool",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/laravel/issues",
+                "source": "https://github.com/koolreport/laravel/tree/master"
+            },
+            "time": "2020-01-21T07:25:24+00:00"
+        },
+        {
+            "name": "koolreport/statistics",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koolreport/statistics.git",
+                "reference": "93cbd17317a35a919ddf052e939ce21462cfdfd9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koolreport/statistics/zipball/93cbd17317a35a919ddf052e939ce21462cfdfd9",
+                "reference": "93cbd17317a35a919ddf052e939ce21462cfdfd9",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Provide various statistical measures for data",
+            "homepage": "https://www.koolreport.com",
+            "keywords": [
+                "PHP Reporting Framework",
+                "lowerQuartile",
+                "max",
+                "mean",
+                "meanDeviation",
+                "median",
+                "min",
+                "mode",
+                "mysql reporting tools",
+                "percentile",
+                "php",
+                "php reprting tools",
+                "statistics",
+                "stdDeviation",
+                "upperQuartile"
+            ],
+            "support": {
+                "issues": "https://github.com/koolreport/statistics/issues",
+                "source": "https://github.com/koolreport/statistics/tree/master"
+            },
+            "time": "2019-06-03T08:43:21+00:00"
         },
         {
             "name": "laravel-frontend-presets/material-dashboard",

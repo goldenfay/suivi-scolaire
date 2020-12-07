@@ -24,7 +24,7 @@
 
           </div>
           <div class="col-md-4 d-flex align-items-center">
-            <button type="submit" class="btn btn-primary" onlcick="change_current_eleve()">Consulter</button>
+            <button type="submit" class="btn btn-primary" >Consulter</button>
 
           </div>
 
@@ -316,17 +316,13 @@
     document.getElementById('change_eleve_form').addEventListener('submit', (e) =>{
       e.preventDefault();
       
-      window.location='/enfants/' + 
+      const destination=window.location='/parent/enfants/' + 
     encodeURIComponent(document.getElementById('exampleFormControlSelect1').value);
+    if(window.location.href===destination) return
+      window.location=destination;
       
     });
-    function change_current_eleve() {
-      // e.preventDefault();
-      
-      window.location='/enfants/' + 
-    encodeURIComponent(document.getElementById('exampleFormControlSelect1').value);
-      
-    }
+    
   </script>
 </div>
 @endsection
