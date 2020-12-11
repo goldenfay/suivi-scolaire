@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class Prof extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $table = "professeur";
+    protected $table="professeur";
+    protected $guard="prof";
     public $timestamps = false;
 
     /**
@@ -19,12 +20,15 @@ class Prof extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'Code',
         'Nom',
         'Prenom',
+        'Civilite',
+        'Email',
         'Adresse',
         'Age',
-        'Email',
-        'Password',
+        'Diplome',
+        'password',
     ];
 
     /**

@@ -20,6 +20,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {   
+        // $this->middleware('auth:prof');
         $this->user=new \stdClass();
         $this->user->prof= Prof::find(1)->get()->first();
         $this->fetchProfData();
@@ -60,6 +61,27 @@ class DashboardController extends Controller
         return view('prof.teaching',[
             "currentClasse"=> $classe,
             "user"=> $this->user
+        
+            ]);
+    }
+
+    public function showAddObservationView($eleveId){
+        $eleve=DB::table('eleve')
+        ->find($eleveId)
+        ;
+        if($eleve==null) return abort(404);
+        
+        $observations=DB::table('observation')
+        ->where('Eleve',$eleve->Id)
+        ->where('Professeur',$this->user->prof->Id)
+        ->whereYear('Date','=',Date('Y'))
+        ->orderby('Date','Desc')
+        ->get();
+
+        return view('prof.cahier-correspond',[
+            "observations"=> $observations,
+            "user"=> $this->user,
+            "eleve"=> $eleve
         
             ]);
     }

@@ -18,7 +18,9 @@
         "laravel-frontend-presets/material-dashboard": "^1.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.1"
+        "laravel/ui": "^3.1",
+        "nexmo/client": "^2.4",
+        "paragonie/halite": "^4.7"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

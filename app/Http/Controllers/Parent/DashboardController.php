@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Parent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use \ParagonIE\Halite\KeyFactory;
+use \ParagonIE\Halite\Symmetric\Crypto as SymmetricCrypto;
+use ParagonIE\HiddenString\HiddenString;
+
 use App\Models\ParentEleve;
 
 class DashboardController extends Controller
@@ -17,6 +21,9 @@ class DashboardController extends Controller
      */
     public function __construct()
     {   
+        // $this->middleware('auth');
+
+
         $this->user=new \stdClass();
         $this->user->parent = ParentEleve::find(2)->get()->first();
         $users_children = DB::table('eleve_parent')
@@ -27,8 +34,8 @@ class DashboardController extends Controller
         ->get();
         $this->user->children=array();
         forEach($users_children as $child) {
-            $this->user->children[$child->Id]=new \stdClass();
-            $this->user->children[$child->Id]->eleve=$child;
+            $this->user->children[$child->Id.""]=new \stdClass();
+            $this->user->children[$child->Id.""]->eleve=$child;
                 // Fetch all eleve classes
             $classes= DB::table('eleve_classe')
             ->where('Eleve',$child->Id)
@@ -41,8 +48,8 @@ class DashboardController extends Controller
             ->leftjoin('formation','Formation','formation.Id')
             ->select('formation.*')
             ->get();
-            $this->user->children[$child->Id]->classes=$classes;
-            $this->user->children[$child->Id]->formations=$formations;
+            $this->user->children[$child->Id.""]->classes=$classes;
+            $this->user->children[$child->Id.""]->formations=$formations;
 
         }
         
@@ -57,7 +64,7 @@ class DashboardController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {   
+    {  
         
         return view('parent.dashboard',[
             "user"=> $this->user
@@ -69,11 +76,42 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function enfants($eleveId=null)
-    {   $eleve=null;
+    public function enfants($eleveId=null,$classeId=null)
+    {   
+        // $eleveId=(int)($eleveId)."";
+        // $classeId=(int)($classeId);
+        $eleve=null;
         if($eleveId==null)
             $eleve=reset($this->user->children);
-        else $eleve=$this->user->children[$eleveId];
+        else $eleve=$this->user->children[$eleveId.""];
+        $classe=null;
+        if($classeId==null)
+            $classe=$this->user->children[$eleve->eleve->Id.""]->classes->first();
+        else $classe=$this->user->children[$eleve->eleve->Id.""]->classes->where('Id',$classeId)->first();
+            // Fetch for his classes schedules
+        $schedule=DB::table('emplois_temps')
+        ->where('Classe',$classe->Id)
+        ->leftjoin('matiere','Matiere','matiere.Id')
+        ->select('emplois_temps.*','matiere.Code as CodeM','matiere.Des as DesM')
+        ->get()
+        // ->sort(function($a,$b){
+            
+        //     return strcasecmp($a->Heure,$b->Heure);
+        // })
+        ->sort(function($a,$b){
+            $daysOrder=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
+            $daysDiff=array_search($a->Jour,$daysOrder) - array_search($b->Jour,$daysOrder);
+            return $daysDiff!=0?$daysDiff:strcasecmp($a->Heure,$b->Heure);
+        })
+        ;
+            // Fetch for his classes programmes
+        $programme=DB::table('observation')
+        ->where('Eleve',$eleve->eleve->Id)
+        ->whereYear('Date','=',Date('Y'))
+        ->leftjoin('professeur','Professeur','professeur.Id')
+        ->select('observation.*','professeur.Nom as NomProfesseur','professeur.Prenom as PrenomProfesseur')
+        ->orderby('Date','Desc')
+        ->get();
             // Fetch for all its observations (correspondances)
         $observations=DB::table('observation')
         ->where('Eleve',$eleve->eleve->Id)
@@ -83,7 +121,7 @@ class DashboardController extends Controller
         ->orderby('Date','Desc')
         ->get();
 
-            // Fetch for all its observations (correspondances)
+            // Fetch for all its evaluations (correspondances)
         $evaluations=DB::table('note')
         ->leftjoin('tranche','Tranche','tranche.Id')
         ->leftjoin('matiere','Matiere','matiere.Id')
@@ -103,8 +141,10 @@ class DashboardController extends Controller
         ->select('note.*','matiere.Des as Matiere')
         ->get();
         return view('parent.enfants',[
+            "user"=> $this->user->parent,
             "children"=> $this->user->children,
             "eleve"=> $eleve,
+            "schedule"=> $schedule,
             "observations"=> $observations,
             "evaluations"=> $evaluations
             

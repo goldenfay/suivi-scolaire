@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 class ParentEleve extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $table = "parent";
+    protected $table="parent";
+    // protected $guard="parent";
     public $timestamps = false;
     /**
      * The attributes that are mass assignable.
@@ -18,11 +19,15 @@ class ParentEleve extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'Code',
         'Nom',
         'Prenom',
-        'NumTel',
+        'Civilite',
         'Email',
-        'Password',
+        'Adresse',
+        'Age',
+        'NumTel',
+        'password',
     ];
 
     /**
@@ -32,8 +37,13 @@ class ParentEleve extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
        
     ];
+
+    public function routeNotificationForMail(){
+        return $this->Email;
+    }
 
    
     

@@ -17,24 +17,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');//->middleware('auth');
 
 
-Route::get('/login/prof', 'App\Http\Controllers\Auth\LoginController@showProfLoginForm');
-Route::get('/login/parent', 'App\Http\Controllers\Auth\LoginController@showParentLoginForm');
-Route::get('/register/prof', 'App\Http\Controllers\Auth\RegisterController@showProfRegisterForm');
-Route::get('/register/parent', 'App\Http\Controllers\Auth\RegisterController@showParentRegisterForm');
+// Auth::routes();
+// Route::get('/login/prof', 'App\Http\Controllers\Auth\LoginController@showProfLoginForm');
+// Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showParentLoginForm');
+// Route::get('/register/prof', 'App\Http\Controllers\Auth\RegisterController@showProfRegisterForm');
+// Route::get('/register', 'App\Http\Controllers\Auth\RegisterController@showParentRegisterForm');
 
-Route::post('/login/prof', 'App\Http\Controllers\Auth\LoginController@profLogin');
-Route::post('/login/parent', 'App\Http\Controllers\Auth\LoginController@parentLogin');
-Route::post('/register/prof', 'App\Http\Controllers\Auth\RegisterController@createProf');
-Route::post('/register/parent', 'App\Http\Controllers\Auth\RegisterController@createParent');
+// Route::post('/login/prof', 'App\Http\Controllers\Auth\LoginController@profLogin');
+// Route::post('/login', 'App\Http\Controllers\Auth\LoginController@parentLogin');
+// Route::post('/register/prof', 'App\Http\Controllers\Auth\RegisterController@createProf');
+// Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@createParent');
 
-// // Auth::routes();
 // Route::prefix('/prof')->name('prof.')->namespace('Prof')->group(function(){
 // 	Route::get('reports', [App\Http\Controllers\ReportsController::class, 'index'])->name('reports');
 	
@@ -67,25 +64,31 @@ Route::post('/register/parent', 'App\Http\Controllers\Auth\RegisterController@cr
 // 	})->name('notifications');
 
 // 	Route::get('rtl-support', function () {
-// 		return view('pages.language');
-// 	})->name('language');
+    // 		return view('pages.language');
+    // 	})->name('language');
+    
+	
+    // });
 
-	
-// });
-Route::prefix('/prof')->name('prof.')->namespace('Prof')->group(function(){
-	
-});
-Route::prefix('/parent')->name('')->group(function(){
-	
-    Route::get('/dashboard', 'App\Http\Controllers\Parent\DashboardController@index')->name('dashboard');
-    Route::get('/reports', 'App\Http\Controllers\Parent\DashboardController@index')->name('reports');
-    Route::get('/enfants/{eleveId?}', 'App\Http\Controllers\Parent\DashboardController@enfants')->name('enfants');
-});
+Auth::routes();
+    // View routes
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', 'App\Http\Controllers\Parent\DashboardController@index')->name('dashboard');
+Route::get('/reports', 'App\Http\Controllers\Parent\DashboardController@index')->name('reports');
+Route::get('/enfants/{eleveId?}/{classeId?}', 'App\Http\Controllers\Parent\DashboardController@enfants')->name('enfants');
 
-Route::prefix('/prof')->name('')->group(function(){
+Route::prefix('/prof')->name('prof.')->group(function(){
 	
     Route::get('/dashboard', 'App\Http\Controllers\Prof\DashboardController@index')->name('dashboard');
+    Route::get('/enseignement/{classeId?}', 'App\Http\Controllers\Prof\DashboardController@teaching')->name('enseignement');
+    Route::get('/correspondance/{eleveId}', 'App\Http\Controllers\Prof\DashboardController@showAddObservationView')->name('correspondance');
     Route::get('/reports', 'App\Http\Controllers\Prof\DashboardController@index')->name('reports');
-    Route::get('/enseignement/{eleveId?}', 'App\Http\Controllers\Prof\DashboardController@teaching')->name('enseignement');
 });
-Route::get('/logout', [App\Http\Controllers\HomeController::class, 'index'])->name('logout');
+// API routes
+
+Route::post('/observations/add', 'App\Http\Controllers\API\ObservationsController@add');
+Route::put('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@update');
+Route::prefix('/apio')->name('api.')->group(function(){
+    // Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
+
+});

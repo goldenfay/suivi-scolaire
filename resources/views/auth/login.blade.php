@@ -12,7 +12,7 @@
       <form method="POST" action="{{ url('login') }}" aria-label="{{ __('Login') }}">
       @endisset
         @csrf
-
+        
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
             @isset($url)

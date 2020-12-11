@@ -1,6 +1,28 @@
 @extends('layouts.app', ['activePage' => 'enfants', 'titlePage' => __('Suivi Des Enfants')])
+<?php
+setlocale(LC_TIME, "fr_FR");
+use \ParagonIE\Halite\KeyFactory;
+use \ParagonIE\Halite\Symmetric\Crypto as SymmetricCrypto;
+use ParagonIE\HiddenString\HiddenString;
+// $key = config('requests.SECRET_KEY');
+// $enc_parent=SymmetricCrypto::encrypt(new HiddenString(($user->Id).""), $key);
+// $enc_eleve=SymmetricCrypto::encrypt(new HiddenString($eleve->eleve->Id.""
+//     ), $key)
+    // KeyFactory::save($key, '/secret.key');
+$enc_parent=$user->Id;
+$enc_eleve=$eleve->eleve->Id;
 
+$days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
+$hours=[
+  "08:00-09:00","09:00-10:00","10:00-11:00","11:00-12:00",
+  "13:30-14:30","14:30-15:30","15:30-16:30"
+];
+
+?>
 @section('content')
+@push('styles')
+    <link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
+@endpush
 <div class="content">
   <div class="container-fluid">
     <div class="row my-4">
@@ -9,23 +31,40 @@
       </div>
       <div class="col-sm-8">
         <form id="change_eleve_form" method="GET" class="form-row">
-          <div class="form-group col-md-8">
-            <label for="exampleFormControlSelect1">Veuillez choisir un élève à consulter</label>
-          <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="exampleFormControlSelect1">
-              @foreach ($children as $child)
-            <option  value="{{__($child->eleve->Id)}}">
-              <a href="{{route('enfants')}}/{{$child->eleve->Id}}">{{$child->eleve->Prenom}}
-              </a>
-            </option>
-              @endforeach
-              
-              
-            </select>
+          <div class="form-row my-3">
 
-          </div>
-          <div class="col-md-4 d-flex align-items-center">
-            <button type="submit" class="btn btn-primary" >Consulter</button>
-
+            <div class="form-group col-md-4">
+              <label for="eleveSelect">Veuillez choisir un élève à consulter</label>
+            <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="eleveSelect">
+                @foreach ($children as $child)
+              <option  value="{{$child->eleve->Id}}">
+                <a href="{{route('enfants')}}/{{$child->eleve->Id}}">{{$child->eleve->Prenom}}
+                </a>
+              </option>
+                @endforeach
+                
+                
+              </select>
+  
+            </div>
+            <div class="form-group col-md-4">
+              <label for="classeSelect">Veuillez choisir la classe</label>
+            <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="classeSelect">
+                @foreach ($children[$eleve->eleve->Id]->classes as $classe)
+              <option  value="{{$classe->Id}}">
+                <a href="#">{{$classe->Des}}
+                </a>
+              </option>
+                @endforeach
+                
+                
+              </select>
+  
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              <button type="submit" class="btn btn-primary" >Consulter</button>
+  
+            </div>
           </div>
 
         </form>
@@ -75,11 +114,21 @@
                 @if($observation->Etat!="VAL")
                 <td class="td-actions text-center">
                     @if($observation->Etat!="ATV")
-                    <button type="button" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Marquer en attente de validation" class="my-3 btn btn-round btn-warning">
-                        <i class="material-icons">pending_actions</i>
-                    </button>
-                    @endif
-                    <button type="button" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Valider" class="my-3 btn btn-round btn-success">
+                    <button type="button" 
+                    id="{{$observation->Id}}"
+                    rel="tooltip" data-toggle="tooltip" data-placement="top" title="Marquer en attente de validation" 
+                    class="my-3 btn btn-round btn-warning"
+                    onclick="set_observation_pending(event)"
+                    >
+                    <i class="material-icons">pending_actions</i>
+                  </button>
+                  @endif
+                  <button type="button" 
+                  id="{{$observation->Id}}"
+                  rel="tooltip" data-toggle="tooltip" data-placement="top" title="Valider" 
+                  class="my-3 btn btn-round btn-success"
+                  onclick="set_observation_validated(event)"
+                  >
                         <i class="material-icons">done</i>
                     </button>
                   
@@ -101,9 +150,9 @@
       
     </div>
 
-    <h4> Evaluations récentes</h4>
     <div class="row mb-3">
-      <div class="col-sm-12">
+      <div class="col-sm-8">
+        <h4> Evaluations récentes</h4>
         <div class="card">
           <div class="card-body">
 
@@ -143,6 +192,28 @@
         </div>
 
       </div>
+      <div class="col-sm-4">
+        <h4>Calendrier des évaluations</h4>
+        <div class="jzdbox1 jzdbasf jzdcal" id="up-events-calendar">
+
+          <div class="jzdcalt">{{date('F, Y')}} </div>
+          <span>Ven</span>
+          <span>Sam</span>
+          @foreach ($days as $day)
+          <span>{{substr($day,0,3)}}</span>
+              
+          @endforeach
+          
+        </div>
+            
+          
+          
+        
+        
+      </div>
+
+
+
     </div>
     <h4>Récapitulatif</h4>
     <div class="row">
@@ -309,19 +380,157 @@
         </div>
       </div>
     </div>
+    <h4>Emploi Du Temps</h4>
+    <div class="row my-3">
+      <div class="col-sm-12 p-3">
+        <table class="table  table-striped table-light table-hover">
+          <thead>
+            <tr>
+              <td scope="col">Jour</td>
+              @foreach ($hours as $hour)
+              <td scope="col" class="text-centerx">{{$hour}}</td>
+
+              @endforeach
+            </tr>
+            
+          </thead>
+          <tbody>
+            @foreach ($days as $day)
+            <tr>
+            <td scope="row">{{$day}}</td>
+              @foreach ($schedule->where('Jour',$day) as $daySchedule)
+              <td class="text-center">{{ array_search($daySchedule->Heure,$hours).""!="false"?$daySchedule->DesM:"/" }}</td>
+    
+              @endforeach
+             
+            
+            </tr>
+  
+            @endforeach
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    <div class="row">
+      <div id="calendar">
+
+      </div>
+    </div>
+    
+    <div style="position: sticky; bottom: 5%; left: 0;right: 0; width: 100% ;min-height:50px">
+      <div class="d-flex flex-row justify-content-center" id="observations-actions-results">
+        
+      </div>
+
+    </div>
     
     
   </div>
+  @push('js')
+  <script type="text/javascript" 
+  src="{{ asset('js') }}/calendar.js"></script>
+  @endpush
+
   <script>
+    document.getElementById('eleveSelect').onchange=function(e){
+      console.log(e.target.value);
+      var children= @json($children);
+      console.log(children[e.target.value].classes);
+      document.getElementById('classeSelect').innerHTML=`
+      ${children[e.target.value].classes.map(classe=>`
+        <option  value="${classe.Id}">
+                <a href="#">${classe.Des}
+                </a>
+              </option>`)}         
+      `;
+    }
     document.getElementById('change_eleve_form').addEventListener('submit', (e) =>{
       e.preventDefault();
       
-      const destination=window.location='/parent/enfants/' + 
-    encodeURIComponent(document.getElementById('exampleFormControlSelect1').value);
+      var eleve=document.getElementById('eleveSelect').value,
+      classe=document.getElementById('classeSelect').value
+      const destination=window.location=`${@json(route('enfants'))}/${eleve}/${classe}`;
+      // const destination=window.location="{{route('enfants',['eleveId'=>2,'classeId'=>1])}}/";
+      // //  + encodeURIComponent(document.getElementById('eleveSelect').value);
     if(window.location.href===destination) return
       window.location=destination;
       
     });
+    function set_observation_pending(e){
+      update_observation(e,"ATV");
+    }
+    function set_observation_validated(e){
+      update_observation(e,"VAL");
+    }
+    function set_observation_pending(e){
+      update_observation(e,"ATV");
+    }
+      function update_observation(e,etat){
+      var target=e.currentTarget;
+      var id=target.id;
+      console.log(id);
+
+    $.ajax({
+      url: "{{url("/observations")}}"+"/"+id,
+      type: 'PUT',
+      data: {
+        Etat: etat,
+        actionner: "{{$enc_parent}}",
+        eleve: "{{$enc_eleve}}",
+        } ,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+
+      },
+      
+
+      success: res=>{
+        console.log(res);
+        console.log(JSON.parse(res));
+        $(e.currentTarget).remove();
+        var resultDiv=document.getElementById('observations-actions-results');
+        resultDiv.innerHTML=`
+        <div class="alert alert-success alert-with-icon" data-notify="container">
+        <i class="material-icons" data-notify="icon">check</i>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <i class="material-icons">close</i>
+        </button>
+      <span>Mise à jours réussie</span>
+      </div>
+        `
+        $(resultDiv).show();
+        setTimeout(function () {
+      	$(resultDiv).slideUp(500);
+      }, 2000);
+
+      },
+      error: err=>{
+        console.log(err);
+        var resultDiv=document.getElementById('observations-actions-results');
+        resultDiv.innerHTML=`
+        <div class="alert alert-danger alert-with-icon" data-notify="container">
+        <i class="material-icons" data-notify="icon">error</i>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <i class="material-icons">close</i>
+        </button>
+      <span> Une erreur s'est produite. ${err.message || (err.responseText && JSON.parse(err.responseText).message) || "Impossible de mettre à jours l'état"}</span>
+      </div>
+        `
+        $(resultDiv).show();
+        setTimeout(function () {
+      	$(resultDiv).slideUp(500);
+      }, 2000);
+      }
+
+
+    });}
     
   </script>
 </div>

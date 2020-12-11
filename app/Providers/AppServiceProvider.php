@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $validator = app()->make(\Illuminate\Validation\Factory::class);
     }
 }

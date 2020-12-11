@@ -38,18 +38,18 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'parents',
+            'provider' => 'users',
         ],
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'parents',
+            'provider' => 'users',
             'hash' => false,
         ],
-        'parent' => [
-            'driver' => 'session',
-            'provider' => 'parents',
-        ],
+        // 'parent' => [
+        //     'driver' => 'session',
+        //     'provider' => 'parents',
+        // ],
         'prof' => [
             'driver' => 'session',
             'provider' => 'profs',
@@ -76,12 +76,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-        'parents' => [
-            'driver' => 'eloquent',
             'model' => App\Models\ParentEleve::class,
         ],
+        // 'parents' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\ParentEleve::class,
+        // ],
         'profs' => [
             'driver' => 'eloquent',
             'model' => App\Models\Prof::class,
@@ -116,12 +116,18 @@ return [
         //     'expire' => 60,
         //     'throttle' => 60,
         // ],
-        'parents' => [
-            'provider' => 'parents',
+        'users' => [
+            'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
+        // 'parents' => [
+        //     'provider' => 'parents',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        //     'throttle' => 60,
+        // ],
         'profs' => [
             'provider' => 'profs',
             'table' => 'password_resets',
