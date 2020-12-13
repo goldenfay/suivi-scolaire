@@ -13,12 +13,12 @@
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
         <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
-          <a href="{{ url('register/parent') }}" class="nav-link">
+          <a href="{{ url('register') }}" class="nav-link">
             <i class="material-icons">person_add</i> {{ __('Inscription') }}
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'login' ? ' active' : '' }}">
-          <a href="{{ url('login/parent') }}" class="nav-link">
+          <a href="{{ url('login') }}" class="nav-link">
             <i class="material-icons">fingerprint</i> {{ __('Authentification') }}
           </a>
         </li>
