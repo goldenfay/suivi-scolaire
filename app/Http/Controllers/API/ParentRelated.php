@@ -23,9 +23,9 @@ class ParentRelatedController extends Controller
     public function getEleveObservations($eleveId){
         $eleve=$this->user->children[$eleveId];
         $observations=DB::table('observation')
-        ->where('Eleve',$eleve->eleve->Id)
+        ->where('Eleve',$eleve->eleve->id)
         ->whereYear('Date','=',Date('Y'))
-        ->leftjoin('professeur','Professeur','professeur.Id')
+        ->leftjoin('professeur','Professeur','professeur.id')
         ->select('observation.*','professeur.Nom as NomProfesseur','professeur.Prenom as PrenomProfesseur')
         ->orderby('Date','Desc')
         ->get();

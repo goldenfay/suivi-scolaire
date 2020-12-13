@@ -103,8 +103,8 @@
                 @csrf
                 {{-- @method('POST') --}}
                 {{-- <input type="hidden" name="_method" value="POST"> --}}
-              <input type="hidden"  value="{{$eleve->Id}}" name="eleveId"/>
-              <input type="hidden"  value="{{$user->prof->Id}}" name="profId"/>
+              <input type="hidden"  value="{{$eleve->id}}" name="eleveId"/>
+              <input type="hidden"  value="{{$user->prof->id}}" name="profId"/>
                 <div class="form-row my-3">
                   <div class="form-group col-md-6 col-sm-12">
                     <label for="type-input">Type</label>
@@ -167,8 +167,8 @@
     //   form.onsubmit=function(e){
     //     e.preventDefault();
     //     const fd=new FormData(form);
-    //     fd.append('profId',{{$user->prof->Id}})
-    //     fd.append('eleveId',{{$eleve->Id}})
+    //     fd.append('profId',{{$user->prof->id}})
+    //     fd.append('eleveId',{{$eleve->id}})
         
        
     //     console.log(fd['type']);

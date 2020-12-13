@@ -23,10 +23,10 @@ $hours=[
         <form id="change_eleve_form" method="GET" class="form-row">
           <div class="form-group col-md-8">
             <label for="exampleFormControlSelect1">Spécifiez la classe à gérer</label>
-          <select class="form-control" value="{{property_exists($currentClasse->classe,"Id")?$currentClasse->classe->Id: ""}}" data-style="btn btn-link" id="exampleFormControlSelect1">
+          <select class="form-control" value="{{property_exists($currentClasse->classe,"Id")?$currentClasse->classe->id: ""}}" data-style="btn btn-link" id="exampleFormControlSelect1">
               @foreach ($user->classes as $classe)
-            <option  value="{{__($classe->classe->Id)}}">
-              <a href="{{route('prof.enseignement')}}/{{$classe->classe->Id}}">{{$classe->classe->Des}}
+            <option  value="{{__($classe->classe->id)}}">
+              <a href="{{route('prof.enseignement')}}/{{$classe->classe->id}}">{{$classe->classe->Des}}
               </a>
             </option>
               @endforeach
@@ -76,8 +76,8 @@ $hours=[
                           <td>{{$eleve->Prenom}}</td>
                           <td>{{$eleve->Age}}</td>
                           <td class="text-center">
-                            @if(array_key_exists($eleve->Id,$user->observations_per_eleve))
-                          <span class="badge badge-warning">{{$user->observations_per_eleve[$eleve->Id]}} </span> évènnements non validés
+                            @if(array_key_exists($eleve->id,$user->observations_per_eleve))
+                          <span class="badge badge-warning">{{$user->observations_per_eleve[$eleve->id]}} </span> évènnements non validés
                             @endif
 
                             
@@ -88,7 +88,7 @@ $hours=[
                               data-placement="top" 
                               title="Consulter"  
                               class="btn btn-round btn-info"
-                              onclick="alert({{$eleve->Id}})"
+                              onclick="alert({{$eleve->id}})"
                               >
                                   <i class="material-icons">person</i>
                               </button>
@@ -97,9 +97,9 @@ $hours=[
                               data-placement="top" 
                               title="Ecrire dans son cahier de correpondance"  
                               class="btn btn-round btn-primary"
-                              {{-- onclick="alert({{$eleve->Id}})" --}}
+                              {{-- onclick="alert({{$eleve->id}})" --}}
                               >
-                            <a href="{{route("prof.correspondance",$eleve->Id)}}">
+                            <a href="{{route("prof.correspondance",$eleve->id)}}">
 
                                 <i class="far fa-edit"></i>
                               </a>
@@ -159,8 +159,8 @@ $hours=[
             <form method="POST" action="{{url("evaluations/planning/add")}}" id="addObservation-form">
               @csrf
   
-              <input type="hidden" value="{{$user->prof->Id}}" name="profId"/>
-              <input type="hidden" value="{{$currentClasse->classe->Id}}" name="classeId"/>
+              <input type="hidden" value="{{$user->prof->id}}" name="profId"/>
+              <input type="hidden" value="{{$currentClasse->classe->id}}" name="classeId"/>
               <div class="form-row my-3">
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="matiere-input">Matiere</label>
@@ -269,7 +269,7 @@ $hours=[
       var prof=@json($user->prof);
       var classe=@json($currentClasse->classe);
       var evals_plans_url="{{url("/evaluations/planning/classe")}}";
-      fetchRows(`${evals_plans_url}/${classe.Id}/${prof.Id}`).then(
+      fetchRows(`${evals_plans_url}/${classe.id}/${prof.id}`).then(
         res=>{
           var result=JSON.parse(res);
 
@@ -302,14 +302,13 @@ $hours=[
 
       success: res=>{
         
-        console.log("Matieres : ",res);
         var result=JSON.parse(res);
        
 
         var matieresSelect=document.getElementById('matiere-input');
         matieresSelect.innerHTML=`
         ${result.matieres.map(matiere=>`
-          <option value="${matiere.Id}">${matiere.Des}</option>
+          <option value="${matiere.id}">${matiere.Des}</option>
         `)} `
 
       },

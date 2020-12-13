@@ -5,12 +5,12 @@ use \ParagonIE\Halite\KeyFactory;
 use \ParagonIE\Halite\Symmetric\Crypto as SymmetricCrypto;
 use ParagonIE\HiddenString\HiddenString;
 // $key = config('requests.SECRET_KEY');
-// $enc_parent=SymmetricCrypto::encrypt(new HiddenString(($user->Id).""), $key);
-// $enc_eleve=SymmetricCrypto::encrypt(new HiddenString($eleve->eleve->Id.""
+// $enc_parent=SymmetricCrypto::encrypt(new HiddenString(($user->id).""), $key);
+// $enc_eleve=SymmetricCrypto::encrypt(new HiddenString($eleve->eleve->id.""
 //     ), $key)
     // KeyFactory::save($key, '/secret.key');
-$enc_parent=$user->Id;
-$enc_eleve=$eleve->eleve->Id;
+$enc_parent=$user->id;
+$enc_eleve=$eleve->eleve->id;
 
 $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
 $hours=[
@@ -35,10 +35,10 @@ $hours=[
 
             <div class="form-group col-md-4">
               <label for="eleveSelect">Veuillez choisir un élève à consulter</label>
-            <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="eleveSelect">
+            <select class="form-control" value="{{$eleve->eleve->id}}" data-style="btn btn-link" id="eleveSelect">
                 @foreach ($children as $child)
-              <option  value="{{$child->eleve->Id}}">
-                <a href="{{route('enfants')}}/{{$child->eleve->Id}}">{{$child->eleve->Prenom}}
+              <option  value="{{$child->eleve->id}}">
+                <a href="{{route('enfants')}}/{{$child->eleve->id}}">{{$child->eleve->Prenom}}
                 </a>
               </option>
                 @endforeach
@@ -49,9 +49,9 @@ $hours=[
             </div>
             <div class="form-group col-md-4">
               <label for="classeSelect">Veuillez choisir la classe</label>
-            <select class="form-control" value="{{$eleve->eleve->Id}}" data-style="btn btn-link" id="classeSelect">
-                @foreach ($children[$eleve->eleve->Id]->classes as $classe)
-              <option  value="{{$classe->Id}}">
+            <select class="form-control" value="{{$eleve->eleve->id}}" data-style="btn btn-link" id="classeSelect">
+                @foreach ($children[$eleve->eleve->id]->classes as $classe)
+              <option  value="{{$classe->id}}">
                 <a href="#">{{$classe->Des}}
                 </a>
               </option>
@@ -115,7 +115,7 @@ $hours=[
                 <td class="td-actions text-center">
                     @if($observation->Etat!="ATV")
                     <button type="button" 
-                    id="{{$observation->Id}}"
+                    id="{{$observation->id}}"
                     rel="tooltip" data-toggle="tooltip" data-placement="top" title="Marquer en attente de validation" 
                     class="my-3 btn btn-round btn-warning"
                     onclick="set_observation_pending(event)"
@@ -124,7 +124,7 @@ $hours=[
                   </button>
                   @endif
                   <button type="button" 
-                  id="{{$observation->Id}}"
+                  id="{{$observation->id}}"
                   rel="tooltip" data-toggle="tooltip" data-placement="top" title="Valider" 
                   class="my-3 btn btn-round btn-success"
                   onclick="set_observation_validated(event)"
@@ -442,12 +442,11 @@ $hours=[
 
   <script>
     document.getElementById('eleveSelect').onchange=function(e){
-      console.log(e.target.value);
       var children= @json($children);
       console.log(children[e.target.value].classes);
       document.getElementById('classeSelect').innerHTML=`
       ${children[e.target.value].classes.map(classe=>`
-        <option  value="${classe.Id}">
+        <option  value="${classe.id}">
                 <a href="#">${classe.Des}
                 </a>
               </option>`)}         
@@ -477,7 +476,6 @@ $hours=[
       function update_observation(e,etat){
       var target=e.currentTarget;
       var id=target.id;
-      console.log(id);
 
     $.ajax({
       url: "{{url("/observations")}}"+"/"+id,
@@ -496,7 +494,6 @@ $hours=[
       
 
       success: res=>{
-        console.log(res);
         console.log(JSON.parse(res));
         $(e.currentTarget).remove();
         var resultDiv=document.getElementById('observations-actions-results');

@@ -17,9 +17,9 @@ class ParentNotification extends Notification
      *
      * @return void
      */
-    public function __construct($notifiable)
+    public function __construct($notification)
     {
-        $this->notifiable_id=$notifiable->Id;
+        $this->notification=$notification;
     }
 
     /**
@@ -41,10 +41,16 @@ class ParentNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $greeting=((int)date('H') )>15?"Bonsoir":"Bonjour";
+        $civilite=$notifiable->Cvilite==null?"Mr/Mme":$notifiable->Cvilite;
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    
+                    ->subject('Scolarité')
+                    ->greeting("$greeting $civilite $notifiable->Nom")
+                    ->line('Nous voulons vous informer que votre fils vient de recevoir une observations.')
+                    ->line('Vous trouverez cette dernière dans son cahier de correspondance numérique.')
+                    ->action('Consulter', url('/'))
+                    ->line('Cordialement.');
     }
    
 

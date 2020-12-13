@@ -33,7 +33,7 @@ class EvaluationsController extends Controller
         ]), 403);
 
         $matiere=DB::table('matiere')
-        ->where('Id',(int)$request->matiere);
+        ->where('id',(int)$request->matiere);
         if($matiere==null)
         return response(json_encode([
             "flag" => "fail",
@@ -54,7 +54,7 @@ class EvaluationsController extends Controller
 
             DB::table('planning_examens')->insert(
                 ['Annee' => null ,
-                'Tranche' => $tranche==null?null:$tranche->first()->Id ,
+                'Tranche' => $tranche==null?null:$tranche->first()->id ,
                 'Classe' => $request['classeId'] ,
                 'Matiere' => $request['matiere'] ,
                 'Date' => $request['date'] ,
@@ -96,7 +96,7 @@ class EvaluationsController extends Controller
             // Check if mentionned leve is the concerned abt this observation
         $obs_eleve_check = DB::table('observation')
         ->where('Eleve',$eleveId)
-        ->where('Id',$observation->Id)
+        ->where('id',$observation->id)
         ->get()
         ;
         if($obs_eleve_check==null)
@@ -121,7 +121,7 @@ class EvaluationsController extends Controller
         try{
 
             DB::table('observation')
-            ->where('Id',$observation->Id)
+            ->where('id',$observation->id)
             ->update(
                 ['Etat'=>$request->Etat]
             );
@@ -155,7 +155,7 @@ class EvaluationsController extends Controller
         
         $evaluations = DB::table('planning_examens as PE')
         ->leftjoin('professeur_classe as PC','PE.Classe','PC.Classe')
-        ->leftjoin('matiere as M','PE.Matiere','M.Id')
+        ->leftjoin('matiere as M','PE.Matiere','M.id')
         ->where('PC.Professeur',$profId)
         ->where('PE.Classe',$classeId)
         ->whereRaw('MONTH(Date)='.date('m'))
@@ -174,7 +174,7 @@ class EvaluationsController extends Controller
 
         $evaluations = DB::table('planning_examens as PE')
         ->leftjoin('professeur_classe as PC','PE.Classe','PC.Classe')
-        ->leftjoin('matiere as M','PE.Matiere','M.Id')
+        ->leftjoin('matiere as M','PE.Matiere','M.id')
         ->where('PC.Professeur',$profId)
         ->whereRaw('MONTH(Date)='.date('m'))
         ->select('PE.*','M.Des as Matiere')

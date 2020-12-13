@@ -552,7 +552,7 @@ src="{{ asset('js') }}/calendar.js"></script>
     $(document).ready(function() {
       var prof=@json($user->prof);
       var evals_plans_url="{{url("/evaluations/planning/prof")}}";
-      fetchRows(`${evals_plans_url}/${prof.Id}`).then(
+      fetchRows(`${evals_plans_url}/${prof.id}`).then(
         res=>{
           var result=JSON.parse(res);
 

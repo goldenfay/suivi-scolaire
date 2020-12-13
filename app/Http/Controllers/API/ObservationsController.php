@@ -52,7 +52,7 @@ class ObservationsController extends Controller
         Validator::make($request->all(), [
             'type' => ['required', 'string', 'max:20'],
             'libelle' => ['required', 'string', 'max:30'],
-            'corps' => ['required', 'string', 'max:100'],
+            'corps' => ['required', 'string', 'max:300'],
             'eleveId' => ['required', 'integer'],
             'profId' => ['required', 'integer']
         ])->validate();
@@ -60,7 +60,7 @@ class ObservationsController extends Controller
         try {
             
 
-            DB::table('observation')->insert(
+            DB::table('observation')->insertOrIgnore(
                 ['Type' => $request['type'] ,
                 'Libelle' => $request['libelle'] ,
                 'Corps' => $request['corps'] ,
@@ -71,10 +71,7 @@ class ObservationsController extends Controller
             
         }
         catch(Exception $e) {
-            // return response(json_encode()->json([
-            //     "flag" => "fail",
-            //     "message" => $e
-            //   ], 500);
+           
             return back()->with([
                 'flag'=>'fail',
                 'message'=> 'Une erreur s\'est produite. Impossible d\'ajouter cette observation'
@@ -85,7 +82,7 @@ class ObservationsController extends Controller
         $parent_eleve=DB::table('eleve_parent')
         ->where('Eleve',$request['eleveId'])
         ->first();
-        $parent=ParentEleve::find($parent_eleve->Id);
+        $parent=ParentEleve::find($parent_eleve->Parent)->first();
 
 
         $parent->notify(new ParentNotification($parent));
@@ -94,21 +91,19 @@ class ObservationsController extends Controller
             try {
     
                 $message = $this->client->message()->send([
-                    'to' => $parent->NumTel,
+                    'to' => "+213555149081",
                     'from' => 'Scolarité',
                     'text' => 'Votre fils vient de recevoir une convocation.'
                 ]); 
                 
             }
             catch(Exception $e) {
+                
                
             }
         }
 
 
-        // return response(json_encode()->json([
-        //     "flag" => "Success"
-        //   ], 201);
         return back()->with([
             'flag'=>'success',
             'message'=> 'Observation ajoutée avec succès'
@@ -140,7 +135,7 @@ class ObservationsController extends Controller
             // Check if mentionned leve is the concerned abt this observation
         $obs_eleve_check = DB::table('observation')
         ->where('Eleve',$eleveId)
-        ->where('Id',$observation->Id)
+        ->where('id',$observation->id)
         ->get()
         ;
         if($obs_eleve_check==null)
@@ -165,7 +160,7 @@ class ObservationsController extends Controller
         try{
 
             DB::table('observation')
-            ->where('Id',$observation->Id)
+            ->where('id',$observation->id)
             ->update(
                 ['Etat'=>$request->Etat]
             );

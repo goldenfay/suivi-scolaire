@@ -37,9 +37,9 @@ class DashboardController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {   $report = new MyReport($this->user->prof->Id);
+    {   $report = new MyReport($this->user->prof->id);
         $report->run();
-        // $report->getStats($this->user->prof->Id);
+        // $report->getStats($this->user->prof->id);
         
         return view('prof.dashboard',[
             "user"=> $this->user,
@@ -72,8 +72,8 @@ class DashboardController extends Controller
         if($eleve==null) return abort(404);
         
         $observations=DB::table('observation')
-        ->where('Eleve',$eleve->Id)
-        ->where('Professeur',$this->user->prof->Id)
+        ->where('Eleve',$eleve->id)
+        ->where('Professeur',$this->user->prof->id)
         ->whereYear('Date','=',Date('Y'))
         ->orderby('Date','Desc')
         ->get();
@@ -89,19 +89,19 @@ class DashboardController extends Controller
     public function fetchProfData(){
         // Fetch all prof classes
         $prof_classes= DB::table('professeur_classe')
-        ->where('Professeur',$this->user->prof->Id)
-        ->leftjoin('classe','Classe','classe.Id')
+        ->where('Professeur',$this->user->prof->id)
+        ->leftjoin('classe','Classe','classe.id')
         ->select('classe.*')
         ->get();
             // Fetch all prof formations
         $prof_formations= DB::table('professeur_formation')
-        ->where('Professeur',$this->user->prof->Id)
-        ->leftjoin('formation','Formation','formation.Id')
+        ->where('Professeur',$this->user->prof->id)
+        ->leftjoin('formation','Formation','formation.id')
         ->select('formation.*')
         ->get();
             // Fetch all prof observations(correspondances)
         $prof_observations= DB::table('observation')
-        ->where('Professeur',$this->user->prof->Id)
+        ->where('Professeur',$this->user->prof->id)
         ->selectRaw('Type, Etat, COUNT(*) as Count')
         ->groupBy('Type','Etat')
         ->get();
@@ -112,43 +112,43 @@ class DashboardController extends Controller
         $this->user->formations=array();
             // Populate classes with subscribed eleves
         forEach($prof_classes as $classe) {
-            $this->user->classes[$classe->Id.""]=new \stdClass();
-            $this->user->classes[$classe->Id.""]->classe=$classe;
+            $this->user->classes[$classe->id.""]=new \stdClass();
+            $this->user->classes[$classe->id.""]->classe=$classe;
             // Fetch all prof classes
             $this->user->observations_per_eleve= DB::table('eleve')
-            ->leftjoin('observation','eleve.Id','observation.Eleve')
-            ->where('observation.Professeur',$this->user->prof->Id)
-            ->selectRaw('eleve.Id as eleveId, count(observation.Id)as Count')
-            // ->selectRaw('eleve.Id, count(*) as Count')
-            ->groupBy('eleve.Id')
+            ->leftjoin('observation','eleve.id','observation.Eleve')
+            ->where('observation.Professeur',$this->user->prof->id)
+            ->selectRaw('eleve.id as eleveId, count(observation.id)as Count')
+            // ->selectRaw('eleve.id, count(*) as Count')
+            ->groupBy('eleve.id')
             ->get()->pluck('Count','eleveId')->toArray()
         ;
         // $observations_per_eleve=$observations_per_eleve->selectRaw('eleveId')->get();
             // $observations_per_eleve=(DB::table('eleve as e')
-            // // ->leftjoin('observation','e.Id','observation.Eleve')
-            // // ->where('observation.Professeur',$this->user->prof->Id)
-            // // ->groupBy('e.Id')
-            // // ->selectRaw('e.Id, count(observation.Id) as Count'))->get();
-            // ->selectRaw("e.Id, count(select Id from observation where  e.Id=observation.Eleve) as Count"))
+            // // ->leftjoin('observation','e.id','observation.Eleve')
+            // // ->where('observation.Professeur',$this->user->prof->id)
+            // // ->groupBy('e.id')
+            // // ->selectRaw('e.id, count(observation.id) as Count'))->get();
+            // ->selectRaw("e.id, count(select id from observation where  e.id=observation.Eleve) as Count"))
             // ->get();
             $eleves_of_classe=DB::table('eleve_classe')
-            ->join('eleve','Eleve','eleve.Id')
-            ->where('eleve_classe.Classe',$classe->Id)
+            ->join('eleve','Eleve','eleve.id')
+            ->where('eleve_classe.Classe',$classe->id)
             ->get();
-            $this->user->classes[$classe->Id]->eleves=$eleves_of_classe;
+            $this->user->classes[$classe->id]->eleves=$eleves_of_classe;
         }
             // Populate formations with subsribed eleves
         forEach($prof_formations as $formation) {
-            $this->user->formations[$formation->Id]=new \stdClass();
+            $this->user->formations[$formation->id]=new \stdClass();
             
-            $this->user->formations[$formation->Id]->formation=$formation;
+            $this->user->formations[$formation->id]->formation=$formation;
             // Fetch all prof formations
             $eleves_of_formation= DB::table('eleve_formation')
-            ->where('Formation',$formation->Id)
-            ->leftjoin('eleve','Eleve','eleve.Id')
+            ->where('Formation',$formation->id)
+            ->leftjoin('eleve','Eleve','eleve.id')
             ->select('eleve.*')
             ->get();
-            $this->user->formations[$formation->Id]->eleves=$eleves_of_formation;
+            $this->user->formations[$formation->id]->eleves=$eleves_of_formation;
         }
     }
 
