@@ -56,7 +56,7 @@ class DashboardController extends Controller
     {   $classe=null;
         if($classeId==null)
             $classe=reset($this->user->classes);
-        else $classe=$this->user->classes[$classeId];        
+        else $classe=$this->user->classes["$classeId"];        
         // dd($this->user->formations);
         return view('prof.teaching',[
             "currentClasse"=> $classe,
@@ -99,14 +99,21 @@ class DashboardController extends Controller
         ->leftjoin('formation','Formation','formation.Id')
         ->select('formation.*')
         ->get();
+            // Fetch all prof observations(correspondances)
+        $prof_observations= DB::table('observation')
+        ->where('Professeur',$this->user->prof->Id)
+        ->selectRaw('Type, Etat, COUNT(*) as Count')
+        ->groupBy('Type','Etat')
+        ->get();
 
         
+        $this->user->observationsCounts=$prof_observations;
         $this->user->classes=array();
         $this->user->formations=array();
             // Populate classes with subscribed eleves
         forEach($prof_classes as $classe) {
-            $this->user->classes[$classe->Id]=new \stdClass();
-            $this->user->classes[$classe->Id]->classe=$classe;
+            $this->user->classes[$classe->Id.""]=new \stdClass();
+            $this->user->classes[$classe->Id.""]->classe=$classe;
             // Fetch all prof classes
             $this->user->observations_per_eleve= DB::table('eleve')
             ->leftjoin('observation','eleve.Id','observation.Eleve')

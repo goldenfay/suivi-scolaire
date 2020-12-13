@@ -72,7 +72,7 @@
                 @if(session('flag'))
                   @if(session('flag')=='fail')
                   <div class="col-md-4">
-                    <div class="alert alert-danger alert-with-icon" data-notify="container">
+                    <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
                       <i class="material-icons" data-notify="icon">error</i>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <i class="material-icons">close</i>
@@ -83,7 +83,7 @@
                   @else
                   @if(session('flag')=='success')
                   <div class="col-md-4">
-                    <div class="alert alert-success alert-with-icon" data-notify="container">
+                    <div class="alert alert-success alert-with-icon w-60" data-notify="container">
                       <i class="material-icons" data-notify="icon">check_circle</i>
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <i class="material-icons">close</i>

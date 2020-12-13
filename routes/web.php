@@ -86,9 +86,16 @@ Route::prefix('/prof')->name('prof.')->group(function(){
 });
 // API routes
 
+Route::get('/matieres', 'App\Http\Controllers\API\MatieresController@getAll');
+
 Route::post('/observations/add', 'App\Http\Controllers\API\ObservationsController@add');
 Route::put('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@update');
-Route::prefix('/apio')->name('api.')->group(function(){
+
+Route::get('/evaluations/planning/prof/{profId}', 'App\Http\Controllers\API\EvaluationsController@getPlanOfProf');
+Route::get('/evaluations/planning/classe/{classeId}/{profId?}', 'App\Http\Controllers\API\EvaluationsController@getPlanOfClass');
+Route::post('/evaluations/planning/add', 'App\Http\Controllers\API\EvaluationsController@add');
+Route::put('/evaluations/planning/{id}', 'App\Http\Controllers\API\EvaluationsController@update');
+Route::prefix('/api')->name('api.')->group(function(){
     // Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
 
 });

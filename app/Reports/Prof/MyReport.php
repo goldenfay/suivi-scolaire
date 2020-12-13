@@ -11,8 +11,8 @@ class MyReport extends \koolreport\KoolReport
     use \koolreport\laravel\Friendship;
     protected $profId;
 
-    public function __construct($ok){
-        $this->profId=$ok;
+    public function __construct($id){
+        $this->profId=$id;
         parent::__construct();
 
     }
@@ -70,6 +70,7 @@ class MyReport extends \koolreport\KoolReport
             ->pipe($this->dataStore('revenues_formation'));
         }catch(\Throwable $th){
             dd($th);
+            
         }
     }
     function getStats($profId){
@@ -107,7 +108,7 @@ class MyReport extends \koolreport\KoolReport
                 ->pipe($this->dataStore('nbr_eleves_classe'));
                 dd($this->dataStore('nbr_eleves_formation'));
         }catch(\Throwable $th){
-            dd($th);
+           
         }
     }
 }

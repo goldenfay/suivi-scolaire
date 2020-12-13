@@ -123,22 +123,52 @@ $hours=[
     <div class="row">
       
       <div class="col-sm-8">
+        <div class="d-flex flex-row justify-content-center">
+          @if(session('flag'))
+                  @if(session('flag')=='fail')
+                  <div class="col-md-4">
+                    <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
+                      <i class="material-icons" data-notify="icon">error</i>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                      </button>
+                    <span>{{session('message')}}</span>
+                    </div>
+                  </div>
+                  @else
+                  @if(session('flag')=='success')
+                  <div class="col-md-4">
+                    <div class="alert alert-success alert-with-icon w-60" data-notify="container">
+                      <i class="material-icons" data-notify="icon">check_circle</i>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                      </button>
+                    <span>{{session('message')}}</span>
+                    </div>
+                  </div>
+                  @endif
+  
+                  @endif
+                    
+                @endif
+        </div>
         <h4>Planifier une épreuve</h4>
         <div class="card">
           <div class="card-body">
             
-            <form method="POST" action="{{url("evaluations/add")}}" id="addObservation-form">
+            <form method="POST" action="{{url("evaluations/planning/add")}}" id="addObservation-form">
               @csrf
   
-              <input type="hidden"  value="{{$user->prof->Id}}" name="profId"/>
+              <input type="hidden" value="{{$user->prof->Id}}" name="profId"/>
+              <input type="hidden" value="{{$currentClasse->classe->Id}}" name="classeId"/>
               <div class="form-row my-3">
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="matiere-input">Matiere</label>
                   <select id="matiere-input" name="matiere" class="form-control">
-                    <option value="Discipline">ANG</option>
+                    {{-- <option value="Discipline">ANG</option>
                     <option value="Appréciation">PHYS</option>
                     <option value="Information">AR</option>
-                    <option value="Convocation">FR</option>
+                    <option value="Convocation">FR</option> --}}
                   </select>
                   @if ($errors->has('matiere'))
                     <div id="matiere-error" class="error text-danger pl-3" for="matiere" style="display: block;">
@@ -162,7 +192,7 @@ $hours=[
               <div class="form-group my-3">
                 <label for="contenu-input">Date</label>
                 <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
-                  <input type="date" class="form-control" id="timepicker">
+                  <input type="date" class="form-control" name="date" id="timepicker">
                 </div>
                 @if ($errors->has('corps'))
                 <div id="corps-error" class="error text-danger pl-3" for="corps" style="display: block;">
@@ -199,7 +229,7 @@ $hours=[
       </div>
       <div class="col-sm-4">
         <h4>Calendrier</h4>
-        <div class="jzdbox1 jzdbasf jzdcal" id="up-events-calendar">
+        <div class="calendar-box jzdbasf calendar-container mt-3" id="up-events-calendar">
 
           <div class="jzdcalt">{{date('F, Y')}} </div>
           <span>Ven</span>
@@ -230,20 +260,67 @@ $hours=[
 @endsection
 
 @push('js')
-{{--     
-<script src="{{ asset('propeller')."/js/propeller.js" }}"></script>
-<script src="{{ asset('propeller')."/js/propeller.min.js" }}"></script>
-    <!-- Propeller textfield js --> 
-    <script type="text/javascript" src="http://propeller.in/components/textfield/js/textfield.js"></script>
+<script src="{{ asset('js') }}/services/teacher-services.js" ></script>
+<script src="{{ asset('js') }}/calendar.js" ></script>
 
-    <!-- Datepicker moment with locales -->
-    <script type="text/javascript" language="javascript" src="http://propeller.in/components/datetimepicker/js/moment-with-locales.js"></script>
-
-    <!-- Propeller Bootstrap datetimepicker -->
-    <script type="text/javascript" language="javascript" src="http://propeller.in/components/datetimepicker/js/bootstrap-datetimepicker.js"></script> --}}
 
   <script>
     $(document).ready(function() {
+      var prof=@json($user->prof);
+      var classe=@json($currentClasse->classe);
+      var evals_plans_url="{{url("/evaluations/planning/classe")}}";
+      fetchRows(`${evals_plans_url}/${classe.Id}/${prof.Id}`).then(
+        res=>{
+          var result=JSON.parse(res);
+
+          var calendarEvents=result.evaluations
+          .map(eval=>({
+            day: new Date(eval.Date).getDate(),
+            title: `Examen en ${eval.Matiere}`
+
+          }))
+          displayEvents('up-events-calendar',calendarEvents);
+
+
+        },
+        err=>{
+
+        }
+      );
+
+
+
+      $.ajax({
+      url: "{{url("/matieres")}}",
+      type: 'GET',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      
+
+      success: res=>{
+        
+        console.log("Matieres : ",res);
+        var result=JSON.parse(res);
+       
+
+        var matieresSelect=document.getElementById('matiere-input');
+        matieresSelect.innerHTML=`
+        ${result.matieres.map(matiere=>`
+          <option value="${matiere.Id}">${matiere.Des}</option>
+        `)} `
+
+      },
+      error: err=>{
+        console.log("Error fetching matieres",err);
+        
+      }
+
+
+    })
+
   //     $('#timepicker').datetimepicker({
 	// 	format: 'LT'
 	// });

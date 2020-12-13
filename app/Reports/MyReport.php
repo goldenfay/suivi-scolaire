@@ -17,8 +17,8 @@ class MyReport extends \koolreport\KoolReport
                 "ecolesDB"=>array(
                     'host' => 'localhost',
                     'username' => 'root',
-                    'password' => '',
-                    'dbname' => 'ecole_project',
+                    'password' => 'Azerty123$$123',
+                    'dbname' => 'projet_scolarite',
                     'charset' => 'utf8',  
                     'class' => "\koolreport\datasources\MySQLDataSource"  
                 ),
@@ -43,7 +43,6 @@ class MyReport extends \koolreport\KoolReport
             ->pipe($this->dataStore("totals_last_month"));        
            
         } catch (\Throwable $th) {
-            dd($th);
         }
     }
     function getStats(){

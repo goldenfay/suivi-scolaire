@@ -38,7 +38,6 @@ class ObservationsController extends Controller
      */
     protected function validator(array $data)
     {
-        dd($data);
         return Validator::make($data, [
             'type' => ['required', 'string', 'max:20'],
             'libelle' => ['required', 'string', 'max:30'],

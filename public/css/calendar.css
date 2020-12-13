@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Fjalla+One:400|Roboto:400,400italic,700);
 
-.jzdbox1 {
+.calendar-box {
   width:315px; 
   background:#332f2e; 
   border-radius:5px; 
@@ -8,11 +8,10 @@
   display:block; 
   margin-bottom:10px; 
   box-shadow:0 0 10px #201d1c; 
-  margin:0 auto; 
-  margin-top:50px;
+  margin:auto; 
 }
 
-.jzdcal {
+.calendar-container{
   padding:0 10px 10px 10px; 
   box-sizing:border-box!important; 
   background:#749d9e; 
@@ -20,6 +19,15 @@
   background: -o-linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,121,60,1) 35%, rgba(0,212,255,1) 100%)!important; 
   background: -moz-linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,121,60,1) 35%, rgba(0,212,255,1) 100%)!important; 
   background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,121,60,1) 35%, rgba(0,212,255,1) 100%)!important;
+}
+.calendar-container-light{
+  padding:0 10px 10px 10px; 
+  box-sizing:border-box!important; 
+  background:#749d9e; 
+  background: -webkit-linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important; 
+  background: -o-linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important; 
+  background: -moz-linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important; 
+  background: linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important;
 }
 
 .jzdcalt {
@@ -33,7 +41,7 @@
   letter-spacing:1px;
 }
 
-.jzdcal span {
+.calendar-container span,.calendar-container-light span {
   font:11px 'Roboto'; 
   font-weight:400; 
   color:#f7f3eb; 
@@ -46,7 +54,7 @@
   line-height:40px;
 }
 
-.jzdcal .jzdb:before {
+.calendar-container .jzdb:before,.calendar-container-light .jzdb:before {
   opacity:0.3; 
   content:'o';
 }

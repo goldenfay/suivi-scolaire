@@ -194,7 +194,7 @@ $hours=[
       </div>
       <div class="col-sm-4">
         <h4>Calendrier des évaluations</h4>
-        <div class="jzdbox1 jzdbasf jzdcal" id="up-events-calendar">
+        <div class="calendar-box jzdbasf calendar-container mt-2" id="up-events-calendar">
 
           <div class="jzdcalt">{{date('F, Y')}} </div>
           <span>Ven</span>
@@ -434,6 +434,10 @@ $hours=[
   @push('js')
   <script type="text/javascript" 
   src="{{ asset('js') }}/calendar.js"></script>
+  <script>
+  displayEvents('up-events-calendar');
+  </script>
+
   @endpush
 
   <script>
@@ -497,7 +501,7 @@ $hours=[
         $(e.currentTarget).remove();
         var resultDiv=document.getElementById('observations-actions-results');
         resultDiv.innerHTML=`
-        <div class="alert alert-success alert-with-icon" data-notify="container">
+        <div class="alert alert-success alert-with-icon w-60" data-notify="container">
         <i class="material-icons" data-notify="icon">check</i>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <i class="material-icons">close</i>
@@ -515,7 +519,7 @@ $hours=[
         console.log(err);
         var resultDiv=document.getElementById('observations-actions-results');
         resultDiv.innerHTML=`
-        <div class="alert alert-danger alert-with-icon" data-notify="container">
+        <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
         <i class="material-icons" data-notify="icon">error</i>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <i class="material-icons">close</i>
