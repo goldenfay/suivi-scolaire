@@ -6,11 +6,7 @@
     <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
-      @isset($url)
-      <form method="POST" action='{{ url("login/$url") }}' aria-label="{{ __('Login') }}">
-      @else
-      <form method="POST" action="{{ url('login') }}" aria-label="{{ __('Login') }}">
-      @endisset
+      <form method="POST" action='{{ url("login/prof") }}' aria-label="{{ __('Login') }}">
         @csrf
 
         <div class="card card-login card-hidden mb-3">
@@ -63,7 +59,7 @@
             </div>
           </div>
           @if ($errors->has('credentials'))
-            <div  class="error text-danger pl-3 my-3" for="password" style="display: block;">
+            <div  class="error text-danger d-flex flex-row justify-content-center" for="password" style="display: block;">
               <strong>{{ $errors->first('credentials') }}</strong>
             </div>
           @endif
@@ -81,15 +77,11 @@
             @endif
         </div>
         <div class="col-6 text-right">
-          @isset($url)
-          <a href="{{ url('register/'.$url) }}" class="text-light">
+         
+          <a href="{{ url('register/prof') }}" class="text-light">
             <small>{{ __('S\'enregistrer') }}</small>
-        </a>
-          @else
-          <a href="{{ url('register') }}" class="text-light">
-            <small>{{ __('S\'enregistrer') }}</small>
-        </a>
-          @endisset  
+          </a>
+        
           
         </div>
       </div>

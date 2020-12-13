@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Reports\Prof\MyReport;
 use App\Models\Prof;
-
+use Auth;
 class DashboardController extends Controller
 {
     protected $user;
@@ -20,14 +20,11 @@ class DashboardController extends Controller
      */
     public function __construct()
     {   
-        // $this->middleware('auth:prof');
+        $this->middleware('auth:prof');
         $this->user=new \stdClass();
-        $this->user->prof= Prof::find(1)->get()->first();
-        $this->fetchProfData();
-        
-        
-        
-
+        // $this->user->prof= Auth::guard('prof')->user();
+        // $this->user->prof= Prof::find(1)->get()->first();
+        // $this->fetchProfData();
        
     }
 
@@ -37,7 +34,9 @@ class DashboardController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {   $report = new MyReport($this->user->prof->id);
+    {   if(!property_exists($this->user,"prof"))
+            $this->fetchProfData();
+        $report = new MyReport($this->user->prof->id);
         $report->run();
         // $report->getStats($this->user->prof->id);
         
@@ -53,7 +52,11 @@ class DashboardController extends Controller
      * @return \Illuminate\View\View
      */
     public function teaching($classeId=null)
-    {   $classe=null;
+    {   
+        if(!property_exists($this->user,"prof"))
+            $this->fetchProfData();
+
+        $classe=null;
         if($classeId==null)
             $classe=reset($this->user->classes);
         else $classe=$this->user->classes["$classeId"];        
@@ -66,6 +69,10 @@ class DashboardController extends Controller
     }
 
     public function showAddObservationView($eleveId){
+
+        if(!property_exists($this->user,"prof"))
+            $this->fetchProfData();
+
         $eleve=DB::table('eleve')
         ->find($eleveId)
         ;
@@ -87,6 +94,7 @@ class DashboardController extends Controller
     }
 
     public function fetchProfData(){
+        $this->user->prof= Auth::guard('prof')->user();
         // Fetch all prof classes
         $prof_classes= DB::table('professeur_classe')
         ->where('Professeur',$this->user->prof->id)

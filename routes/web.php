@@ -69,8 +69,10 @@ Route::get('/', function () {
     
 	
     // });
-
+    // Auth routes
 Auth::routes();
+Route::get('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'showProfLoginForm'])->name('loginProf');
+Route::post('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'loginProf']);
     // View routes
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', 'App\Http\Controllers\Parent\DashboardController@index')->name('dashboard');

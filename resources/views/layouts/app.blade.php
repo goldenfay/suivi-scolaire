@@ -26,8 +26,8 @@
         </form>
         @include('layouts.page_templates.auth')
         @else
-        @include('layouts.page_templates.auth')
-        {{-- @include('layouts.page_templates.guest') --}}
+        {{-- @include('layouts.page_templates.auth') --}}
+        @include('layouts.page_templates.guest')
         @endauth
         
         <!--   Core JS Files   -->

@@ -41,6 +41,11 @@ class LoginController extends Controller
         // $this->middleware('guest:parent')->except('logout');
     }
 
+    public function showProfLoginForm(){
+        return view('auth.login-prof');
+
+
+    }
     public function login(Request $request)
     {
         $this->validate($request, [
@@ -50,9 +55,23 @@ class LoginController extends Controller
 
         if (Auth::attempt(['Email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('dashboard'));
         }
         else
-        return back()->withInput($request->only('email', 'remember'));
+        return back()->withInput($request->only('email', 'remember'))->withErrors(['credentials'=> 'Nom d\'utilisateur ou mot de passe invalide']);
+    }
+    public function loginProf(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if (Auth::guard('prof')->attempt(['Email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+            
+            return redirect()->intended(route('prof/dashboard'));
+        }
+        else
+        return back()->withInput($request->only('email', 'remember'))->withErrors(['credentials'=> 'Nom d\'utilisateur ou mot de passe invalide']);
     }
 }

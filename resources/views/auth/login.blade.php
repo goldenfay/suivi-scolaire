@@ -63,7 +63,7 @@
             </div>
           </div>
           @if ($errors->has('credentials'))
-            <div  class="error text-danger pl-3 my-3" for="password" style="display: block;">
+            <div  class="error text-danger d-flex flex-row justify-content-center">
               <strong>{{ $errors->first('credentials') }}</strong>
             </div>
           @endif
