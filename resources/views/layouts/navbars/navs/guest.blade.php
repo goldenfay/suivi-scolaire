@@ -18,12 +18,12 @@
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
-          <a href="{{ url('register/parent') }}" class="nav-link">
+          <a href="{{ url('register') }}" class="nav-link">
             <i class="material-icons">person_add</i> {{ __('Register') }}
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'login' ? ' active' : '' }}">
-          <a href="{{ url('login/parent') }}" class="nav-link">
+          <a href="{{ url('login') }}" class="nav-link">
             <i class="material-icons">fingerprint</i> {{ __('Login') }}
           </a>
         </li>
