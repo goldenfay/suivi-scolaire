@@ -17,18 +17,25 @@
     @stack('styles')
     </head>
     <body class="{{ $class ?? '' }}">
-        @auth()
-        {{-- {{dd(Auth::user())}} --}}
-        {{-- @if(Auth::guard('web')->check()) --}}
-        
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        @include('layouts.page_templates.auth')
+        @if(Auth::check() || Auth::guard('prof')->check())
+            {{-- {{dd(Auth::user())}} --}}
+            {{-- @if(Auth::guard('web')->check()) --}}
+            
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            @include('layouts.page_templates.auth')
         @else
-        {{-- @include('layouts.page_templates.auth') --}}
-        @include('layouts.page_templates.guest')
-        @endauth
+
+            @include('layouts.page_templates.guest')
+        @endif
+        
+        {{-- @guest()
+            @include('layouts.page_templates.guest')
+        @endguest
+        @guest('prof')
+            @include('layouts.page_templates.guest')
+        @endguest --}}
         
         <!--   Core JS Files   -->
         <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>

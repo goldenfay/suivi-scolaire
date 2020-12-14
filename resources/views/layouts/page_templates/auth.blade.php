@@ -1,10 +1,8 @@
 <div class="wrapper ">
-  @auth  
+  @if(Auth::check() || Auth::guard('prof')->check())
   @include('layouts.navbars.sidebar')
-  @endauth
-  @auth('prof')
-    @include('layouts.navbars.prof-sidebar')
-  @endauth
+  @endif
+  
   <div class="main-panel">
     @include('layouts.navbars.navs.auth')
     @yield('content')

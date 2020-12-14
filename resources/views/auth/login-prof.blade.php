@@ -11,11 +11,9 @@
 
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
-            @isset($url)
-            <h4 class="card-title"><strong>{{ __('Authentification '.($url=='parent'?'':' Enseignant')) }}</strong></h4>
-            @else
-            <h4 class="card-title"><strong>{{ __('Authentification') }}</strong></h4>
-            @endisset
+           
+            <h4 class="card-title"><strong>{{ __('Authentification Enseignant') }}</strong></h4>
+           
             
           </div>
           <div class="card-body">

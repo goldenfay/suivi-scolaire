@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use \ParagonIE\Halite\KeyFactory;
 use \ParagonIE\Halite\Symmetric\Crypto as SymmetricCrypto;
 use ParagonIE\HiddenString\HiddenString;
-
+use Auth;
 use App\Models\ParentEleve;
 
 class DashboardController extends Controller
@@ -25,36 +25,8 @@ class DashboardController extends Controller
 
 
         $this->user=new \stdClass();
-        $this->user->parent = ParentEleve::find(2)->get()->first();
-        $users_children = DB::table('eleve_parent')
-        ->where('Parent',$this->user->parent->id)
-        ->leftjoin('eleve','Eleve','eleve.id')
-        ->leftjoin('maladie','Maladie','maladie.id')
-        ->select('eleve.*','maladie.Des as Maladie')
-        ->get();
-        $this->user->children=array();
-        forEach($users_children as $child) {
-            $this->user->children[$child->id.""]=new \stdClass();
-            $this->user->children[$child->id.""]->eleve=$child;
-                // Fetch all eleve classes
-            $classes= DB::table('eleve_classe')
-            ->where('Eleve',$child->id)
-            ->leftjoin('classe','Classe','classe.id')
-            ->select('classe.*')
-            ->get();
-                // Fetch all eleve formations
-            $formations= DB::table('eleve_formation')
-            ->where('Eleve',$child->id)
-            ->leftjoin('formation','Formation','formation.id')
-            ->select('formation.*')
-            ->get();
-            $this->user->children[$child->id.""]->classes=$classes;
-            $this->user->children[$child->id.""]->formations=$formations;
-
-        }
         
         
-
        
     }
 
@@ -65,6 +37,8 @@ class DashboardController extends Controller
      */
     public function index()
     {  
+        if(!property_exists($this->user,"parent"))
+            $this->fetchParentData();
         
         return view('parent.dashboard',[
             "user"=> $this->user
@@ -78,6 +52,8 @@ class DashboardController extends Controller
      */
     public function enfants($eleveId=null,$classeId=null)
     {   
+        if(!property_exists($this->user,"parent"))
+            $this->fetchParentData();
         // $eleveId=(int)($eleveId)."";
         // $classeId=(int)($classeId);
         $eleve=null;
@@ -149,6 +125,37 @@ class DashboardController extends Controller
             "evaluations"=> $evaluations
             
             ]);
+    }
+
+
+    protected function fetchParentData(){
+        $this->user->parent = Auth::user();
+        $users_children = DB::table('eleve_parent')
+        ->where('Parent',$this->user->parent->id)
+        ->leftjoin('eleve','Eleve','eleve.id')
+        ->leftjoin('maladie','Maladie','maladie.id')
+        ->select('eleve.*','maladie.Des as Maladie')
+        ->get();
+        $this->user->children=array();
+        forEach($users_children as $child) {
+            $this->user->children[$child->id.""]=new \stdClass();
+            $this->user->children[$child->id.""]->eleve=$child;
+                // Fetch all eleve classes
+            $classes= DB::table('eleve_classe')
+            ->where('Eleve',$child->id)
+            ->leftjoin('classe','Classe','classe.id')
+            ->select('classe.*')
+            ->get();
+                // Fetch all eleve formations
+            $formations= DB::table('eleve_formation')
+            ->where('Eleve',$child->id)
+            ->leftjoin('formation','Formation','formation.id')
+            ->select('formation.*')
+            ->get();
+            $this->user->children[$child->id.""]->classes=$classes;
+            $this->user->children[$child->id.""]->formations=$formations;
+
+        }
     }
 
 }

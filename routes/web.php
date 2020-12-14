@@ -88,10 +88,13 @@ Route::prefix('/prof')->name('prof.')->group(function(){
 });
 // API routes
 
+Route::get('/eleves/view/{eleveId}', 'App\Http\Controllers\API\ElevesController@getPublicInfos')->name('viewEleve');
 Route::get('/matieres', 'App\Http\Controllers\API\MatieresController@getAll');
 
+Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
 Route::post('/observations/add', 'App\Http\Controllers\API\ObservationsController@add');
 Route::put('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@update');
+Route::put('/observations/read/{obsId}', 'App\Http\Controllers\API\ObservationsController@markAsRead');
 
 Route::get('/evaluations/planning/prof/{profId}', 'App\Http\Controllers\API\EvaluationsController@getPlanOfProf');
 Route::get('/evaluations/planning/classe/{classeId}/{profId?}', 'App\Http\Controllers\API\EvaluationsController@getPlanOfClass');

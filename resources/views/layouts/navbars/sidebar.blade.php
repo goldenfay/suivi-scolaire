@@ -2,55 +2,39 @@
 
   <div class="logo my-5">
     <a href="#" class="simple-text logo-normal">
+      {{-- {{ __('Bonjour') }} --}}
+      @if(Auth::check())
+      
+      {{Auth::user()->Nom}} {{Auth::user()->Prenom}}
+      @else
       {{ __('Bonjour') }}
+      @endif
     </a>
   </div>
   <div class="sidebar-wrapper mt-5">
-    <ul class="nav">
-      <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard') }}">
-          <i class="material-icons">dashboard</i>
-            <p>{{ __('Tableau De Bord') }}</p>
-        </a>
-      </li>
+    @if(Auth::guard('prof')->check())
+      @include('layouts.navbars.sidebars.prof-sidebar')
+    @elseif(Auth::check())
+      @include('layouts.navbars.sidebars.parent-sidebar')
+    @endif
+    
+    <div class="mt-5 ps-container ps-theme-default">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" 
+          href="{{ route('logout') }}"
+          onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+          >
+            <i class="material-icons">leaderboard</i>
+            <p>{{ __('Déconnexion') }}</p>
+          </a>
+        </li>
+  
+      </ul>
       
-      <li class="nav-item{{ $activePage == 'enfants' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('enfants') }}">
-          <i class="material-icons">content_paste</i>
-            <p>{{ __('Suivi des enfants') }}</p>
-        </a>
-      </li>
-      {{-- <li class="nav-item{{ $activePage == 'typography' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('typography') }}">
-          <i class="material-icons">library_books</i>
-            <p>{{ __('Typography') }}</p>
-        </a>
-      </li> --}}
-      <li class="nav-item{{ $activePage == 'reports' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('reports') }}">
-          <i class="material-icons">leaderboard</i>
-          <p>{{ __('Rapports') }}</p>
-        </a>
-      </li>
-      {{-- <li class="nav-item{{ $activePage == 'map' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('map') }}">
-          <i class="material-icons">location_ons</i>
-            <p>{{ __('Maps') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'notifications' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('notifications') }}">
-          <i class="material-icons">notifications</i>
-          <p>{{ __('Notifications') }}</p>
-        </a>
-      </li>
-      <li class="nav-item{{ $activePage == 'language' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('language') }}">
-          <i class="material-icons">language</i>
-          <p>{{ __('RTL Support') }}</p>
-        </a>
-      </li> --}}
-     
-    </ul>
+    </div>
+
+
+
   </div>
 </div>

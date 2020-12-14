@@ -83,15 +83,17 @@ $hours=[
                             
                           </td>
                           <td class="td-actions text-center">
+                            <a href="{{route("viewEleve",$eleve->id)}}">
                               <button type="button" rel="tooltip"
                               data-toggle="tooltip" 
                               data-placement="top" 
                               title="Consulter"  
                               class="btn btn-round btn-info"
-                              onclick="alert({{$eleve->id}})"
                               >
                                   <i class="material-icons">person</i>
                               </button>
+                            </a>
+                            <a href="{{route("prof.correspondance",$eleve->id)}}">
                               <button type="button" rel="tooltip"
                               data-toggle="tooltip" 
                               data-placement="top" 
@@ -99,11 +101,10 @@ $hours=[
                               class="btn btn-round btn-primary"
                               {{-- onclick="alert({{$eleve->id}})" --}}
                               >
-                            <a href="{{route("prof.correspondance",$eleve->id)}}">
+                              <i class="material-icons">menu_book</i>
 
-                                <i class="far fa-edit"></i>
-                              </a>
                               </button>
+                            </a>
                              
                           </td>
                       </tr>

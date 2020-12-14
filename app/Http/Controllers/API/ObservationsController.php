@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +60,7 @@ class ObservationsController extends Controller
         try {
             
 
-            DB::table('observation')->insertOrIgnore(
+            $newId=DB::table('observation')->insertGetId(
                 ['Type' => $request['type'] ,
                 'Libelle' => $request['libelle'] ,
                 'Corps' => $request['corps'] ,
@@ -81,27 +81,40 @@ class ObservationsController extends Controller
 
         $parent_eleve=DB::table('eleve_parent')
         ->where('Eleve',$request['eleveId'])
-        ->first();
-        $parent=ParentEleve::find($parent_eleve->Parent)->first();
-
-
-        $parent->notify(new ParentNotification($parent));
-        if($request->Type=="Convocation"){
-
-            try {
+        ;
+        
+        if($parent_eleve!=null){
+            $parent=ParentEleve::find($parent_eleve->first()->Parent)->first();
+            $eleve=DB::table('eleve')->find((int)$request['eleveId']);
+            
+            $notificationObj=new \stdClass();
+            $notificationObj->observationId=$newId;
+            $notificationObj->title=$request['type'];
+            $notificationObj->eleve=$eleve->Prenom;
+            $notificationObj->body=$request['corps'];
+                // Notify Parent via email and record it into DB
+            $parent->notify(new ParentNotification($notificationObj));
+            if($request->Type=="Convocation"){
     
-                $message = $this->client->message()->send([
-                    'to' => "+213555149081",
-                    'from' => 'Scolarité',
-                    'text' => 'Votre fils vient de recevoir une convocation.'
-                ]); 
+                try {
+                        // Notify him about SMS
+        
+                    $message = $this->client->message()->send([
+                        'to' => "+213555149081",
+                        'from' => 'Scolarité',
+                        'text' => 'Votre fils vient de recevoir une convocation.'
+                    ]); 
+                    
+                }
+                catch(Exception $e) {
+                    dd($e);
+                    
                 
+                }
             }
-            catch(Exception $e) {
-                
-               
-            }
+
         }
+
 
 
         return back()->with([
@@ -130,8 +143,8 @@ class ObservationsController extends Controller
         //     return response(json_encode($e),500);
 
         // }
-            $eleveId=(int)$request->eleve;
-            $parentId=(int)$request->actionner;
+        $eleveId=(int)$request->eleve;
+        $parentId=(int)$request->actionner;
             // Check if mentionned leve is the concerned abt this observation
         $obs_eleve_check = DB::table('observation')
         ->where('Eleve',$eleveId)
@@ -180,12 +193,48 @@ class ObservationsController extends Controller
         ]), 200);
 
     }
+    protected function markAsRead(Request $request,$obsId){
+       
+        if($obsId==null || $request->id==null)
+        return response(json_encode([
+            "flag" => "fail",
+            "message" => "Paramètres invalides"
+        ]), 422);
+        $observation = DB::table('observation')->find($obsId);
+        if($observation==null)
+        return response(json_encode(["flag" => "fail"]), 404);
+        
+        
+        try{
+            Auth::user()->notifications()->where('id',$request->id)->first()->markAsRead();
+            
+            DB::table('observation')
+            ->where('id',$observation->id)
+            ->update(
+                ['Etat'=>'V']
+            );
+        }catch(Exception $e){
+            return response(json_encode()->json([
+                "flag" => "fail",
+                "message" => "Une s'est produite au niveau du serveur. Impossible de modifier l'état de cette observation"
+              ]), 500);
+
+        }
+
+
+        return response(json_encode([
+            "flag" => "success",
+            "message" => "Observation mise à jours avec succès."
+
+        ]), 200);
+
+    }
     protected function getObservation($id){
 
         $observation = DB::table('observation')->find($id);
         if($observation==null)
         return response(json_encode(["flag" => "fail"], 404));        
-        return response(json_encode([$observation->get()->toJson(JSON_PRETTY_PRINT)], 200));
+        return response(json_encode(["observation"=>$observation], 200));
 
     }
 

@@ -52,6 +52,23 @@ class ParentNotification extends Notification
                     ->action('Consulter', url('/'))
                     ->line('Cordialement.');
     }
+
+    /**
+     * Get the database representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'observationId'=>$this->notification->observationId,
+            'title'=>$this->notification->title,
+            'eleve'=>$this->notification->eleve,
+            'body'=>$this->notification->body,
+
+        ];
+    }
    
 
     /**
