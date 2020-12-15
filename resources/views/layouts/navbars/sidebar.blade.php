@@ -25,7 +25,7 @@
           href="{{ route('logout') }}"
           onclick="event.preventDefault();document.getElementById('logout-form').submit();"
           >
-            <i class="material-icons">leaderboard</i>
+            <i class="material-icons">power_settings_new</i>
             <p>{{ __('Déconnexion') }}</p>
           </a>
         </li>

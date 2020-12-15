@@ -73,7 +73,7 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="#" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="material-icons">person</i>
             <p class="d-lg-none d-md-block">
               {{ __('Compte') }}
@@ -81,7 +81,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
             
-            <a class="dropdown-item" href="#">{{ __('Paramètres') }}</a>
+            <a class="dropdown-item" href="{{route(Auth::guard('prof')->check()?"prof.compte":"compte")}}">{{ __('Paramètres') }}</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
           </div>

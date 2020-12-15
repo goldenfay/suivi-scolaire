@@ -10,7 +10,7 @@
             @method('put')
 
             <div class="card ">
-              <div class="card-header card-header-primary">
+              <div class="card-header card-header-info">
                 <h4 class="card-title">{{ __('Modifiez Vos Informations') }}</h4>
                 <p class="card-category">{{ __('Informations Personnelles') }}</p>
               </div>
@@ -39,12 +39,12 @@
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Téléphone') }}</label>
+                  <label class="col-sm-2 col-form-label">{{ __('Adresse') }}</label>
                   <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="tel" placeholder="{{ __('Téléphone') }}" value="{{ old('phone', auth()->user()->NumTel) }}" required="true" aria-required="true"/>
-                      @if ($errors->has('phone'))
-                        <span id="phone-error" class="error text-danger" for="input-phone">{{ $errors->first('phone') }}</span>
+                    <div class="form-group{{ $errors->has('adress') ? ' has-danger' : '' }}">
+                      <input class="form-control{{ $errors->has('adress') ? ' is-invalid' : '' }}" name="adress" id="input-adress" type="text" placeholder="{{ __('Votre adresse...') }}" value="{{ old('adress', auth()->user()->Adresse) }}" required="true" aria-required="true"/>
+                      @if ($errors->has('adress'))
+                        <span id="adress-error" class="error text-danger" for="input-adress">{{ $errors->first('adress') }}</span>
                       @endif
                     </div>
                   </div>
@@ -52,7 +52,7 @@
                 
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Enregistrer') }}</button>
+                <button type="submit" class="btn btn-info">{{ __('Enregistrer') }}</button>
               </div>
             </div>
           </form>
@@ -65,7 +65,7 @@
             @method('put')
 
             <div class="card ">
-              <div class="card-header card-header-primary">
+              <div class="card-header card-header-info">
                 <h4 class="card-title">{{ __('Informations Du compte') }}</h4>
                 <p class="card-category">{{ __('Modifiez Votre Mot De Passe') }}</p>
               </div>
@@ -114,7 +114,7 @@
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Modifier le mot de passe') }}</button>
+                <button type="submit" class="btn btn-info">{{ __('Modifier le mot de passe') }}</button>
               </div>
             </div>
           </form>

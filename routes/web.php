@@ -78,14 +78,19 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard', 'App\Http\Controllers\Parent\DashboardController@index')->name('dashboard');
 Route::get('/reports', 'App\Http\Controllers\Parent\DashboardController@index')->name('reports');
 Route::get('/enfants/{eleveId?}/{classeId?}', 'App\Http\Controllers\Parent\DashboardController@enfants')->name('enfants');
-Route::get('/compte', 'App\Http\Controllers\Parent\DashboardController@account')->name('compte');
+Route::get('/compte', 'App\Http\Controllers\Parent\AccountController@showEditProfileForms')->name('compte');
+Route::put('/compte/info', 'App\Http\Controllers\Parent\AccountController@updateInfos')->name('compte.updateInfo');
+Route::put('/compte/password', 'App\Http\Controllers\Parent\AccountController@updatePassword')->name('compte.updatePassword');
 
 Route::prefix('/prof')->name('prof.')->group(function(){
 	
     Route::get('/dashboard', 'App\Http\Controllers\Prof\DashboardController@index')->name('dashboard');
     Route::get('/enseignement/{classeId?}', 'App\Http\Controllers\Prof\DashboardController@teaching')->name('enseignement');
     Route::get('/correspondance/{eleveId}', 'App\Http\Controllers\Prof\DashboardController@showAddObservationView')->name('correspondance');
-    Route::get('/reports', 'App\Http\Controllers\Prof\DashboardController@index')->name('reports');
+    // Route::get('/reports', 'App\Http\Controllers\Prof\DashboardController@index')->name('reports');
+    Route::get('/compte', 'App\Http\Controllers\Prof\AccountController@showEditProfileForms')->name('compte');
+    Route::put('/compte/info', 'App\Http\Controllers\Prof\AccountController@updateInfos')->name('compte.updateInfo');
+Route::put('/compte/password', 'App\Http\Controllers\Prof\AccountController@updatePassword')->name('compte.updatePassword');
 });
 // API routes
 

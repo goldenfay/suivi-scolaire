@@ -14,10 +14,16 @@
     </a>
   </li>
   
-  <li class="nav-item{{ $activePage == 'reports' ? ' active' : '' }}">
+  {{-- <li class="nav-item{{ $activePage == 'reports' ? ' active' : '' }}">
     <a class="nav-link" href="{{ route('reports') }}">
       <i class="material-icons">leaderboard</i>
       <p>{{ __('Rapports') }}</p>
+    </a>
+  </li> --}}
+  <li class="nav-item{{ $activePage == 'compte' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('prof.compte') }}">
+      <i class="material-icons">person</i>
+      <p>{{ __('Compte') }}</p>
     </a>
   </li>
   
