@@ -142,21 +142,23 @@ class EvaluationsController extends Controller
 
     }
     protected function getPlanOfClass($classeId,$profId=null){
-        $prof_classes=DB::table('professeur_classe')
-        ->where('Professeur',$profId)
-        ->where('Classe',$profId);
+        if($profId!=null){
 
-        if($prof_classes==null)
-        return response(json_encode([
-            "flag" => "fail",
-            "message" => "Vous n'avez pas le droite pour effectuer cette opération"
-        ]), 403);
+            $prof_classes=DB::table('professeur_classe')
+            ->where('Professeur',$profId)
+            ->where('Classe',$profId);
+    
+            if($prof_classes==null)
+            return response(json_encode([
+                "flag" => "fail",
+                "message" => "Vous n'avez pas le droite pour effectuer cette opération"
+            ]), 403);
+        }
 
         
         $evaluations = DB::table('planning_examens as PE')
         ->leftjoin('professeur_classe as PC','PE.Classe','PC.Classe')
         ->leftjoin('matiere as M','PE.Matiere','M.id')
-        ->where('PC.Professeur',$profId)
         ->where('PE.Classe',$classeId)
         ->whereRaw('MONTH(Date)='.date('m'))
         ->select('PE.*','M.Des as Matiere')

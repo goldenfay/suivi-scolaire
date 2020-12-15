@@ -11,7 +11,7 @@
   margin:auto; 
 }
 
-.calendar-container{
+.dark-green-bg{
   padding:0 10px 10px 10px; 
   box-sizing:border-box!important; 
   background:#749d9e; 
@@ -20,7 +20,7 @@
   background: -moz-linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,121,60,1) 35%, rgba(0,212,255,1) 100%)!important; 
   background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,121,60,1) 35%, rgba(0,212,255,1) 100%)!important;
 }
-.calendar-container-light{
+.light-orange-bg{
   padding:0 10px 10px 10px; 
   box-sizing:border-box!important; 
   background:#749d9e; 
@@ -28,6 +28,9 @@
   background: -o-linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important; 
   background: -moz-linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important; 
   background: linear-gradient(135deg, rgba(235,49,17,1) 0%, rgba(237,127,17,1) 35%, rgba(237,167,109,1) 100%)!important;
+}
+.no-bg-calendar {
+  background-color:white;
 }
 
 .jzdcalt {
@@ -52,6 +55,9 @@
   float:left; 
   overflow:hidden; 
   line-height:40px;
+}
+.no-bg-calendar span, .no-bg-calendar .jzdcalt{
+  color:#332f2e;
 }
 
 .calendar-container .jzdb:before,.calendar-container-light .jzdb:before {

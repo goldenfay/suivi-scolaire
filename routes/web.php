@@ -78,6 +78,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/dashboard', 'App\Http\Controllers\Parent\DashboardController@index')->name('dashboard');
 Route::get('/reports', 'App\Http\Controllers\Parent\DashboardController@index')->name('reports');
 Route::get('/enfants/{eleveId?}/{classeId?}', 'App\Http\Controllers\Parent\DashboardController@enfants')->name('enfants');
+Route::get('/compte', 'App\Http\Controllers\Parent\DashboardController@account')->name('compte');
 
 Route::prefix('/prof')->name('prof.')->group(function(){
 	

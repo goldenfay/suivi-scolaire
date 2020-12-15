@@ -230,7 +230,7 @@ $hours=[
       </div>
       <div class="col-sm-4">
         <h4>Calendrier</h4>
-        <div class="calendar-box jzdbasf calendar-container mt-3" id="up-events-calendar">
+        <div class="calendar-container calendar-box jzdbasf mt-3" id="up-events-calendar">
 
           <div class="jzdcalt">{{date('F, Y')}} </div>
           <span>Ven</span>

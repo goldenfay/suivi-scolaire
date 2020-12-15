@@ -40,8 +40,35 @@ class DashboardController extends Controller
         if(!property_exists($this->user,"parent"))
             $this->fetchParentData();
         
+
+        $nbr_formations=DB::table('eleve_formation as EF')
+        ->leftjoin('eleve as E','EF.Eleve','E.id')
+        ->leftjoin('eleve_parent as EV','E.id','EV.Eleve')
+        ->where('Parent',$this->user->parent->id)
+        ->select('EF.Formation')->get()
+        ->unique()
+        ->count();
+        $week_observations=DB::table('observation')
+        ->whereIn('Eleve',array_values($this->user->childrenIds))
+        ->whereRaw('Date >= DATE(NOW()) - INTERVAL 7 DAY')
+        ->selectRaw('Type,Etat, Count(*) as Count')
+        ->groupBy('Type','Etat')
+        ->get();
+        $upcomming_evals=DB::table('planning_examens as P')
+        ->whereRaw('Date >= DATE(NOW())')
+        ->join('eleve_classe as EC','P.Classe','EC.Classe')
+        ->whereIn('EC.Eleve',array_values($this->user->childrenIds))
+        ->select('P.*')
+        ->get()
+        ->unique();
+        // dd($week_observations);  
+
+        
         return view('parent.dashboard',[
-            "user"=> $this->user
+            "user"=> $this->user,
+            "nbr_formations"=> $nbr_formations,
+            "week_observations"=> $week_observations,
+            "upcomming_evals"=> $upcomming_evals,
             
             ]);
     }
@@ -120,6 +147,7 @@ class DashboardController extends Controller
             "user"=> $this->user->parent,
             "children"=> $this->user->children,
             "eleve"=> $eleve,
+            "currentClasse"=> $classe,
             "schedule"=> $schedule,
             "observations"=> $observations,
             "evaluations"=> $evaluations
@@ -130,6 +158,18 @@ class DashboardController extends Controller
 
     protected function fetchParentData(){
         $this->user->parent = Auth::user();
+
+        $eleves_ids=DB::table('eleve_parent')
+        ->where('Parent',$this->user->parent->id)
+        ->select('Eleve')
+        ->get()
+        ->values()->toArray(); 
+        $users_eleves_ids=array_map(function ($el){
+            return $el->Eleve;
+
+        },$eleves_ids);
+        $this->user->childrenIds=$users_eleves_ids;
+
         $users_children = DB::table('eleve_parent')
         ->where('Parent',$this->user->parent->id)
         ->leftjoin('eleve','Eleve','eleve.id')
@@ -156,6 +196,28 @@ class DashboardController extends Controller
             $this->user->children[$child->id.""]->formations=$formations;
 
         }
+    }
+
+
+
+    /**
+     * Show account view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function account()
+    {   
+        if(!property_exists($this->user,"parent"))
+            $this->fetchParentData();
+
+        return view('parent.account',
+        [
+            "user"=> $this->user->parent,
+            "children"=> $this->user->children,
+        ]
+    );
+
+
     }
 
 }

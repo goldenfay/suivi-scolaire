@@ -163,34 +163,6 @@
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
-    //   var form=document.getElementById('addObservation-form');
-    //   form.onsubmit=function(e){
-    //     e.preventDefault();
-    //     const fd=new FormData(form);
-    //     fd.append('profId',{{$user->prof->id}})
-    //     fd.append('eleveId',{{$eleve->id}})
-        
-       
-    //     console.log(fd['type']);
-    //     return;
-    //     fetch("{{url("observations/add")}}",
-    //     {
-    //       method: 'post',
-    //       body: fd
-
-    //     }).then(
-    //       res=>{
-    //         console.log(res);
-
-    //       },
-    //       err=>{
-    //         console.error(err);
-
-    //       }
-    //     )
-    //   }
-
-
-    // });
+   
   </script>
 @endpush

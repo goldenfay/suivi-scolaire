@@ -35,9 +35,9 @@ $hours=[
 
             <div class="form-group col-md-4">
               <label for="eleveSelect">Veuillez choisir un élève à consulter</label>
-            <select class="form-control" value="{{$eleve->eleve->id}}" data-style="btn btn-link" id="eleveSelect">
+            <select class="form-control" data-style="btn btn-link" id="eleveSelect">
                 @foreach ($children as $child)
-              <option  value="{{$child->eleve->id}}">
+              <option  value="{{$child->eleve->id}}" {{$child->eleve->id==$eleve->eleve->id?"selected='selected'":""}}>
                 <a href="{{route('enfants')}}/{{$child->eleve->id}}">{{$child->eleve->Prenom}}
                 </a>
               </option>
@@ -49,9 +49,9 @@ $hours=[
             </div>
             <div class="form-group col-md-4">
               <label for="classeSelect">Veuillez choisir la classe</label>
-            <select class="form-control" value="{{$eleve->eleve->id}}" data-style="btn btn-link" id="classeSelect">
+            <select class="form-control"  data-style="btn btn-link" id="classeSelect">
                 @foreach ($children[$eleve->eleve->id]->classes as $classe)
-              <option  value="{{$classe->id}}">
+              <option  value="{{$classe->id}}" {{$classe->id==$currentClasse->id?"selected='selected'":""}}>
                 <a href="#">{{$classe->Des}}
                 </a>
               </option>
@@ -194,7 +194,7 @@ $hours=[
       </div>
       <div class="col-sm-4">
         <h4>Calendrier des évaluations</h4>
-        <div class="calendar-box jzdbasf calendar-container mt-2" id="up-events-calendar">
+        <div class="calendar-box jzdbasf calendar-container dark-green-bg mt-2" id="up-events-calendar">
 
           <div class="jzdcalt">{{date('F, Y')}} </div>
           <span>Ven</span>
@@ -257,7 +257,7 @@ $hours=[
               <div class="tab-pane active" id="diciplines">
                 <table class="table">
                   <tbody>
-                    @if(!reset($observations))
+                    @if(!($observations->where('UPPER(Type)','DICIPLINE')->count()))
                     <tr>
                       <td colspan="8">
                         <h4 class="text-secondary text-center"> Aucune observation sur la dscipline</h4>
@@ -279,7 +279,7 @@ $hours=[
               <div class="tab-pane" id="appreciations">
                 <table class="table">
                   <tbody>
-                    @if(!reset($observations))
+                    @if(!($observations->where('UPPER(Type)','APPRECIATION')->count()))
                     <tr>
                       <td colspan="8">
                         <h4 class="text-secondary text-center"> Aucune appréciation</h4>
@@ -301,7 +301,7 @@ $hours=[
               <div class="tab-pane" id="informations">
                 <table class="table">
                   <tbody>
-                    @if(!reset($observations))
+                    @if(!($observations->where('UPPER(Type)','INFORMATION')->count()))
                     <tr>
                       <td colspan="8">
                         <h4 class="text-secondary text-center"> Aucune communication informative</h4>
@@ -323,21 +323,21 @@ $hours=[
               <div class="tab-pane" id="autres">
                 <table class="table">
                   <tbody>
-                    @if(!reset($observations))
+                    @if(!($observations->whereNotIn('UPPER(Type)',['APPRECIATION','DICIPLINE','INFORMATION'])->count()))
                     <tr>
                       <td colspan="8">
                         <h4 class="text-secondary text-center"> Aucune observation</h4>
                       </td>
                     </tr>
                     @endif
-                    @foreach ($observations as $idx => $observation)
-                      @if(strcasecmp($observation->Type,"Autre")==0)   
+                    @foreach ($observations->whereNotIn('UPPER(Type)',['APPRECIATION','DICIPLINE','INFORMATION']) as $idx => $observation)
+                      {{-- @if(strcasecmp($observation->Type,"Autre")==0)    --}}
                       <tr>
                         <td>{{$observation->Date}}</td>
                         <td>{{$observation->Corps}}</td>
                         <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
                       </tr>
-                      @endif
+                      {{-- @endif --}}
                     @endforeach
                   </tbody>
                 </table>
@@ -431,14 +431,37 @@ $hours=[
     
     
   </div>
-  @push('js')
+</div>
+@endsection
+@push('js')
   <script type="text/javascript" 
   src="{{ asset('js') }}/calendar.js"></script>
+  <script src="{{ asset('js') }}/services/teacher-services.js" ></script>
+
   <script>
-  displayEvents('up-events-calendar');
+      var evals_plans_url="{{url("/evaluations/planning/classe")}}";
+      var classe=@json($currentClasse);
+      
+      fetchRows(`${evals_plans_url}/${classe.id}`).then(
+        res=>{
+          var result=JSON.parse(res);
+
+          var calendarEvents=result.evaluations
+          .map(eval=>({
+            day: new Date(eval.Date).getDate(),
+            title: `Examen en ${eval.Matiere}`
+
+          }))
+          displayEvents('up-events-calendar',calendarEvents);
+
+
+        },
+        err=>{
+
+        }
+      );
   </script>
 
-  @endpush
 
   <script>
     document.getElementById('eleveSelect').onchange=function(e){
@@ -534,5 +557,4 @@ $hours=[
     });}
     
   </script>
-</div>
-@endsection
+@endpush

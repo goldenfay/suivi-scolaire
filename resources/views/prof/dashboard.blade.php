@@ -120,7 +120,7 @@ $hours=[
           <div class="h-100 d-flex flex-row justify-content-center align-items-center">
             
               {{-- <h5 class="card-title">Calendrier des évaluations</h5> --}}
-              <div class="calendar-box jzdbasf calendar-container-light mt-2" id="up-events-calendar">
+              <div class="calendar-container calendar-box jzdbasf light-orange-bg mt-2" id="up-events-calendar">
     
                 <div class="jzdcalt">{{date('F, Y')}} </div>
                 <span>Ven</span>

@@ -92,12 +92,18 @@ class ObservationsController extends Controller
             $notificationObj->title=$request['type'];
             $notificationObj->eleve=$eleve->Prenom;
             $notificationObj->body=$request['corps'];
-                // Notify Parent via email and record it into DB
-            $parent->notify(new ParentNotification($notificationObj));
+            try{
+                    // Notify Parent via email and record it into DB
+                $parent->notify(new ParentNotification($notificationObj));
+
+            }catch(Exception $e){
+
+            }
+            
             if($request->Type=="Convocation"){
     
                 try {
-                        // Notify him about SMS
+                        // Notify him via SMS also
         
                     $message = $this->client->message()->send([
                         'to' => "+213555149081",
