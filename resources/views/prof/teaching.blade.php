@@ -24,10 +24,10 @@ $hours=[
           <div class="form-group col-md-8">
             <label for="exampleFormControlSelect1">Spécifiez la classe à gérer</label>
             <select class="form-control"
-              value="{{property_exists($currentClasse->classe,"Id")?$currentClasse->classe->id: ""}}"
+              {{-- value="{{property_exists($currentClasse->classe,"id")?$currentClasse->classe->id."": "pop"}}" --}}
               data-style="btn btn-link" id="exampleFormControlSelect1">
               @foreach ($user->classes as $classe)
-              <option value="{{__($classe->classe->id)}}">
+              <option value="{{$classe->classe->id}}" {{$classe->classe->id===$currentClasse->classe->id?"selected":""}}>
                 <a href="{{route('prof.enseignement')}}/{{$classe->classe->id}}">{{$classe->classe->Des}}
                 </a>
               </option>
