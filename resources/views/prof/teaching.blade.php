@@ -246,7 +246,7 @@ $hours=[
     document.getElementById('change_eleve_form').addEventListener('submit', (e) =>{
       e.preventDefault();
       
-      const destination=window.location='/prof/enseignement/' + 
+      const destination="{{route('prof.enseignement')}}/" + 
     encodeURIComponent(document.getElementById('exampleFormControlSelect1').value);
     if(window.location.href===destination) return
       window.location=destination;
