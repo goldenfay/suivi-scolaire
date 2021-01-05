@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Validator;
 use \ParagonIE\Halite\KeyFactory;
 use \ParagonIE\Halite\Symmetric\Crypto as SymmetricCrypto;
 use ParagonIE\HiddenString\HiddenString;
+
 use App\Notifications\ParentNotification;
+use App\Notifications\ProfNotification;
 use App\Models\Observation;
 use App\Models\ParentEleve;
+use App\Models\Prof;
 
 class ObservationsController extends Controller
 {
@@ -113,7 +116,7 @@ class ObservationsController extends Controller
                     
                 }
                 catch(Exception $e) {
-                    dd($e);
+                    // dd($e);
                     
                 
                 }
@@ -163,6 +166,12 @@ class ObservationsController extends Controller
             "message" => "Vous n'êtes pas autorisés à effectuer cette tâche"
         ]), 403);
 
+        if($parentId!=Auth::user()->id)
+        return response(json_encode([
+            "flag" => "fail",
+            "message" => "Vous n'êtes pas autorisés à effectuer cette tâche"
+        ]), 403);
+
      
             // Check if the actionner is the parent of validated eleve
         $parent_check = DB::table('eleve_parent')
@@ -183,6 +192,31 @@ class ObservationsController extends Controller
             ->update(
                 ['Etat'=>$request->Etat]
             );
+                // If it's a convocation, push notification to prof
+            if($obs_eleve_check->first()->Type=="Convocation" && $request->Etat=="VAL"){
+                $prof=Prof::find($obs_eleve_check->first()->Professeur)->first();
+                $parent=Auth::user();
+                $eleve=DB::table('eleve')->find((int)$request['eleveId'])->first();
+                $civilite=$parent->Cvilite==null?"Mr/Mme":$parent->Cvilite;
+                
+                $notificationObj=new \stdClass();
+                $notificationObj->observationId=$id;
+                $notificationObj->eleve=$eleve->Prenom;
+                $notificationObj->subject="Confirmation de la convocation";
+                $notificationObj->body="$civilite $parent->Nom vous confirme son présence à propos de la convocation de son enfant $eleve->Prenom";
+                try{
+                        // Notify Parent via email and record it into DB
+                    $prof->notify(new ProfNotification($notificationObj));
+
+                }catch(Exception $e){
+                    dd($e);
+
+                }
+            }
+
+
+
+
         }catch(Exception $e){
             return response(json_encode()->json([
                 "flag" => "fail",
@@ -206,6 +240,7 @@ class ObservationsController extends Controller
             "flag" => "fail",
             "message" => "Paramètres invalides"
         ]), 422);
+            // Check validity of the observation
         $observation = DB::table('observation')->find($obsId);
         if($observation==null)
         return response(json_encode(["flag" => "fail"]), 404);
@@ -235,6 +270,7 @@ class ObservationsController extends Controller
         ]), 200);
 
     }
+    
     protected function getObservation($id){
 
         $observation = DB::table('observation')->find($id);

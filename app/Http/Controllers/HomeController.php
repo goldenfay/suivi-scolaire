@@ -27,7 +27,7 @@ class HomeController extends Controller
         
         // return view('dashboard');
         if(Auth::guard('prof')->check())
-            return redirect('prof.dashboard');
+            return redirect(route('prof.dashboard'));
         if(Auth::check())
             return redirect('dashboard');
             

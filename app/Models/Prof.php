@@ -49,4 +49,8 @@ class Prof extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function routeNotificationForMail(){
+        return $this->Email;
+    }
 }

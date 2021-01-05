@@ -53,18 +53,24 @@ class AccountController extends Controller
         $user=Auth::guard('prof')->user();
         if($user->Email==$request->email && $user->Adresse==$request->adress)
             return back();
-        Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:parent'],
-            'adress' => ['required', 'string', 'max:400'],
+        $changes=[];
+        if($request->email!=null && $request->email!=Auth::user()->Email)
+        $changes['Email']=$request->email;
+        if($request->adress!=null && $request->adress!=Auth::user()->Adresse)
+        $changes['Adresse']=$request->adress;
+
+        Validator::make($changes, [
+            'email' => ['string', 'email', 'max:255', 'unique:parent'],
+            'adress' => ['string', 'max:400'],
         ])->validate();
+
+        
         try{
-            DB::table('professeur')->where('id',Auth::guard('prof')->user()->id)
-            ->update(
-                [
-                    'Email'=>$request->email,
-                    'Adresse'=>$request->adress
-                ]
-            );
+            if(array_key_exists('Email',$changes) || array_key_exists('Adresse',$changes))
+                DB::table('professeur')->where('id',Auth::guard('prof')->user()->id)
+                ->update(
+                   $changes
+                );
 
             return back()->with([
                 'flag'=>'success',
@@ -102,7 +108,7 @@ class AccountController extends Controller
 
         try{
             DB::table('professeur')->where('id',Auth::guard('prof')->user()->id)
-            ->update(['password',Hash::make($request->password)]);
+            ->update(['password'=>Hash::make($request->password)]);
           
             return back()->with([
                 'flag_password'=>'success',

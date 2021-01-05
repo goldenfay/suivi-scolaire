@@ -4,86 +4,126 @@
     <div class="navbar-wrapper">
       <a class="navbar-brand" href="#">{{ $titlePage }}</a>
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="navbar-toggler-icon icon-bar"></span>
-    <span class="navbar-toggler-icon icon-bar"></span>
-    <span class="navbar-toggler-icon icon-bar"></span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon icon-bar"></span>
+      <span class="navbar-toggler-icon icon-bar"></span>
+      <span class="navbar-toggler-icon icon-bar"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end">
-      
+
       <ul class="navbar-nav">
-        
+
         <li class="nav-item dropdown">
-          <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             <i class="material-icons">notifications</i>
-            @if(count(Auth::user()->unreadnotifications()->get()->all()))
+            @if(Auth::guard('web')->check())
+            @if(count(Auth::guard('web')->user()->unreadnotifications()->get()->all()))
             <span class="notification">{{count(Auth::user()->unreadnotifications()->get()->all())}}</span>
+            @endif
+            @elseif(Auth::guard('prof')->check())
+            @if(count(Auth::guard('prof')->user()->unreadnotifications()->get()->all()))
+            <span
+              class="notification">{{count(Auth::guard('prof')->user()->unreadnotifications()->get()->all())}}</span>
+            @endif
             @endif
             <p class="d-lg-none d-md-block">
               {{ __('Actions') }}
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            @if(Auth::check())
-            
-              @foreach (Auth::user()->unreadnotifications()->get()->all() as $notif)
-              
-              <a class="dropdown-item" 
-              style="max-width: 400px"
-              data-toggle="modal" data-target="#notifDisplay"
-              onclick="read_observation_notification({{$notif->data['observationId']}},'{{$notif->id}}');"
-              >
-                <div class="container">
-                  
-                  <div class="row">
-                    <div class="col-sm-0">
-                      
-                    </div>
-                    <div class="col-sm-12">
-                      <div class="d-flex flex-row justify-content-between">
-                        <div class="d-flex flex-column">
-                          <span class="text-dark text-weight-bold">{{$notif->data['title']}}</span>
-                          <span class="text-muted px-1"> À {{$notif->data['eleve']}}</span>
-                        </div>
-                        <div class="text-muted">
-                          <span>{{$notif->created_at}}</span>
-                        </div>
-                        
+            @if(Auth::guard('web')->check())
+
+            @foreach (Auth::guard('web')->user()->unreadnotifications()->get()->all() as $notif)
+
+            <a class="dropdown-item" href="#" style="max-width: 400px" data-toggle="modal" data-target="#notifDisplay"
+              onclick="read_observation_notification({{$notif->data['observationId']}},'{{$notif->id}}','parent');">
+              <div class="container">
+
+                <div class="row">
+                  <div class="col-sm-0">
+
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="d-flex flex-row justify-content-between">
+                      <div class="d-flex flex-column">
+                        <span class="text-dark text-weight-bold">{{$notif->data['title']}}</span>
+                        <span class="text-muted px-1"> À {{$notif->data['eleve']}}</span>
                       </div>
-                      <div class="p-1 pr-3">
-                        <p class="text-truncate">{{$notif->data['body']}}</p>
-  
+                      <div class="text-muted">
+                        <span>{{$notif->created_at}}</span>
                       </div>
-                      
+
                     </div>
+                    <div class="p-1 pr-3">
+                      <p class="text-truncate">{{$notif->data['body']}}</p>
+
+                    </div>
+
                   </div>
                 </div>
-              </a>
-              
-              
-              @endforeach
-            @elseif(Auth::guard('prof')->check())
-              @foreach (Auth::guard('prof')->user()->unreadnotifications()->get()->all() as $notif)
+              </div>
+            </a>
 
-              @endforeach
+
+            @endforeach
+            @elseif(Auth::guard('prof')->check())
+            @foreach (Auth::guard('prof')->user()->unreadnotifications()->get()->all() as $notif)
+
+            <a class="dropdown-item" href="#" style="max-width: 400px" data-toggle="modal" data-target="#notifDisplay"
+              onclick="read_observation_notification({{$notif->data['observationId']}},'{{$notif->id}}','prof');">
+              <div class="container">
+
+                <div class="row">
+                  <div class="col-sm-0">
+
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="d-flex flex-row justify-content-between">
+                      <div class="d-flex flex-column">
+                        <span class="text-dark text-weight-bold">{{$notif->data['title']}}</span>
+                        <span class="text-muted px-1"> À {{$notif->data['eleve']}}</span>
+                      </div>
+                      <div class="text-muted">
+                        <span>{{$notif->created_at}}</span>
+                      </div>
+
+                    </div>
+                    <div class="p-1 pr-3">
+                      <p class="text-truncate">{{$notif->data['body']}}</p>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+
+
+
+            @endforeach
             @endif
-            
-      
+
+
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="#" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
             <i class="material-icons">person</i>
             <p class="d-lg-none d-md-block">
               {{ __('Compte') }}
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            
-            <a class="dropdown-item" href="{{route(Auth::guard('prof')->check()?"prof.compte":"compte")}}">{{ __('Paramètres') }}</a>
+
+            <a class="dropdown-item"
+              href="{{route(Auth::guard('prof')->check()?"prof.compte":"compte")}}">{{ __('Paramètres') }}</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+            <a class="dropdown-item" href="{{ route('logout') }}"
+              onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Déconnexion') }}</a>
           </div>
         </li>
       </ul>
@@ -91,17 +131,18 @@
   </div>
 </nav>
 
-<div class="modal fade" id="notifDisplay" tabindex="-1" role="dialog" aria-labelledby="notifDisplayLabel" aria-hidden="true">
+<div class="modal fade" id="notifDisplay" tabindex="-1" role="dialog" aria-labelledby="notifDisplayLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      
+
     </div>
   </div>
 </div>
 @push('js')
-<script src="{{ asset('js') }}/services/teacher-services.js" ></script>
+<script src="{{ asset('js') }}/services/teacher-services.js"></script>
 <script>
-  function read_observation_notification(obsId,notifId){
+  function read_observation_notification(obsId,notifId,user){
    
     var url="{{url("/observations")}}"+`/${obsId}`;
     fetchRows(url).then(
@@ -119,8 +160,12 @@
 
       }
     );
+    if(user==='prof')
+    url="{{url("/profnotifications/read")}}"+`/${notifId}`
+    else
+    url="{{url("/observations/read")}}"+`/${obsId}`;
     $.ajax({
-        url: "{{url("/observations/read")}}"+`/${obsId}`,
+        url: url,
         type: 'PUT',
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -129,7 +174,6 @@
         },
         data:{
           id:notifId,
-          // actionner: currentUser.id,
           
         },
         success: res=>{

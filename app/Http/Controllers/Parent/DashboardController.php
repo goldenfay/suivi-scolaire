@@ -61,6 +61,11 @@ class DashboardController extends Controller
         ->select('P.*')
         ->get()
         ->unique();
+        $pending_observations=DB::table('observation')
+        ->whereIn('Eleve',array_values($this->user->childrenIds))
+        ->where('Etat', '!=', 'VAL')
+        
+        ->count();
         // dd($week_observations);  
 
         
@@ -69,6 +74,7 @@ class DashboardController extends Controller
             "nbr_formations"=> $nbr_formations,
             "week_observations"=> $week_observations,
             "upcomming_evals"=> $upcomming_evals,
+            "pending_observations"=> $pending_observations,
             
             ]);
     }
@@ -87,10 +93,12 @@ class DashboardController extends Controller
         if($eleveId==null)
             $eleve=reset($this->user->children);
         else $eleve=$this->user->children[$eleveId.""];
+        
         $classe=null;
         if($classeId==null)
             $classe=$this->user->children[$eleve->eleve->id.""]->classes->first();
         else $classe=$this->user->children[$eleve->eleve->id.""]->classes->where('id',$classeId)->first();
+        
             // Fetch for his classes schedules
         $schedule=DB::table('emplois_temps')
         ->where('Classe',$classe->id)
@@ -110,7 +118,7 @@ class DashboardController extends Controller
             // Fetch for his classes programmes
         $programme=DB::table('observation')
         ->where('Eleve',$eleve->eleve->id)
-        ->whereYear('Date','=',Date('Y'))
+        // ->whereYear('Date','=',Date('Y'))
         ->leftjoin('professeur','Professeur','professeur.id')
         ->select('observation.*','professeur.Nom as NomProfesseur','professeur.Prenom as PrenomProfesseur')
         ->orderby('Date','Desc')
@@ -118,7 +126,7 @@ class DashboardController extends Controller
             // Fetch for all its observations (correspondances)
         $observations=DB::table('observation')
         ->where('Eleve',$eleve->eleve->id)
-        ->whereYear('Date','=',Date('Y'))
+        // ->whereYear('Date','=',Date('Y'))
         ->leftjoin('professeur','Professeur','professeur.id')
         ->select('observation.*','professeur.Nom as NomProfesseur','professeur.Prenom as PrenomProfesseur')
         ->orderby('Date','Desc')

@@ -21,7 +21,7 @@ $hours=[
 ?>
 @section('content')
 @push('styles')
-    <link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
+<link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
 @endpush
 <div class="content">
   <div class="container-fluid">
@@ -35,35 +35,35 @@ $hours=[
 
             <div class="form-group col-md-4">
               <label for="eleveSelect">Veuillez choisir un élève à consulter</label>
-            <select class="form-control" data-style="btn btn-link" id="eleveSelect">
+              <select class="form-control" data-style="btn btn-link" id="eleveSelect">
                 @foreach ($children as $child)
-              <option  value="{{$child->eleve->id}}" {{$child->eleve->id==$eleve->eleve->id?"selected='selected'":""}}>
-                <a href="{{route('enfants')}}/{{$child->eleve->id}}">{{$child->eleve->Prenom}}
-                </a>
-              </option>
+                <option value="{{$child->eleve->id}}" {{$child->eleve->id==$eleve->eleve->id?"selected='selected'":""}}>
+                  <a href="{{route('enfants')}}/{{$child->eleve->id}}">{{$child->eleve->Prenom}}
+                  </a>
+                </option>
                 @endforeach
-                
-                
+
+
               </select>
-  
+
             </div>
             <div class="form-group col-md-4">
               <label for="classeSelect">Veuillez choisir la classe</label>
-            <select class="form-control"  data-style="btn btn-link" id="classeSelect">
+              <select class="form-control" data-style="btn btn-link" id="classeSelect">
                 @foreach ($children[$eleve->eleve->id]->classes as $classe)
-              <option  value="{{$classe->id}}" {{$classe->id==$currentClasse->id?"selected='selected'":""}}>
-                <a href="#">{{$classe->Des}}
-                </a>
-              </option>
+                <option value="{{$classe->id}}" {{$classe->id==$currentClasse->id?"selected='selected'":""}}>
+                  <a href="#">{{$classe->Des}}
+                  </a>
+                </option>
                 @endforeach
-                
-                
+
+
               </select>
-  
+
             </div>
             <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <button type="submit" class="btn btn-primary" >Consulter</button>
-  
+              <button type="submit" class="btn btn-primary">Consulter</button>
+
             </div>
           </div>
 
@@ -74,34 +74,34 @@ $hours=[
     <div class="row mb-3">
       <div class="col-sm-12">
         <div style="background-image: linear-gradient(to top left, rgba(255,0,0,0), rgb(0, 102, 255,0.3)">
-        <table class="table" >
-          <thead>
+          <table class="table">
+            <thead>
               <tr>
-                  <th class="text-center">#</th>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Rédigée par</th>
-                  <th>Titre</th>
-                  <th class="text-center">Contenu</th>
-                  <th class="text-center">Etat</th>
-                  <th class="text-center">Actions</th>
+                <th class="text-center">#</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Rédigée par</th>
+                <th>Titre</th>
+                <th class="text-center">Contenu</th>
+                <th class="text-center">Etat</th>
+                <th class="text-center">Actions</th>
               </tr>
-          </thead>
-          <tbody>
-            @if(!reset($observations))
-            <tr>
-              <td colspan="8">
-                <h4 class="text-secondary text-center"> Aucune observation</h4>
-              </td>
-            </tr>
+            </thead>
+            <tbody>
+              @if(!reset($observations))
+              <tr>
+                <td colspan="8">
+                  <h4 class="text-secondary text-center"> Aucune observation</h4>
+                </td>
+              </tr>
               @endif
               @foreach ($observations as $idx => $observation)
-              @if(strcasecmp($observation->Type,"Information"))    
+              @if(strcasecmp($observation->Type,"Information"))
               <tr>
                 <td class="text-center">{{$idx+1}}</td>
                 <td>{{$observation->Date}}</td>
                 <td>{{$observation->Type}}</td>
-                <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
+                <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
                 <td>{{$observation->Libelle}}</td>
                 <td>{{$observation->Corps}}</td>
                 <td>{{
@@ -113,41 +113,35 @@ $hours=[
 
                 @if($observation->Etat!="VAL")
                 <td class="td-actions text-center">
-                    @if($observation->Etat!="ATV")
-                    <button type="button" 
-                    id="{{$observation->id}}"
-                    rel="tooltip" data-toggle="tooltip" data-placement="top" title="Marquer en attente de validation" 
-                    class="my-3 btn btn-round btn-warning"
-                    onclick="set_observation_pending(event)"
-                    >
+                  @if($observation->Etat!="ATV")
+                  <button type="button" id="{{$observation->id}}" rel="tooltip" data-toggle="tooltip"
+                    data-placement="top" title="Marquer en attente de validation" class="my-3 btn btn-round btn-warning"
+                    onclick="set_observation_pending(event)">
                     <i class="material-icons">pending_actions</i>
                   </button>
                   @endif
-                  <button type="button" 
-                  id="{{$observation->id}}"
-                  rel="tooltip" data-toggle="tooltip" data-placement="top" title="Valider" 
-                  class="my-3 btn btn-round btn-success"
-                  onclick="set_observation_validated(event)"
-                  >
-                        <i class="material-icons">done</i>
-                    </button>
-                  
+                  <button type="button" id="{{$observation->id}}" rel="tooltip" data-toggle="tooltip"
+                    data-placement="top" title="Valider" class="my-3 btn btn-round btn-success"
+                    onclick="set_observation_validated(event)">
+                    <i class="material-icons">done</i>
+                  </button>
+
                 </td>
                 @endif
-                    
+
               </tr>
               @endif
-            @endforeach
-              
-          </tbody>
-        </table>
-        
+              @endforeach
+
+            </tbody>
+          </table>
+
         </div>
       </div>
-      
-      
-      
-      
+
+
+
+
     </div>
 
     <div class="row mb-3">
@@ -156,14 +150,14 @@ $hours=[
         <div class="card">
           <div class="card-body">
 
-            <table class="table" >
+            <table class="table">
               <thead>
-                  <tr>
-                      <th>Matière</th>
-                      <th>Date</th>
-                      <th>Evalué par</th>
-                      <th>Note</th>
-                  </tr>
+                <tr>
+                  <th>Matière</th>
+                  <th>Date</th>
+                  <th>Evalué par</th>
+                  <th>Note</th>
+                </tr>
               </thead>
               <tbody>
                 @if(!reset($evaluations))
@@ -173,22 +167,22 @@ $hours=[
                   </td>
                 </tr>
                 @endif
-                
+
                 @foreach ($evaluations as $idx => $evaluation)
-                    
+
                 <tr>
                   <td>{{$evaluation->Matiere}}</td>
                   <td>{{isset($evaluation->Date)?$evaluation->Date:"Non spécifiée" }}</td>
-                  <td>{{"Non spécifié"}}  {{""}}</td>
+                  <td>{{"Non spécifié"}} {{""}}</td>
                   <td class="{{$evaluation->Resultat<5?"text-danger":""}}">{{$evaluation->Resultat}}</td>
-    
+
                 </tr>
                 @endforeach
-                  
+
               </tbody>
             </table>
           </div>
-        
+
         </div>
 
       </div>
@@ -201,15 +195,15 @@ $hours=[
           <span>Sam</span>
           @foreach ($days as $day)
           <span>{{substr($day,0,3)}}</span>
-              
+
           @endforeach
-          
+
         </div>
-            
-          
-          
-        
-        
+
+
+
+
+
       </div>
 
 
@@ -265,13 +259,13 @@ $hours=[
                     </tr>
                     @endif
                     @foreach ($observations as $idx => $observation)
-                      @if(strcasecmp($observation->Type,"Discipline")==0)   
-                      <tr>
-                        <td>{{$observation->Date}}</td>
-                        <td>{{$observation->Corps}}</td>
-                        <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
-                      </tr>
-                      @endif
+                    @if(strcasecmp($observation->Type,"Discipline")==0)
+                    <tr>
+                      <td>{{$observation->Date}}</td>
+                      <td>{{$observation->Corps}}</td>
+                      <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
+                    </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>
@@ -287,13 +281,13 @@ $hours=[
                     </tr>
                     @endif
                     @foreach ($observations as $idx => $observation)
-                      @if(strcasecmp($observation->Type,"Appréciation")==0)   
-                      <tr>
-                        <td>{{$observation->Date}}</td>
-                        <td>{{$observation->Corps}}</td>
-                        <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
-                      </tr>
-                      @endif
+                    @if(strcasecmp($observation->Type,"Appréciation")==0)
+                    <tr>
+                      <td>{{$observation->Date}}</td>
+                      <td>{{$observation->Corps}}</td>
+                      <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
+                    </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>
@@ -309,13 +303,13 @@ $hours=[
                     </tr>
                     @endif
                     @foreach ($observations as $idx => $observation)
-                      @if(strcasecmp($observation->Type,"Information")==0)   
-                      <tr>
-                        <td>{{$observation->Date}}</td>
-                        <td>{{$observation->Corps}}</td>
-                        <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
-                      </tr>
-                      @endif
+                    @if(strcasecmp($observation->Type,"Information")==0)
+                    <tr>
+                      <td>{{$observation->Date}}</td>
+                      <td>{{$observation->Corps}}</td>
+                      <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
+                    </tr>
+                    @endif
                     @endforeach
                   </tbody>
                 </table>
@@ -330,14 +324,15 @@ $hours=[
                       </td>
                     </tr>
                     @endif
-                    @foreach ($observations->whereNotIn('UPPER(Type)',['APPRECIATION','DICIPLINE','INFORMATION']) as $idx => $observation)
-                      {{-- @if(strcasecmp($observation->Type,"Autre")==0)    --}}
-                      <tr>
-                        <td>{{$observation->Date}}</td>
-                        <td>{{$observation->Corps}}</td>
-                        <td>{{$observation->NomProfesseur}}  {{$observation->PrenomProfesseur}}</td>
-                      </tr>
-                      {{-- @endif --}}
+                    @foreach ($observations->whereNotIn('UPPER(Type)',['APPRECIATION','DICIPLINE','INFORMATION']) as
+                    $idx => $observation)
+                    {{-- @if(strcasecmp($observation->Type,"Autre")==0)    --}}
+                    <tr>
+                      <td>{{$observation->Date}}</td>
+                      <td>{{$observation->Corps}}</td>
+                      <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
+                    </tr>
+                    {{-- @endif --}}
                     @endforeach
                   </tbody>
                 </table>
@@ -368,11 +363,11 @@ $hours=[
                 </tr>
                 @endif
                 @foreach ($observations as $idx => $observation)
-                  <tr>
-                    <td>{{$observation->Date}}</td>
-                    <td>{{$observation->Type}}  {{$observation->PrenomProfesseur}}</td>
-                    <td>{{$observation->Corps}}</td>
-                  </tr>
+                <tr>
+                  <td>{{$observation->Date}}</td>
+                  <td>{{$observation->Type}} {{$observation->PrenomProfesseur}}</td>
+                  <td>{{$observation->Corps}}</td>
+                </tr>
                 @endforeach
               </tbody>
             </table>
@@ -392,54 +387,54 @@ $hours=[
 
               @endforeach
             </tr>
-            
+
           </thead>
           <tbody>
             @foreach ($days as $day)
             <tr>
-            <td scope="row">{{$day}}</td>
+              <td scope="row">{{$day}}</td>
               @foreach ($schedule->where('Jour',$day) as $daySchedule)
-              <td class="text-center">{{ array_search($daySchedule->Heure,$hours).""!="false"?$daySchedule->DesM:"/" }}</td>
-    
+              <td class="text-center">{{ array_search($daySchedule->Heure,$hours).""!="false"?$daySchedule->DesM:"/" }}
+              </td>
+
               @endforeach
-             
-            
+
+
             </tr>
-  
+
             @endforeach
             <tr>
               <td></td>
             </tr>
           </tbody>
         </table>
-        
+
       </div>
     </div>
-    
+
     <div class="row">
       <div id="calendar">
 
       </div>
     </div>
-    
+
     <div style="position: sticky; bottom: 5%; left: 0;right: 0; width: 100% ;min-height:50px">
       <div class="d-flex flex-row justify-content-center" id="observations-actions-results">
-        
+
       </div>
 
     </div>
-    
-    
+
+
   </div>
 </div>
 @endsection
 @push('js')
-  <script type="text/javascript" 
-  src="{{ asset('js') }}/calendar.js"></script>
-  <script src="{{ asset('js') }}/services/teacher-services.js" ></script>
+<script type="text/javascript" src="{{ asset('js') }}/calendar.js"></script>
+<script src="{{ asset('js') }}/services/teacher-services.js"></script>
 
-  <script>
-      var evals_plans_url="{{url("/evaluations/planning/classe")}}";
+<script>
+  var evals_plans_url="{{url("/evaluations/planning/classe")}}";
       var classe=@json($currentClasse);
       
       fetchRows(`${evals_plans_url}/${classe.id}`).then(
@@ -460,11 +455,11 @@ $hours=[
 
         }
       );
-  </script>
+</script>
 
 
-  <script>
-    document.getElementById('eleveSelect').onchange=function(e){
+<script>
+  document.getElementById('eleveSelect').onchange=function(e){
       var children= @json($children);
       console.log(children[e.target.value].classes);
       document.getElementById('classeSelect').innerHTML=`
@@ -529,10 +524,15 @@ $hours=[
       <span>Mise à jours réussie</span>
       </div>
         `
+        if(etat==="VAL")
+          $(`button[id=${id}]`).remove()
+          else   
+          $(target).remove()
+        
         $(resultDiv).show();
         setTimeout(function () {
       	$(resultDiv).slideUp(500);
-      }, 2000);
+        }, 2000);
 
       },
       error: err=>{
@@ -556,5 +556,5 @@ $hours=[
 
     });}
     
-  </script>
+</script>
 @endpush

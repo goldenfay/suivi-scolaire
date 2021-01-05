@@ -81,7 +81,7 @@ class DashboardController extends Controller
         $observations=DB::table('observation')
         ->where('Eleve',$eleve->id)
         ->where('Professeur',$this->user->prof->id)
-        ->whereYear('Date','=',Date('Y'))
+        // ->whereYear('Date','=',Date('Y'))
         ->orderby('Date','Desc')
         ->get();
 

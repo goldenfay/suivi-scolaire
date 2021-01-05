@@ -80,6 +80,7 @@ class EvaluationsController extends Controller
             ]);
 
     }
+        // TO BE REVIEWED
     protected function update(Request $request,$id){
        
         if($id==null || $request->eleve==null || $request->actionner==null || $request->Etat==null)
@@ -141,6 +142,7 @@ class EvaluationsController extends Controller
         ]), 200);
 
     }
+
     protected function getPlanOfClass($classeId,$profId=null){
         if($profId!=null){
 
@@ -169,6 +171,7 @@ class EvaluationsController extends Controller
         return response(json_encode(["evaluations"=>$evaluations], 200));
 
     }
+    
     protected function getPlanOfProf($profId){
         // $prof_classes=DB::table('professeur_classe')
         // ->where('Professeur',$profId)

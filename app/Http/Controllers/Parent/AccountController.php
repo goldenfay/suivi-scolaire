@@ -61,19 +61,28 @@ class AccountController extends Controller
         //     "flag" => "fail",
         //     "message" => "Vous n'êtes pas autorisés à effectuer cette tâche"
         // ]), 403);
+        $user=Auth::user();
+        if($user->Email==$request->email && $user->NumTel==$request->phone)
+            return back();
 
-        Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:parent'],
-            'phone' => ['required', 'string', 'regex:/^0[5679]\d{8}$/i'],
+        $changes=[];
+        if($request->email!=null && $request->email!=Auth::user()->Email)
+        $changes['Email']=$request->email;
+        if($request->phone!=null && $request->phone!=Auth::user()->NumTel)
+        $changes['NumTel']=$request->phone;
+
+    
+        Validator::make($changes, [
+            'Email' => ['string', 'email', 'max:255', 'unique:parent'],
+            'NumTel' => ['string', 'regex:/^0[5679]\d{8}$/i'],
         ])->validate();
+       
+        
         try{
-            DB::table('parent')->where('id',Auth::user()->id)
-            ->update(
-                [
-                    'Email'=>$request->email,
-                    'NumTel'=>$request->phone
-                ]
-            );
+            if($changes['Email']!=null || $changes['NumTel']!=null)
+                DB::table('parent')->where('id',Auth::user()->id)
+                ->update($changes
+                );
 
             return back()->with([
                 'flag'=>'success',
@@ -111,7 +120,7 @@ class AccountController extends Controller
 
         try{
             DB::table('parent')->where('id',Auth::user()->id)
-            ->update(['password',Hash::make($request->password)]);
+            ->update(['password'=> Hash::make($request->password)]);
           
             return back()->with([
                 'flag_password'=>'success',

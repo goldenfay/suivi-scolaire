@@ -17,57 +17,57 @@ $hours=[
 ?>
 @section('content')
 @push('styles')
-    <link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
+<link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
 @endpush
 <div class="content">
   <div class="container-fluid">
-      <div class="row my-3">
-        <div class="col-lg-4 col-md-4 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-info card-header-icon">
-              <div class="card-icon">
-                <i class="fa fa-graduation-cap"></i>
-              </div>
-              <p class="card-category">Formations enseignées</p>
-              <h3 class="card-title">{{$nbr_eleves_formation->count()}}</h3>
+    <div class="row my-3">
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-info card-header-icon">
+            <div class="card-icon">
+              <i class="fa fa-graduation-cap"></i>
             </div>
-            
+            <p class="card-category">Formations enseignées</p>
+            <h3 class="card-title">{{$nbr_eleves_formation->count()}}</h3>
           </div>
+
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">group</i>
-              </div>
-              <p class="card-category">Elèves dans toutes les formations</p>
-              <h3 class="card-title">{{$nbr_eleves_formation->sum("Count")}}</h3>
-            </div>
-            
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">attach_money</i>
-              </div>
-              <p class="card-category">Revenues Estimées</p>
-              <h3 class="card-title">{{$revenues_formation->sum("Total")}}</h3>
-            </div>
-            
-          </div>
-        </div>
-        
-        
       </div>
-     
-      
-      <h4> Formations</h4>
-      <div class="row mb-3">
-        <div class="col-sm-12 col-md-6">
-          
-          {{PieChart::create(array(
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">group</i>
+            </div>
+            <p class="card-category">Elèves dans toutes les formations</p>
+            <h3 class="card-title">{{$nbr_eleves_formation->sum("Count")}}</h3>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">attach_money</i>
+            </div>
+            <p class="card-category">Revenues Estimées</p>
+            <h3 class="card-title">{{$revenues_formation->sum("Total")}}</h3>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <h4> Formations</h4>
+    <div class="row mb-3">
+      <div class="col-sm-12 col-md-6">
+
+        {{PieChart::create(array(
             "title"=>"Répartition des élèves sur les formations",
             "dataSource"=>$report->dataStore('nbr_eleves_formation'),
             "columns"=>array(
@@ -75,11 +75,11 @@ $hours=[
               "Count")
             )) 
           }}
-        </div>
+      </div>
 
-        <div class="col-sm-12 col-md-6">
-          
-          {{PieChart::create(array(
+      <div class="col-sm-12 col-md-6">
+
+        {{PieChart::create(array(
             "title"=>"Revenues  des formations",
             "dataSource"=>$report->dataStore('revenues_formation'),
             "columns"=>array(
@@ -92,18 +92,18 @@ $hours=[
             )) 
 
           }}
-        </div>
-          
-         
-          
-          
       </div>
 
-      <h4> Classes</h4>
-      <div class="row mb-3">
-        <div class="col-sm-12 col-md-6">
-          
-          {{PieChart::create(array(
+
+
+
+    </div>
+
+    <h4> Classes</h4>
+    <div class="row mb-3">
+      <div class="col-sm-12 col-md-6">
+
+        {{PieChart::create(array(
             "title"=>"Répartition des élèves sur les différentes classes",
             "dataSource"=>$report->dataStore('nbr_eleves_classe'),
             "columns"=>array(
@@ -114,88 +114,88 @@ $hours=[
               )
             )) 
           }}
+      </div>
+
+      <div class="col-sm-12 col-md-6">
+        <div class="h-100 d-flex flex-row justify-content-center align-items-center">
+
+          {{-- <h5 class="card-title">Calendrier des évaluations</h5> --}}
+          <div class="calendar-container calendar-box jzdbasf light-orange-bg mt-2" id="up-events-calendar">
+
+            <div class="jzdcalt">{{date('F, Y')}} </div>
+            <span>Ven</span>
+            <span>Sam</span>
+            @foreach ($days as $day)
+            <span>{{substr($day,0,3)}}</span>
+
+            @endforeach
+
+          </div>
+
+
         </div>
 
-        <div class="col-sm-12 col-md-6">
-          <div class="h-100 d-flex flex-row justify-content-center align-items-center">
-            
-              {{-- <h5 class="card-title">Calendrier des évaluations</h5> --}}
-              <div class="calendar-container calendar-box jzdbasf light-orange-bg mt-2" id="up-events-calendar">
-    
-                <div class="jzdcalt">{{date('F, Y')}} </div>
-                <span>Ven</span>
-                <span>Sam</span>
-                @foreach ($days as $day)
-                <span>{{substr($day,0,3)}}</span>
-                    
-                @endforeach
-                
-              </div>
-              
-            
-          </div>
-          
-          
-        </div>
-          
-         
-          
-          
+
       </div>
-      <h4>Communication</h4>
-      <div class="row mb-3">
-        <div class="col-lg-3 col-md-3 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-primary card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">history_edu</i>
-              </div>
-              <p class="card-category">Correspondances</p>
-              <h3 class="card-title">{{$user->observationsCounts->sum('Count')}}</h3>
+
+
+
+
+    </div>
+    <h4>Communication</h4>
+    <div class="row mb-3">
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">history_edu</i>
             </div>
-            
+            <p class="card-category">Correspondances</p>
+            <h3 class="card-title">{{$user->observationsCounts->sum('Count')}}</h3>
           </div>
+
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-warning card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">pending_actions</i>
-              </div>
-              <p class="card-category">En attente</p>
-              <h3 class="card-title">{{$user->observationsCounts->where('Etat','!=','VAL')->sum('Count')}}</h3>
-            </div>
-            
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-danger card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">escalator_warning</i>
-              </div>
-              <p class="card-category">Convocations</p>
-              <h3 class="card-title">{{$user->observationsCounts->where('Type','Convocation')->sum('Count')}}</h3>
-            </div>
-            
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6">
-          <div class="card card-stats">
-            <div class="card-header card-header-success card-header-icon">
-              <div class="card-icon">
-                <i class="material-icons">emoji_events</i>
-              </div>
-              <p class="card-category">Appréciations</p>
-              <h3 class="card-title">{{$user->observationsCounts->where('Type','Appréciation')->sum('Count')}}</h3>
-            </div>
-            
-          </div>
-        </div>
-        
-        
       </div>
-{{-- 
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-warning card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">pending_actions</i>
+            </div>
+            <p class="card-category">En attente</p>
+            <h3 class="card-title">{{$user->observationsCounts->where('Etat','!=','VAL')->sum('Count')}}</h3>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-danger card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">escalator_warning</i>
+            </div>
+            <p class="card-category">Convocations</p>
+            <h3 class="card-title">{{$user->observationsCounts->where('Type','Convocation')->sum('Count')}}</h3>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">emoji_events</i>
+            </div>
+            <p class="card-category">Appréciations</p>
+            <h3 class="card-title">{{$user->observationsCounts->where('Type','Appréciation')->sum('Count')}}</h3>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+    {{-- 
       <div class="row">
         <div class="col-md-4">
           <div class="card card-chart">
@@ -543,13 +543,12 @@ $hours=[
 @endsection
 
 @push('js')
-<script type="text/javascript" 
-src="{{ asset('js') }}/calendar.js"></script>
-<script src="{{ asset('js') }}/services/teacher-services.js" ></script>
+<script type="text/javascript" src="{{ asset('js') }}/calendar.js"></script>
+<script src="{{ asset('js') }}/services/teacher-services.js"></script>
 
 
-  <script>
-    $(document).ready(function() {
+<script>
+  $(document).ready(function() {
       var prof=@json($user->prof);
       var evals_plans_url="{{url("/evaluations/planning/prof")}}";
       fetchRows(`${evals_plans_url}/${prof.id}`).then(
@@ -573,5 +572,5 @@ src="{{ asset('js') }}/calendar.js"></script>
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
     });
-  </script>
+</script>
 @endpush

@@ -9,9 +9,9 @@ $hours=[
 ?>
 @section('content')
 @push('styles')
-    <link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="{{ asset('propeller')."/css/propeller.css" }}">
-    <link rel="stylesheet" href="{{ asset('propeller')."/css/propeller.min.css" }}"> --}}
+<link href="{{ asset('css')."/calendar.css" }}" rel="stylesheet">
+{{-- <link rel="stylesheet" href="{{ asset('propeller')."/css/propeller.css" }}">
+<link rel="stylesheet" href="{{ asset('propeller')."/css/propeller.min.css" }}"> --}}
 @endpush
 <div class="content">
   <div class="container-fluid">
@@ -23,20 +23,22 @@ $hours=[
         <form id="change_eleve_form" method="GET" class="form-row">
           <div class="form-group col-md-8">
             <label for="exampleFormControlSelect1">Spécifiez la classe à gérer</label>
-          <select class="form-control" value="{{property_exists($currentClasse->classe,"Id")?$currentClasse->classe->id: ""}}" data-style="btn btn-link" id="exampleFormControlSelect1">
+            <select class="form-control"
+              value="{{property_exists($currentClasse->classe,"Id")?$currentClasse->classe->id: ""}}"
+              data-style="btn btn-link" id="exampleFormControlSelect1">
               @foreach ($user->classes as $classe)
-            <option  value="{{__($classe->classe->id)}}">
-              <a href="{{route('prof.enseignement')}}/{{$classe->classe->id}}">{{$classe->classe->Des}}
-              </a>
-            </option>
+              <option value="{{__($classe->classe->id)}}">
+                <a href="{{route('prof.enseignement')}}/{{$classe->classe->id}}">{{$classe->classe->Des}}
+                </a>
+              </option>
               @endforeach
-              
-              
+
+
             </select>
 
           </div>
           <div class="col-md-4 d-flex align-items-center">
-            <button type="submit" class="btn btn-primary" >Consulter</button>
+            <button type="submit" class="btn btn-primary">Consulter</button>
 
           </div>
 
@@ -51,117 +53,110 @@ $hours=[
             <div>
               <table class="table">
                 <thead>
-                    <tr>
-                        <th class="text-center">#</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Age</th>
-                        <th class="text-center">Remarques</th>
-                        <th class="text-center">Actions</th>
-                    </tr>
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Age</th>
+                    <th class="text-center">Remarques</th>
+                    <th class="text-center">Actions</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    @if(!reset($currentClasse->eleves))
-                    <tr>
-                      <td colspan="8">
-                        <h4 class="text-secondary text-center"> Aucun élève n'est inscrit dans cette classe</h4>
-                      </td>
-                    </tr>
+                  @if(!reset($currentClasse->eleves))
+                  <tr>
+                    <td colspan="8">
+                      <h4 class="text-secondary text-center"> Aucun élève n'est inscrit dans cette classe</h4>
+                    </td>
+                  </tr>
 
-                    @else
-                      @foreach ($currentClasse->eleves as $eleve)
-                      <tr>
-                          <td class="text-center">{{$eleve->Code}}</td>
-                          <td>{{$eleve->Nom}}</td>
-                          <td>{{$eleve->Prenom}}</td>
-                          <td>{{$eleve->Age}}</td>
-                          <td class="text-center">
-                            @if(array_key_exists($eleve->id,$user->observations_per_eleve))
-                          <span class="badge badge-warning">{{$user->observations_per_eleve[$eleve->id]}} </span> évènnements non validés
-                            @endif
+                  @else
+                  @foreach ($currentClasse->eleves as $eleve)
+                  <tr>
+                    <td class="text-center">{{$eleve->Code}}</td>
+                    <td>{{$eleve->Nom}}</td>
+                    <td>{{$eleve->Prenom}}</td>
+                    <td>{{$eleve->Age}}</td>
+                    <td class="text-center">
+                      @if(array_key_exists($eleve->id,$user->observations_per_eleve))
+                      <span class="badge badge-warning">{{$user->observations_per_eleve[$eleve->id]}} </span>
+                      évènnements non validés
+                      @endif
 
-                            
-                          </td>
-                          <td class="td-actions text-center">
-                            <a href="{{route("viewEleve",$eleve->id)}}">
-                              <button type="button" rel="tooltip"
-                              data-toggle="tooltip" 
-                              data-placement="top" 
-                              title="Consulter"  
-                              class="btn btn-round btn-info"
-                              >
-                                  <i class="material-icons">person</i>
-                              </button>
-                            </a>
-                            <a href="{{route("prof.correspondance",$eleve->id)}}">
-                              <button type="button" rel="tooltip"
-                              data-toggle="tooltip" 
-                              data-placement="top" 
-                              title="Ecrire dans son cahier de correpondance"  
-                              class="btn btn-round btn-primary"
-                              {{-- onclick="alert({{$eleve->id}})" --}}
-                              >
-                              <i class="material-icons">menu_book</i>
 
-                              </button>
-                            </a>
-                             
-                          </td>
-                      </tr>
-                          
-                      @endforeach
-                    @endif
-                    
+                    </td>
+                    <td class="td-actions text-center">
+                      <a href="{{route("viewEleve",$eleve->id)}}">
+                        <button type="button" rel="tooltip" data-toggle="tooltip" data-placement="top" title="Consulter"
+                          class="btn btn-round btn-info">
+                          <i class="material-icons">person</i>
+                        </button>
+                      </a>
+                      <a href="{{route("prof.correspondance",$eleve->id)}}">
+                        <button type="button" rel="tooltip" data-toggle="tooltip" data-placement="top"
+                          title="Ecrire dans son cahier de correpondance" class="btn btn-round btn-primary"
+                          {{-- onclick="alert({{$eleve->id}})" --}}>
+                          <i class="material-icons">menu_book</i>
+
+                        </button>
+                      </a>
+
+                    </td>
+                  </tr>
+
+                  @endforeach
+                  @endif
+
                 </tbody>
-            </table>
+              </table>
             </div>
-            
+
           </div>
         </div>
-        
+
       </div>
     </div>
     <div class="row">
-      
+
       <div class="col-sm-8">
         <div class="d-flex flex-row justify-content-center">
           @if(session('flag'))
-                  @if(session('flag')=='fail')
-                  <div class="col-md-4">
-                    <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
-                      <i class="material-icons" data-notify="icon">error</i>
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="material-icons">close</i>
-                      </button>
-                    <span>{{session('message')}}</span>
-                    </div>
-                  </div>
-                  @else
-                  @if(session('flag')=='success')
-                  <div class="col-md-4">
-                    <div class="alert alert-success alert-with-icon w-60" data-notify="container">
-                      <i class="material-icons" data-notify="icon">check_circle</i>
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="material-icons">close</i>
-                      </button>
-                    <span>{{session('message')}}</span>
-                    </div>
-                  </div>
-                  @endif
-  
-                  @endif
-                    
-                @endif
+          @if(session('flag')=='fail')
+          <div class="col-md-10">
+            <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
+              <i class="material-icons" data-notify="icon">error</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span>{{session('message')}}</span>
+            </div>
+          </div>
+          @else
+          @if(session('flag')=='success')
+          <div class="col-md-10">
+            <div class="alert alert-success alert-with-icon w-60" data-notify="container">
+              <i class="material-icons" data-notify="icon">check_circle</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span>{{session('message')}}</span>
+            </div>
+          </div>
+          @endif
+
+          @endif
+
+          @endif
         </div>
         <h4>Planifier une épreuve</h4>
         <div class="card">
           <div class="card-body">
-            
+
             <form method="POST" action="{{url("evaluations/planning/add")}}" id="addObservation-form">
               @csrf
-  
-              <input type="hidden" value="{{$user->prof->id}}" name="profId"/>
-              <input type="hidden" value="{{$currentClasse->classe->id}}" name="classeId"/>
+
+              <input type="hidden" value="{{$user->prof->id}}" name="profId" />
+              <input type="hidden" value="{{$currentClasse->classe->id}}" name="classeId" />
               <div class="form-row my-3">
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="matiere-input">Matiere</label>
@@ -172,27 +167,29 @@ $hours=[
                     <option value="Convocation">FR</option> --}}
                   </select>
                   @if ($errors->has('matiere'))
-                    <div id="matiere-error" class="error text-danger pl-3" for="matiere" style="display: block;">
-                      <strong>{{ $errors->first('matiere') }}</strong>
-                    </div>
+                  <div id="matiere-error" class="error text-danger pl-3" for="matiere" style="display: block;">
+                    <strong>{{ $errors->first('matiere') }}</strong>
+                  </div>
                   @endif
                 </div>
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="titre-input">Titre</label>
-                  <input type="text" class="form-control" name="titre" id="titre-input" placeholder="Titre de la communication ...">
+                  <input type="text" class="form-control" name="titre" id="titre-input"
+                    placeholder="Titre de la communication ...">
                   @if ($errors->has('titre'))
-                    <div id="titre-error" class="error text-danger pl-3" for="titre" style="display: block;">
-                      <strong>{{ $errors->first('titre') }}</strong>
-                    </div>
+                  <div id="titre-error" class="error text-danger pl-3" for="titre" style="display: block;">
+                    <strong>{{ $errors->first('titre') }}</strong>
+                  </div>
                   @endif
                 </div>
-  
-                
+
+
               </div>
-              
+
               <div class="form-group my-3">
                 <label for="contenu-input">Date</label>
-                <div class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                <div
+                  class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                   <input type="date" class="form-control" name="date" id="timepicker">
                 </div>
                 @if ($errors->has('corps'))
@@ -208,25 +205,25 @@ $hours=[
                     @foreach($hours as $hour)
                     <option value="{{$hour}}">{{$hour}}</option>
                     @endforeach
-                    
+
                   </select>
                   @if ($errors->has('heure'))
-                    <div id="heure-error" class="error text-danger pl-3" for="heure" style="display: block;">
-                      <strong>{{ $errors->first('heure') }}</strong>
-                    </div>
+                  <div id="heure-error" class="error text-danger pl-3" for="heure" style="display: block;">
+                    <strong>{{ $errors->first('heure') }}</strong>
+                  </div>
                   @endif
                 </div>
-                
-                
+
+
               </div>
-              
-              
+
+
               <button type="submit" class="btn btn-primary">Envoyer</button>
             </form>
           </div>
 
         </div>
-        
+
       </div>
       <div class="col-sm-4">
         <h4>Calendrier</h4>
@@ -237,9 +234,9 @@ $hours=[
           <span>Sam</span>
           @foreach ($days as $day)
           <span>{{substr($day,0,3)}}</span>
-              
+
           @endforeach
-          
+
         </div>
 
       </div>
@@ -261,12 +258,12 @@ $hours=[
 @endsection
 
 @push('js')
-<script src="{{ asset('js') }}/services/teacher-services.js" ></script>
-<script src="{{ asset('js') }}/calendar.js" ></script>
+<script src="{{ asset('js') }}/services/teacher-services.js"></script>
+<script src="{{ asset('js') }}/calendar.js"></script>
 
 
-  <script>
-    $(document).ready(function() {
+<script>
+  $(document).ready(function() {
       var prof=@json($user->prof);
       var classe=@json($currentClasse->classe);
       var evals_plans_url="{{url("/evaluations/planning/classe")}}";
@@ -327,5 +324,5 @@ $hours=[
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
     });
-  </script>
+</script>
 @endpush
