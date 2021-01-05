@@ -475,7 +475,7 @@ $hours=[
       
       var eleve=document.getElementById('eleveSelect').value,
       classe=document.getElementById('classeSelect').value
-      const destination=window.location=`${@json(route('enfants'))}/${eleve}/${classe}`;
+      const destination=`${@json(route('enfants'))}/${eleve}/${classe}`;
       // const destination=window.location="{{route('enfants',['eleveId'=>2,'classeId'=>1])}}/";
       // //  + encodeURIComponent(document.getElementById('eleveSelect').value);
     if(window.location.href===destination) return

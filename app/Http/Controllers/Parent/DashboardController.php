@@ -40,6 +40,7 @@ class DashboardController extends Controller
         if(!property_exists($this->user,"parent"))
             $this->fetchParentData();
         
+            
 
         $nbr_formations=DB::table('eleve_formation as EF')
         ->leftjoin('eleve as E','EF.Eleve','E.id')

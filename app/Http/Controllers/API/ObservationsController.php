@@ -54,7 +54,7 @@ class ObservationsController extends Controller
        
         Validator::make($request->all(), [
             'type' => ['required', 'string', 'max:20'],
-            'libelle' => ['required', 'string', 'max:30'],
+            'libelle' => ['required', 'string', 'max:50'],
             'corps' => ['required', 'string', 'max:300'],
             'eleveId' => ['required', 'integer'],
             'profId' => ['required', 'integer']
