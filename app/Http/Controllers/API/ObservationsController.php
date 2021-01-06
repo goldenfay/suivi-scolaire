@@ -73,7 +73,7 @@ class ObservationsController extends Controller
             );
             
         }
-        catch(Exception $e) {
+        catch(\Throwable $e) {
            
             return back()->with([
                 'flag'=>'fail',
@@ -99,10 +99,10 @@ class ObservationsController extends Controller
                     // Notify Parent via email and record it into DB
                 $parent->notify(new ParentNotification($notificationObj));
 
-            }catch(Exception $e){
+            }catch(\Throwable $e){
 
             }
-            
+           
             if($request->Type=="Convocation"){
     
                 try {
@@ -115,7 +115,7 @@ class ObservationsController extends Controller
                     ]); 
                     
                 }
-                catch(Exception $e) {
+                catch(\Throwable $e) {
                     // dd($e);
                     
                 
@@ -208,8 +208,7 @@ class ObservationsController extends Controller
                         // Notify Parent via email and record it into DB
                     $prof->notify(new ProfNotification($notificationObj));
 
-                }catch(Exception $e){
-                    dd($e);
+                }catch(\Throwable $e){
 
                 }
             }

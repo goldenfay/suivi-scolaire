@@ -40,7 +40,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
         $this->middleware('guest:prof');
-        $this->middleware('guest:parent');
+        $this->middleware('guest:admin');
     }
 
     /**
@@ -72,8 +72,8 @@ class RegisterController extends Controller
             'Nom' => $data['nom'],
             'Prenom' => $data['prenom'],
             'NumTel' => $data['numTel'],
-            'Email' => $data['email'],
-            'Password' => Hash::make($data['password']),
+            'Email' => $data['Email'],
+            'password' => Hash::make($data['password']),
         ]);
     }
 }

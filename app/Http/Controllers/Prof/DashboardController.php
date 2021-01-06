@@ -126,6 +126,7 @@ class DashboardController extends Controller
             $this->user->observations_per_eleve= DB::table('eleve')
             ->leftjoin('observation','eleve.id','observation.Eleve')
             ->where('observation.Professeur',$this->user->prof->id)
+            ->where('observation.Etat','!=','VAL')
             ->selectRaw('eleve.id as eleveId, count(observation.id)as Count')
             // ->selectRaw('eleve.id, count(*) as Count')
             ->groupBy('eleve.id')

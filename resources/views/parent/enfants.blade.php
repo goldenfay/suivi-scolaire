@@ -18,6 +18,18 @@ $hours=[
   "13:30-14:30","14:30-15:30","15:30-16:30"
 ];
 
+function badge_class($etat){
+
+switch($etat){
+  case "NV": return "badge-danger";
+  case "V": return "badge-dark";
+  case "ATV": return "badge-warning";
+  case "VAL": return "badge-success";
+  default: return "";
+
+}
+}
+
 ?>
 @section('content')
 @push('styles')
@@ -96,7 +108,7 @@ $hours=[
               </tr>
               @endif
               @foreach ($observations as $idx => $observation)
-              @if(strcasecmp($observation->Type,"Information"))
+              {{-- @if(strcasecmp($observation->Type,"Information")) --}}
               <tr>
                 <td class="text-center">{{$idx+1}}</td>
                 <td>{{$observation->Date}}</td>
@@ -104,7 +116,7 @@ $hours=[
                 <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
                 <td>{{$observation->Libelle}}</td>
                 <td>{{$observation->Corps}}</td>
-                <td>{{
+                <td class="d-flex justify-content-center badge badge-pill {{badge_class($observation->Etat)}}">{{
                 ($observation->Etat=="NV"? "Non consultée":
                 ($observation->Etat=="V"? "Consultée":
                 ($observation->Etat=="ATV"? "En attente de validation":
@@ -130,7 +142,7 @@ $hours=[
                 @endif
 
               </tr>
-              @endif
+              {{-- @endif --}}
               @endforeach
 
             </tbody>

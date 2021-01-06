@@ -17,9 +17,8 @@
     @stack('styles')
     </head>
     <body class="{{ $class ?? '' }}">
-        @if(Auth::check() || Auth::guard('prof')->check())
-            {{-- {{dd(Auth::user())}} --}}
-            {{-- @if(Auth::guard('web')->check()) --}}
+        @if(Auth::check() || Auth::guard('prof')->check() || Auth::guard('admin')->check())
+           
             
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
@@ -30,12 +29,6 @@
             @include('layouts.page_templates.guest')
         @endif
         
-        {{-- @guest()
-            @include('layouts.page_templates.guest')
-        @endguest
-        @guest('prof')
-            @include('layouts.page_templates.guest')
-        @endguest --}}
         
         <!--   Core JS Files   -->
         <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>

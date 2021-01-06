@@ -27,6 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'showProfLoginForm'])->name('loginProf');
 Route::post('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'loginProf']);
+Route::get('/login/private/admin', [App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name('loginAdmin');
+Route::post('/login/admin', [App\Http\Controllers\Auth\LoginController::class, 'loginAdmin']);
 
         //////////////////////////////////////////////////////////////////////////////
         // Views routes
@@ -48,6 +50,12 @@ Route::prefix('/prof')->name('prof.')->group(function(){
     Route::get('/compte', 'App\Http\Controllers\Prof\AccountController@showEditProfileForms')->name('compte');
     Route::put('/compte/info', 'App\Http\Controllers\Prof\AccountController@updateInfos')->name('compte.updateInfo');
     Route::put('/compte/password', 'App\Http\Controllers\Prof\AccountController@updatePassword')->name('compte.updatePassword');
+});
+
+Route::prefix('/admin')->name('admin.')->group(function(){
+	
+    Route::get('/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('dashboard');
+  
 });
 
         //////////////////////////////////////////////////////////////////////////////

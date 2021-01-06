@@ -14,6 +14,8 @@
   <div class="sidebar-wrapper mt-5">
     @if(Auth::guard('prof')->check())
       @include('layouts.navbars.sidebars.prof-sidebar')
+    @elseif(Auth::guard('admin')->check())
+      @include('layouts.navbars.sidebars.admin-sidebar')
     @elseif(Auth::check())
       @include('layouts.navbars.sidebars.parent-sidebar')
     @endif

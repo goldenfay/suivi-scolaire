@@ -6,6 +6,18 @@ $hours=[
   "08:00-09:00","09:00-10:00","10:00-11:00","11:00-12:00",
   "13:30-14:30","14:30-15:30","15:30-16:30"
 ];
+function badge_class($etat){
+
+  switch($etat){
+    case "NV": return "badge-danger";
+    case "V": return "badge-warning";
+    case "ATV": return "badge-default";
+    case "VAL": return "badge-success";
+    default: return "";
+
+  }
+}
+
 ?>
 @section('content')
 @push('styles')

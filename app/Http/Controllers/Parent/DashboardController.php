@@ -90,6 +90,7 @@ class DashboardController extends Controller
             $this->fetchParentData();
         // $eleveId=(int)($eleveId)."";
         // $classeId=(int)($classeId);
+        // dd($this->user);
         $eleve=null;
         if($eleveId==null)
             $eleve=reset($this->user->children);

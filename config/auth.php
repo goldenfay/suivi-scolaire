@@ -46,10 +46,10 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        // 'parent' => [
-        //     'driver' => 'session',
-        //     'provider' => 'parents',
-        // ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
         'prof' => [
             'driver' => 'session',
             'provider' => 'profs',
@@ -78,10 +78,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\ParentEleve::class,
         ],
-        // 'parents' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\ParentEleve::class,
-        // ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
         'profs' => [
             'driver' => 'eloquent',
             'model' => App\Models\Prof::class,
@@ -122,12 +122,12 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        // 'parents' => [
-        //     'provider' => 'parents',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        //     'throttle' => 60,
-        // ],
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
         'profs' => [
             'provider' => 'profs',
             'table' => 'password_resets',
