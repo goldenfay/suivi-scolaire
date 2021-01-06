@@ -81,7 +81,6 @@ class RegisterController extends Controller
 
 
         }catch(\Throwable $e){
-            dd($e);
 
         }
 

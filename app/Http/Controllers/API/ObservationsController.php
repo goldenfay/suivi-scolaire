@@ -100,7 +100,6 @@ class ObservationsController extends Controller
                 $parent->notify(new ParentNotification($notificationObj));
 
             }catch(\Throwable $e){
-                dd($e);
 
             }
            
@@ -117,7 +116,6 @@ class ObservationsController extends Controller
                     
                 }
                 catch(\Throwable $e) {
-                    dd($e);
                     
                 
                 }
@@ -210,7 +208,6 @@ class ObservationsController extends Controller
                     $prof->notify(new ProfNotification($notificationObj));
 
                 }catch(\Throwable $e){
-                    dd($e);
 
                 }
             }

@@ -106,7 +106,6 @@ class MyReport extends \koolreport\KoolReport
                     "count"=> "EleveId"
                 )))
                 ->pipe($this->dataStore('nbr_eleves_classe'));
-                dd($this->dataStore('nbr_eleves_formation'));
         }catch(\Throwable $th){
            
         }
