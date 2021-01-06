@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\Models\ParentEleve;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Models\ParentEleve;
+use App\Mail\WelcomeMailer;
 
 class RegisterController extends Controller
 {
@@ -68,6 +70,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        $obj=new \stdClass();
+        $obj->destinataire=$data["nom"]."  ".$data["prenom"];        
+        $obj->subject="Inscription réussie";        
+        try{
+            Mail::to($data['Email'])
+            ->send(new WelcomeMailer($obj));
+
+
+
+        }catch(\Throwable $e){
+            dd($e);
+
+        }
+
+
         return ParentEleve::create([
             'Nom' => $data['nom'],
             'Prenom' => $data['prenom'],

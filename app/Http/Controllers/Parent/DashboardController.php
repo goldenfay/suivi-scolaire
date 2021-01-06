@@ -96,11 +96,15 @@ class DashboardController extends Controller
             $eleve=reset($this->user->children);
         else $eleve=$this->user->children[$eleveId.""];
         
+        if($eleve==null)
+            return abort(404);
         $classe=null;
         if($classeId==null)
             $classe=$this->user->children[$eleve->eleve->id.""]->classes->first();
         else $classe=$this->user->children[$eleve->eleve->id.""]->classes->where('id',$classeId)->first();
         
+        if($classe==null)
+            return abort(404);
             // Fetch for his classes schedules
         $schedule=DB::table('emplois_temps')
         ->where('Classe',$classe->id)

@@ -83,13 +83,13 @@ class ObservationsController extends Controller
 
 
         $parent_eleve=DB::table('eleve_parent')
-        ->where('Eleve',$request['eleveId'])
+        ->where('Eleve',(int)$request->eleveId)
+        ->get()
         ;
         
         if($parent_eleve!=null){
-            $parent=ParentEleve::find($parent_eleve->first()->Parent)->first();
+            $parent=ParentEleve::find((int)$parent_eleve->first()->Parent);
             $eleve=DB::table('eleve')->find((int)$request['eleveId']);
-            
             $notificationObj=new \stdClass();
             $notificationObj->observationId=$newId;
             $notificationObj->title=$request['type'];
@@ -100,6 +100,7 @@ class ObservationsController extends Controller
                 $parent->notify(new ParentNotification($notificationObj));
 
             }catch(\Throwable $e){
+                dd($e);
 
             }
            
@@ -116,7 +117,7 @@ class ObservationsController extends Controller
                     
                 }
                 catch(\Throwable $e) {
-                    // dd($e);
+                    dd($e);
                     
                 
                 }
@@ -194,9 +195,9 @@ class ObservationsController extends Controller
             );
                 // If it's a convocation, push notification to prof
             if($obs_eleve_check->first()->Type=="Convocation" && $request->Etat=="VAL"){
-                $prof=Prof::find($obs_eleve_check->first()->Professeur)->first();
+                $prof=Prof::find($obs_eleve_check->first()->Professeur);
                 $parent=Auth::user();
-                $eleve=DB::table('eleve')->find((int)$request['eleveId'])->first();
+                $eleve=DB::table('eleve')->find((int)$request['eleveId'])->get()->first();
                 $civilite=$parent->Cvilite==null?"Mr/Mme":$parent->Cvilite;
                 
                 $notificationObj=new \stdClass();
@@ -209,6 +210,7 @@ class ObservationsController extends Controller
                     $prof->notify(new ProfNotification($notificationObj));
 
                 }catch(\Throwable $e){
+                    dd($e);
 
                 }
             }
