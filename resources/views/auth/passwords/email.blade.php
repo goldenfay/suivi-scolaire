@@ -9,7 +9,7 @@
 
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
-            <h4 class="card-title"><strong>{{ __('Forgot Password') }}</strong></h4>
+            <h4 class="card-title"><strong>{{ __('Mot de passe oublié') }}</strong></h4>
           </div>
           <div class="card-body">
             @if (session('status'))
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Send Password Reset Link') }}</button>
+            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Envoyer le lien de restauration') }}</button>
           </div>
         </div>
       </form>

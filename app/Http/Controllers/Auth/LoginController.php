@@ -81,6 +81,7 @@ class LoginController extends Controller
 
         if (Auth::guard('prof')->attempt(['Email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             
+            if(Auth::guard('prof')->user()->Etat!='V') return abort(404);
             return redirect()->intended(route('prof.dashboard'));
         }
         else
@@ -98,7 +99,7 @@ class LoginController extends Controller
 
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
             
-            return redirect()->intended(route('prof.dashboard'));
+            return redirect()->intended(route('admin.dashboard'));
         }
         else
         return back()->withInput($request->only('email', 'remember'))->withErrors(['credentials'=> 'Nom d\'utilisateur ou mot de passe invalide']);

@@ -46,10 +46,8 @@
         <div class="row mt-3">
             <div>
                 <p>Chèr(e) {{$details->destinataire}} ,</p>
-                <p class="mt-2">Merci d'avoir rejoindre l'application de suivi scolaire. Votre compte sera très
-                    prochainement activé.</p>
-                <p class="mt-1">L'application vous permet de suivre le progrès de vos enfants et d'être informés par les
-                    correspondances et les évènnements pédagogiques à tout moment.</p>
+                <p class="mt-2">Votre compte a été validé au niveau de l'administration.</p>
+                <p class="mt-1">Vous pouvez commencer à utiliser l'application pour suivre le progrès de vos enfants.</p>
 
             </div>
         </div>
@@ -79,9 +77,8 @@
         <div class="row mt-3">
             <div>
                 <p>Mr/Mme {{$details->destinataire}} ,</p>
-                <p class="mt-2">Merci d'avoir rejoindre l'équipe d'enseignants de l'application de suivi scolaire. Votre compte sera très
-                    prochainement activé.</p>
-                <p class="mt-1">L'application vous permet de communiquer facilement avec les parents de vos élèves via un cahier de correspondance numérique.</p>
+                <p class="mt-2">Votre compte a été validé au niveau de l'administration..</p>
+                <p class="mt-1">Vous pouvez maintenant exploiter l'application pour y mettre de contenu.</p>
 
             </div>
         </div>

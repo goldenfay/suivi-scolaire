@@ -6,24 +6,24 @@
       <div class="col-lg-7 col-md-8">
           <div class="card card-login card-hidden mb-3">
             <div class="card-header card-header-primary text-center">
-              <p class="card-title"><strong>{{ __('Verify Your Email Address') }}</strong></p>
+              <p class="card-title"><strong>{{ __('Vérifiez votre adresse e-mail') }}</strong></p>
             </div>
             <div class="card-body">
               <p class="card-description text-center"></p>
               <p>
                 @if (session('resent'))
                     <div class="alert alert-success" role="alert">
-                        {{ __('A fresh verification link has been sent to your email address.') }}
+                        {{ __('Un nouveau lien de vérification est envoyé à votre adresse e-mail.') }}
                     </div>
                 @endif
                 
-                {{ __('Before proceeding, please check your email for a verification link.') }}
+                {{ __('Veuillez consulter votre adresse e-mail avant de commencer') }}
                 
                 @if (Route::has('verification.resend'))
-                    {{ __('If you did not receive the email') }},  
+                    {{ __('Si vous n\'avez pas reçu un email') }},  
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('Cliquez ici pour envoyer à nouveau') }}</button>.
                     </form>
                 @endif
               </p>

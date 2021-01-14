@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class ParentEleve extends Authenticatable
 {
@@ -27,6 +28,7 @@ class ParentEleve extends Authenticatable
         'Adresse',
         'Age',
         'NumTel',
+        'Etat',
         'password',
     ];
 
@@ -43,6 +45,21 @@ class ParentEleve extends Authenticatable
 
     public function routeNotificationForMail(){
         return $this->Email;
+    }
+
+    public function enfants(){
+
+        return DB::table('eleve_parent')
+        ->leftjoin('eleve as E','Eleve','E.id')
+        ->where('Parent',$this->id)
+        ->get();
+
+    }
+    public function civilite(){
+
+        return DB::table('civilite')
+        ->where('id',$this->Civilite)
+        ->first();
     }
 
    

@@ -18,12 +18,12 @@
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'register' ? ' active' : '' }}">
-          <a href="{{ url('register') }}" class="nav-link">
+          <a href="{{ isset($url)?route('registerProf'): url('register') }}" class="nav-link">
             <i class="material-icons">person_add</i> {{ __('Register') }}
           </a>
         </li>
         <li class="nav-item{{ $activePage == 'login' ? ' active' : '' }}">
-          <a href="{{ url('login') }}" class="nav-link">
+          <a href="{{ isset($url)?route('loginProf'):url('login') }}" class="nav-link">
             <i class="material-icons">fingerprint</i> {{ __('Login') }}
           </a>
         </li>

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Support\Facades\DB;
 class Prof extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -28,6 +28,7 @@ class Prof extends Authenticatable
         'Adresse',
         'Age',
         'Diplome',
+        'Etat',
         'password',
     ];
 
@@ -52,5 +53,22 @@ class Prof extends Authenticatable
 
     public function routeNotificationForMail(){
         return $this->Email;
+    }
+
+    public function civilite(){
+
+        return DB::table('civilite')
+        ->where('id',$this->Civilite)
+        ->first();
+    }
+
+    public function classes(){
+
+        return DB::table('professeur_classe')
+        ->where('Professeur',$this->id)
+        ->leftjoin('classe as c','Classe','c.id')
+        ->select('c.*')
+        ->get()
+        ->unique();
     }
 }

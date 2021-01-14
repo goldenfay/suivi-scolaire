@@ -1,14 +1,55 @@
 @extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'register', 'title' => __('Material Dashboard')])
 
 @section('content')
+@push('styles')
+<style>
+body{
+  background-image: url('{{ asset('material') }}/img/classe.jpg'); 
+  background-size: cover; 
+  background-position: top center;
+  align-items: center;
+}
+</style>
+@endpush
 <div class="container" style="height: auto;">
   <div class="row align-items-center">
+    <div class="col-sm-12">
+      <div class="d-flex flex-row justify-content-center">
+        @if(session('flag'))
+              @if(session('flag')=='fail')
+              <div class="col-md-4">
+                <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
+                  <i class="material-icons" data-notify="icon">error</i>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span>Une erreur s'est produite. Impossible de transmettre votre demande.</span>
+                </div>
+              </div>
+              @else
+              @if(session('flag')=='success')
+              <div class="col-md-4">
+                <div class="alert alert-success alert-with-icon w-60" data-notify="container">
+                  <i class="material-icons" data-notify="icon">check_circle</i>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span>Inscription réussie! Votre demande est en cours de validation. Vous receverez un email de validation dès son approuvement.</span>
+                </div>
+              </div>
+              @endif
+
+              @endif
+
+              @endif
+        
+      </div>
+      
+    </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
-      @isset($url)
-      <form method="POST" action='{{ url("register/$url") }}' aria-label="{{ __('Register') }}">
-      @else
-      <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
-      @endisset
+      
+      <form method="POST" action="{{ route('registerProf') }}" aria-label="{{ __('Register') }}">
+     
       {{-- <form class="form" method="POST" action="{{ route('register') }}"> --}}
         @csrf
 
@@ -45,7 +86,7 @@
             <div class="bmd-form-group{{ $errors->has('Email') ? ' has-danger' : '' }} mt-3">
               <div class="input-group">
                 
-                <input type="email" name="Email" class="form-control" placeholder="{{ __('Email...') }}" value="{{ old('email') }}" required>
+                <input type="email" name="Email" class="form-control" placeholder="{{ __('Email...') }}" value="{{ old('Email') }}" required>
               </div>
               @if ($errors->has('Email'))
               <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">
@@ -75,7 +116,7 @@
                 </div>
               @endif
             </div>
-            <div class="bmd-form-group{{ $errors->has('numTel') ? ' has-danger' : '' }}">
+            {{-- <div class="bmd-form-group{{ $errors->has('numTel') ? ' has-danger' : '' }}">
               <div class="input-group">
                 
                 <input type="tel" name="numTel" class="form-control" placeholder="{{ __('Numéro de téléphone...') }}" value="{{ old('numTel') }}" required>
@@ -85,7 +126,7 @@
                   <strong>{{ $errors->first('numTel') }}</strong>
                 </div>
               @endif
-            </div>
+            </div> --}}
             <div class="bmd-form-group{{ $errors->has('password') ? ' has-danger' : '' }} mt-3">
               <div class="input-group">
                 

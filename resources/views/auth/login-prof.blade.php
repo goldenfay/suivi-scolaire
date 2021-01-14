@@ -6,7 +6,7 @@
     <div class="col-md-9 ml-auto mr-auto mb-3 text-center">
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
-      <form method="POST" action='{{ url("login/prof") }}' aria-label="{{ __('Login') }}">
+      <form method="POST" action='{{ route("loginProf") }}' aria-label="{{ __('Login') }}">
         @csrf
 
         <div class="card card-login card-hidden mb-3">
@@ -68,15 +68,11 @@
       </form>
       <div class="row">
         <div class="col-6">
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="text-light">
-                    <small>{{ __('Mot de passe oublié ?') }}</small>
-                </a>
-            @endif
+          
         </div>
         <div class="col-6 text-right">
          
-          <a href="{{ url('register/prof') }}" class="text-light">
+          <a href="{{ route('registerProf') }}" class="text-light">
             <small>{{ __('S\'enregistrer') }}</small>
           </a>
         

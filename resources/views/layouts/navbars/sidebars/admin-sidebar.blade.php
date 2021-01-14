@@ -1,30 +1,41 @@
 
 <ul class="nav">
   <li class="nav-item{{ $activePage == 'dashboard' ? ' active' : '' }}">
-    <a class="nav-link" href="{{ route('prof.dashboard') }}">
+    <a class="nav-link" href="{{ route('admin.dashboard') }}">
       <i class="material-icons">dashboard</i>
         <p>{{ __('Tableau De Bord') }}</p>
     </a>
   </li>
   
-  <li class="nav-item{{ $activePage == 'enseignement' ? ' active' : '' }}">
-    <a class="nav-link" href="{{ route('prof.enseignement') }}">
-      <i class="material-icons">business_center</i>
-        <p>{{ __('Enseignement') }}</p>
+  <li class="nav-item{{ $activePage == 'classes' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.classes') }}">
+      <i class="material-icons">home_work</i>
+      {{-- <i class="fa fa-school"></i> --}}
+        <p>{{ __('Classes') }}</p>
+    </a>
+  </li>
+  <li class="nav-item{{ $activePage == 'enseignants' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.enseignants') }}">
+      <i class="material-icons">school</i>
+      {{-- <i class="fas fa-school"></i> --}}
+        <p>{{ __('Enseignants') }}</p>
+    </a>
+  </li>
+  <li class="nav-item{{ $activePage == 'parents' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.parents') }}">
+      <i class="material-icons">escalator_warning</i>
+      {{-- <i class="fas fa-school"></i> --}}
+        <p>{{ __('Parents') }}</p>
+    </a>
+  </li>
+  <li class="nav-item{{ $activePage == 'eleves' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.eleves') }}">
+      <i class="material-icons">people</i>
+      {{-- <i class="fas fa-school"></i> --}}
+        <p>{{ __('Elèves') }}</p>
     </a>
   </li>
   
-  {{-- <li class="nav-item{{ $activePage == 'reports' ? ' active' : '' }}">
-    <a class="nav-link" href="{{ route('reports') }}">
-      <i class="material-icons">leaderboard</i>
-      <p>{{ __('Rapports') }}</p>
-    </a>
-  </li> --}}
-  <li class="nav-item{{ $activePage == 'compte' ? ' active' : '' }}">
-    <a class="nav-link" href="{{ route('prof.compte') }}">
-      <i class="material-icons">person</i>
-      <p>{{ __('Compte') }}</p>
-    </a>
-  </li>
+  
   
 </ul>

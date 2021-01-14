@@ -118,7 +118,7 @@
            
           </div>
           <div class="card-footer justify-content-center">
-            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Create account') }}</button>
+            <button type="submit" class="btn btn-primary btn-link btn-lg">{{ __('Créer un compte') }}</button>
           </div>
         </div>
       </form>

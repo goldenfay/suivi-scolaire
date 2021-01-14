@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ParentEleve;
+use App\Models\Prof;
 use App\Mail\WelcomeMailer;
 
 class RegisterController extends Controller
@@ -72,6 +74,7 @@ class RegisterController extends Controller
     {
 
         $obj=new \stdClass();
+        $obj->user="parent";        
         $obj->destinataire=$data["nom"]."  ".$data["prenom"];        
         $obj->subject="Inscription réussie";        
         try{
@@ -92,5 +95,78 @@ class RegisterController extends Controller
             'Email' => $data['Email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+
+    /**
+     * Show prof registration form.
+     *
+     */
+    protected function showProfRegisterForm (){
+
+        return view('auth.register-prof', ['url'=>'prof']);
+
+    }
+
+    /**
+     * Create a new prof.
+     *
+     * @param  request  $data
+     */
+    protected function registerProf(Request $request)
+    {
+        Validator::make($request->all(), [
+            'nom' => ['required', 'string', 'max:50'],
+            'prenom' => ['required', 'string', 'max:50'],
+            'age' => ['required', 'integer',],
+            'adresse' => ['required', 'string', 'max:100'],
+            'Email' => ['required', 'string', 'email', 'max:255', 'unique:professeur'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
+        ])->validate();
+
+
+        $data=$request->all();
+        try{
+
+            Prof::create([
+                'Nom' => $data['nom'],
+                'Prenom' => $data['prenom'],
+                'Adresse' => $data['adresse'],
+                'Age' => $data['age'],
+                'Email' => $data['Email'],
+                'password' => Hash::make($data['password']),
+            ])->save();
+
+
+        }catch(\Throwable $e){
+            return back()->withInput($request->input())
+            ->with(
+                [
+                    'flag'=>'fail',
+                    
+                ]
+                );
+
+        }
+
+       
+        $obj=new \stdClass();
+        $obj->user="prof";        
+        $obj->destinataire=$data["nom"]."  ".$data["prenom"];        
+        $obj->subject="Inscription réussie";        
+        try{
+            Mail::to($data['Email'])
+            ->send(new WelcomeMailer($obj));
+        }catch(\Throwable $e){
+
+        }
+        return back()
+            ->with(
+                [
+                    'flag'=>'success',
+                ]
+                );
+
+       
     }
 }

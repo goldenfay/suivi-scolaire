@@ -22,6 +22,7 @@ class DashboardController extends Controller
     {   
         $this->middleware('auth:prof');
         $this->user=new \stdClass();
+        
         // $this->user->prof= Auth::guard('prof')->user();
         // $this->user->prof= Prof::find(1)->get()->first();
         // $this->fetchProfData();
@@ -34,7 +35,13 @@ class DashboardController extends Controller
      * @return \Illuminate\View\View
      */
     public function index()
-    {   if(!property_exists($this->user,"prof"))
+    {   
+        
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+        
+        
+        if(!property_exists($this->user,"prof"))
             $this->fetchProfData();
         $report = new MyReport($this->user->prof->id);
         $report->run();
@@ -53,6 +60,10 @@ class DashboardController extends Controller
      */
     public function teaching($classeId=null)
     {   
+        
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+
         if(!property_exists($this->user,"prof"))
             $this->fetchProfData();
 
@@ -69,6 +80,9 @@ class DashboardController extends Controller
     }
 
     public function showAddObservationView($eleveId){
+        
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
 
         if(!property_exists($this->user,"prof"))
             $this->fetchProfData();
@@ -159,6 +173,15 @@ class DashboardController extends Controller
             ->get();
             $this->user->formations[$formation->id]->eleves=$eleves_of_formation;
         }
+    }
+
+
+    protected function check_validity_or_reject(){
+        if(Auth::guard('prof')->user()->Etat!=='V')
+        return  view('prof.not-active-account', [
+            'status'=>Auth::guard('prof')->user()->Etat
+        ]);
+        return 1;
     }
 
 }

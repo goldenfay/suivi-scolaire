@@ -27,6 +27,8 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'showProfLoginForm'])->name('loginProf');
 Route::post('/login/prof', [App\Http\Controllers\Auth\LoginController::class, 'loginProf']);
+Route::get('/register/prof', [App\Http\Controllers\Auth\RegisterController::class, 'showProfRegisterForm']);
+Route::post('/register/prof', [App\Http\Controllers\Auth\RegisterController::class, 'registerProf'])->name('registerProf');
 Route::get('/login/private/admin', [App\Http\Controllers\Auth\LoginController::class, 'showAdminLoginForm'])->name('loginAdmin');
 Route::post('/login/admin', [App\Http\Controllers\Auth\LoginController::class, 'loginAdmin']);
 
@@ -46,7 +48,6 @@ Route::prefix('/prof')->name('prof.')->group(function(){
     Route::get('/dashboard', 'App\Http\Controllers\Prof\DashboardController@index')->name('dashboard');
     Route::get('/enseignement/{classeId?}', 'App\Http\Controllers\Prof\DashboardController@teaching')->name('enseignement');
     Route::get('/correspondance/{eleveId}', 'App\Http\Controllers\Prof\DashboardController@showAddObservationView')->name('correspondance');
-    // Route::get('/reports', 'App\Http\Controllers\Prof\DashboardController@index')->name('reports');
     Route::get('/compte', 'App\Http\Controllers\Prof\AccountController@showEditProfileForms')->name('compte');
     Route::put('/compte/info', 'App\Http\Controllers\Prof\AccountController@updateInfos')->name('compte.updateInfo');
     Route::put('/compte/password', 'App\Http\Controllers\Prof\AccountController@updatePassword')->name('compte.updatePassword');
@@ -55,6 +56,10 @@ Route::prefix('/prof')->name('prof.')->group(function(){
 Route::prefix('/admin')->name('admin.')->group(function(){
 	
     Route::get('/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('dashboard');
+    Route::get('/classes', 'App\Http\Controllers\Admin\DashboardController@classes')->name('classes');
+    Route::get('/enseignants', 'App\Http\Controllers\Admin\DashboardController@enseignants')->name('enseignants');
+    Route::get('/parents', 'App\Http\Controllers\Admin\DashboardController@parents')->name('parents');
+    Route::get('/eleves', 'App\Http\Controllers\Admin\DashboardController@eleves')->name('eleves');
   
 });
 
@@ -62,7 +67,28 @@ Route::prefix('/admin')->name('admin.')->group(function(){
         // API routes
         //////////////////////////////////////////////////////////////////////////////
 
+Route::put('/confirmations/prof/{profId}', 'App\Http\Controllers\API\AccountsController@updateProfStatus');
+Route::put('/confirmations/parent/{parentId}', 'App\Http\Controllers\API\AccountsController@updateParentStatus');
+
+
+Route::post('/affectations/prof/classe', 'App\Http\Controllers\API\DBInitController@affectProfClasse')->name('affectProfClasse');
+Route::post('/affectations/prof/formation', 'App\Http\Controllers\API\DBInitController@affectProfFormation')->name('affectProfFormation');
+
+Route::post('/affectations/parent/children', 'App\Http\Controllers\API\DBInitController@affectParentChildren')->name('affectParentChildren');
+Route::post('/affectations/prof/formation', 'App\Http\Controllers\API\DBInitController@affectProfFormation')->name('affectProfFormation');
+
+Route::post('/affectations/eleve/formation', 'App\Http\Controllers\API\DBInitController@affectEleveFormation')->name('affectEleveFormation');
+Route::post('/affectations/eleve/classe', 'App\Http\Controllers\API\DBInitController@affectEleveClasse')->name('affectEleveClasse');
+
+Route::post('/affectations/classe/formation', 'App\Http\Controllers\API\DBInitController@affectClasseFormation')->name('affectClasseFormation');
+Route::post('/affectations/matiere/formation', 'App\Http\Controllers\API\DBInitController@affectMatiereFormation')->name('affectMatiereFormation');
+
+Route::post('/classes', 'App\Http\Controllers\API\ClassFormatController@addClasse')->name('registerClasse');
+Route::post('/formations', 'App\Http\Controllers\API\ClassFormatController@addFormation')->name('registerFormation');
+
 Route::get('/eleves/view/{eleveId}', 'App\Http\Controllers\API\ElevesController@getPublicInfos')->name('viewEleve');
+Route::post('/eleves', 'App\Http\Controllers\API\ElevesController@add')->name('registerEleve');
+Route::delete('/eleves/{eleveId}', 'App\Http\Controllers\API\ElevesController@delete')->name('deleteEleve');
 Route::get('/matieres', 'App\Http\Controllers\API\MatieresController@getAll');
 
 Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
@@ -76,6 +102,9 @@ Route::get('/evaluations/planning/prof/{profId}', 'App\Http\Controllers\API\Eval
 Route::get('/evaluations/planning/classe/{classeId}/{profId?}', 'App\Http\Controllers\API\EvaluationsController@getPlanOfClass');
 Route::post('/evaluations/planning/add', 'App\Http\Controllers\API\EvaluationsController@add');
 Route::put('/evaluations/planning/{id}', 'App\Http\Controllers\API\EvaluationsController@update');
+
+
+
 Route::prefix('/api')->name('api.')->group(function(){
     // Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
 
