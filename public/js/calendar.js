@@ -24,7 +24,7 @@ function displayEvents(DOMElementId, events=[]) {
                 new Date().getMonth(),
                 i
             ).getDay();
-            if (day === 5 || day === 6) {
+            if (day === 4 || day === 5) {
                 var dayCell = document.createElement("span");
                 dayCell.className = "jzdb";
                 calenderDiv.appendChild(dayCell);
