@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => __('Tableau de bord')])
+@extends('layouts.app', ['activePage' => 'enseignament', 'titlePage' => __('Correspondances & Observations')])
 
 <?php
 function badge_class($etat){

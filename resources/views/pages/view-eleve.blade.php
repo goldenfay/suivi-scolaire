@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'viewEleve', 'titlePage' => __('Consultation Du Dossier')])
+@extends('layouts.app', ['activePage' => 'Consulter', 'titlePage' => __('Consultation Du Dossier')])
 
 @section('content')
 <div class="content">

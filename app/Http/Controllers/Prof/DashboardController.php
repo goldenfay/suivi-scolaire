@@ -79,6 +79,29 @@ class DashboardController extends Controller
             ]);
     }
 
+    /**
+     * Show account view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function account()
+    {   
+            // If account is not validated, redirect to not-validated view
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+        
+        if(!property_exists($this->user,"prof"))
+            $this->fetchProfData();
+
+        return view('prof.account',
+        [
+            "user"=> $this->user->prof,
+        ]
+    );
+
+
+    }
+
     public function showAddObservationView($eleveId){
         
         $check=$this->check_validity_or_reject();

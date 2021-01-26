@@ -37,6 +37,10 @@ class DashboardController extends Controller
      */
     public function index()
     {  
+            // If account is not validated, redirect to not-validated view
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+        
         if(!property_exists($this->user,"parent"))
             $this->fetchParentData();
         
@@ -67,7 +71,6 @@ class DashboardController extends Controller
         ->where('Etat', '!=', 'VAL')
         
         ->count();
-        // dd($week_observations);  
 
         
         return view('parent.dashboard',[
@@ -79,13 +82,18 @@ class DashboardController extends Controller
             
             ]);
     }
+
     /**
-     * Show the following analysis view.
+     * Show the children-following analysis view.
      *
      * @return \Illuminate\View\View
      */
     public function enfants($eleveId=null,$classeId=null)
     {   
+        // If account is not validated, redirect to not-validated view
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+        
         if(!property_exists($this->user,"parent"))
             $this->fetchParentData();
         // $eleveId=(int)($eleveId)."";
@@ -221,6 +229,10 @@ class DashboardController extends Controller
      */
     public function account()
     {   
+            // If account is not validated, redirect to not-validated view
+        $check=$this->check_validity_or_reject();
+        if($check!==1) return $check;
+        
         if(!property_exists($this->user,"parent"))
             $this->fetchParentData();
 
@@ -232,6 +244,14 @@ class DashboardController extends Controller
     );
 
 
+    }
+
+    protected function check_validity_or_reject(){
+        if(Auth::guard('web')->user()->Etat!=='V')
+        return  view('prof.not-active-account', [
+            'status'=>Auth::guard('web')->user()->Etat
+        ]);
+        return 1;
     }
 
 }
