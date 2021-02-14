@@ -49,7 +49,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms);
                   <div class="form-group{{ $errors->has('sms-senderId') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('sms-senderId') ? ' is-invalid' : '' }}" name="sms-senderId"
                       id="input-sms-senderId" type="text" placeholder="{{ __('SenderId ') }}"
-                      value="{{ old('sms-senderId', $sms_settings->senderId) }}" required="true" aria-required="true" />
+                      value="{{ old('sms-senderId', $sms_settings->senderId??'') }}" required="true" aria-required="true" />
                     @if ($errors->has('sms-senderId'))
                     <span id="sms-senderId-error" class="error text-danger"
                       for="input-sms-senderId">{{ $errors->first('sms-senderId') }}</span>
@@ -63,7 +63,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms);
                   <div class="form-group{{ $errors->has('sms-host') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('sms-host') ? ' is-invalid' : '' }}" name="sms-host"
                       id="input-sms-host" type="text" placeholder="{{ __('Adress Hôte') }}"
-                      value="{{ old('sms-host', $sms_settings->host) }}" required="true" aria-required="true" />
+                      value="{{ old('sms-host', $sms_settings->host??'') }}" required="true" aria-required="true" />
                     @if ($errors->has('sms-host'))
                     <span id="sms-host-error" class="error text-danger"
                       for="input-sms-host">{{ $errors->first('sms-host') }}</span>
@@ -75,7 +75,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms);
                   <div class="form-group{{ $errors->has('sms-port') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('sms-port') ? ' is-invalid' : '' }}" name="sms-port"
                       id="sms-port" type="text" placeholder="{{ __('Port') }}"
-                      value="{{ old('sms-port', $sms_settings->port) }}" required="true" aria-required="true" />
+                      value="{{ old('sms-port', $sms_settings->port??'') }}" required="true" aria-required="true" />
                     @if ($errors->has('sms-port'))
                     <span id="sms-port-error" class="error text-danger"
                       for="sms-port">{{ $errors->first('sms-port') }}</span>
@@ -89,7 +89,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms);
                   <div class="form-group{{ $errors->has('sms-username') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('sms-username') ? ' is-invalid' : '' }}" name="sms-username"
                       id="input-sms-username" type="text" placeholder="{{ __('Nom d\'utilisateur du compte ') }}"
-                      value="{{ old('sms-username', $sms_settings->username) }}" required="true" aria-required="true" />
+                      value="{{ old('sms-username', $sms_settings->username??'') }}" required="true" aria-required="true" />
                     @if ($errors->has('sms-username'))
                     <span id="sms-username-error" class="error text-danger"
                       for="input-sms-username">{{ $errors->first('sms-username') }}</span>
@@ -101,7 +101,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms);
                   <div class="form-group{{ $errors->has('sms-password') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('sms-password') ? ' is-invalid' : '' }}" name="sms-password"
                       id="input-sms-password" type="password" placeholder="{{ __('Mot de passe') }}"
-                      value="{{ old('sms-password', $sms_settings->password) }}" required="true" aria-required="true" />
+                      value="{{ old('sms-password', $sms_settings->password??'') }}" required="true" aria-required="true" />
                     @if ($errors->has('sms-password'))
                     <span id="sms-password-error" class="error text-danger"
                       for="input-sms-password">{{ $errors->first('sms-password') }}</span>
