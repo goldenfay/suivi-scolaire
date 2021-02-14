@@ -13,6 +13,7 @@ use App\Models\Admin;
 use App\Models\Prof;
 use App\Models\ParentEleve;
 use App\Models\Eleve;
+use App\Models\Observation;
 
 class DashboardController extends Controller
 {
@@ -177,15 +178,41 @@ class DashboardController extends Controller
     
 
 
-    protected function fetchData(){
-
+    
+    /**
+     * Show app configuration page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function settings()
+    {  
         
-
-
+        $event_types=Observation::get(['Type'])->map(function ($row) {
+            return $row->Type;
+          })->unique();
+        $events_prefs=DB::table('parametres_notifications')
+        // ->get(['events_via_email','events_via_sms'])
+        ->first();
+        $sms_settings=DB::table('parametres_sms')
+        ->first();
+      
         
+        // dd($event_types);
+        
+        return view('admin.settings',[
+            "user"=> $this->user,
+            "types"=> $event_types,
+            "events_prefs"=> $events_prefs,
+            "sms_settings"=> $sms_settings,
+           
+            
+            
+            ]);
     }
-
-
+        
+        
+    protected function fetchData(){ 
+    }
 
 
 }

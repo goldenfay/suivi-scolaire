@@ -35,6 +35,13 @@
         <p>{{ __('Elèves') }}</p>
     </a>
   </li>
+  <li class="nav-item{{ $activePage == 'settings' ? ' active' : '' }}">
+    <a class="nav-link" href="{{ route('admin.settings') }}">
+      <i class="material-icons">settings</i>
+      {{-- <i class="fas fa-school"></i> --}}
+        <p>{{ __('Paramètres') }}</p>
+    </a>
+  </li>
   
   
   

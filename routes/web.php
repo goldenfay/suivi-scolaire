@@ -54,12 +54,15 @@ Route::prefix('/prof')->name('prof.')->group(function(){
 });
 
 Route::prefix('/admin')->name('admin.')->group(function(){
-	
+    
     Route::get('/dashboard', 'App\Http\Controllers\Admin\DashboardController@index')->name('dashboard');
     Route::get('/classes', 'App\Http\Controllers\Admin\DashboardController@classes')->name('classes');
     Route::get('/enseignants', 'App\Http\Controllers\Admin\DashboardController@enseignants')->name('enseignants');
     Route::get('/parents', 'App\Http\Controllers\Admin\DashboardController@parents')->name('parents');
     Route::get('/eleves', 'App\Http\Controllers\Admin\DashboardController@eleves')->name('eleves');
+    Route::get('/settings', 'App\Http\Controllers\Admin\DashboardController@settings')->name('settings');
+    Route::put('/compte/password', 'App\Http\Controllers\Admin\AccountController@updatePassword')->name('updatePassword');
+   
   
 });
 
@@ -103,6 +106,8 @@ Route::get('/evaluations/planning/classe/{classeId}/{profId?}', 'App\Http\Contro
 Route::post('/evaluations/planning/add', 'App\Http\Controllers\API\EvaluationsController@add');
 Route::put('/evaluations/planning/{id}', 'App\Http\Controllers\API\EvaluationsController@update');
 
+Route::put('/settings/smsinfos', 'App\Http\Controllers\API\SettingsController@updateSMSInfos')->name('settings.updateSMSInfos');
+Route::put('/settings/notifprefs', 'App\Http\Controllers\API\SettingsController@updateNotifPreferences')->name('settings.updateNotifPref');
 
 
 Route::prefix('/api')->name('api.')->group(function(){

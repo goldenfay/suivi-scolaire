@@ -12,6 +12,7 @@ use ParagonIE\HiddenString\HiddenString;
 
 use App\Notifications\ParentNotification;
 use App\Notifications\ProfNotification;
+use App\Mail\SMSSender;
 use App\Models\Observation;
 use App\Models\ParentEleve;
 use App\Models\Prof;
@@ -29,6 +30,7 @@ class ObservationsController extends Controller
     {   
         $this->basic  = new \Nexmo\Client\Credentials\Basic('86cbd5aa', 'nHYVTXX4vocqJaRV');
         $this->client = new \Nexmo\Client($this->basic);
+
 
 
        
@@ -102,17 +104,33 @@ class ObservationsController extends Controller
             }catch(\Throwable $e){
 
             }
-           
-            if($request->Type=="Convocation"){
-    
+
+            // Check if observation type require SMS notification
+            $sms_prefs=DB::table('parametres_notifications')
+            ->get(['events_via_sms'])
+            ->first()
+            ->events_via_sms;
+       
+            // RQ : explicitelly added a first element+',' to ensure that type exists in a position >0
+            if(in_array($request->Type,explode(',',",".$sms_prefs))){
                 try {
                         // Notify him via SMS also
+                        $sms_settings=DB::table('parametres_sms')
+                        ->first();
+                        $sender=new SMSSender(
+                            $sms_settings->host,$sms_settings->port,
+                            $sms_settings->username,$sms_settings->password,$sms_settings->senderId
+                        );
+                        $normalized_phone="+213".substr($parent->NumTel,1);
+                        $sms_body="Nouvelle communication(".$request->Type.") pour ".$eleve->Prenom.". Veuillez consulter votre compte pour voir les détails";
+                        $res=$sender->Submit($sms_body,$normalized_phone,"2");
+                        $flag=\explode('|',$res)[0];
+                        if($flag!="1701"){
+                            // Do something, like notify admin that SMS params are invalides
+    
+                        }
         
-                    $message = $this->client->message()->send([
-                        'to' => "+213555149081",
-                        'from' => 'Scolarité',
-                        'text' => 'Votre fils vient de recevoir une convocation.'
-                    ]); 
+                   
                     
                 }
                 catch(\Throwable $e) {
