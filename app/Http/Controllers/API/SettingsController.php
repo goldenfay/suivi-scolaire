@@ -82,7 +82,7 @@ class SettingsController extends Controller
                                 'sms-flag'=>'success',
                                 'sms-message'=>'Paramètres enregistrés avec succès.',
                                 'sms-test-flag'=>'fail',
-                                'sms-test-message'=>'Test de échoué réussi! un ou plusieurs paramètres ne sont pas valides. Code erreur ICOSNET: '.$flag
+                                'sms-test-message'=>'Test de messagerie échoué ! un ou plusieurs paramètres ne sont pas valides. Code erreur ICOSNET: '.$flag
                                 
                                 
                                 ]
@@ -99,14 +99,14 @@ class SettingsController extends Controller
                         ]
                         );
                 } catch (\Throwable $th) {
-                    // dd($th);
+                    dd($th);
                     return back()
                     ->with(
                         [
                             'sms-flag'=>'success',
                             'sms-message'=>'Paramètres enregistrés avec succès.',
                             'sms-test-flag'=>'fail',
-                            'sms-test-message'=>'Test de échoué réussi! Vérifiez bien vos paramètres ou contactez le fournisseur de service.'
+                            'sms-test-message'=>'Test de messagerie échoué! Vérifiez bien vos paramètres ou contactez le fournisseur de service.'
                             
                             
                             ]
