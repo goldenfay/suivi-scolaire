@@ -66,10 +66,16 @@ class DashboardController extends Controller
         ->select('P.*')
         ->get()
         ->unique();
+        $upcomming_events=DB::table('planning_events as P')
+        ->whereRaw('Date >= DATE(NOW())')
+        ->join('eleve_classe as EC','P.Classe','EC.Classe')
+        ->whereIn('EC.Eleve',array_values($this->user->childrenIds))
+        ->select('P.*')
+        ->get()
+        ->unique();
         $pending_observations=DB::table('observation')
         ->whereIn('Eleve',array_values($this->user->childrenIds))
         ->where('Etat', '!=', 'VAL')
-        
         ->count();
 
         
@@ -78,6 +84,7 @@ class DashboardController extends Controller
             "nbr_formations"=> $nbr_formations,
             "week_observations"=> $week_observations,
             "upcomming_evals"=> $upcomming_evals,
+            "upcomming_events"=> $upcomming_events,
             "pending_observations"=> $pending_observations,
             
             ]);

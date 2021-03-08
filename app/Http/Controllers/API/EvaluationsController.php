@@ -80,6 +80,63 @@ class EvaluationsController extends Controller
             ]);
 
     }
+
+    protected function addEvent(Request $request){
+        Validator::make($request->all(), [
+            'event-titre' => ['required', 'string', 'max:30'],
+            'event-heure' => ['required', 'string', 'max:11','min:11'],
+            'event-date' => ['required', 'date'],
+            'classeId' => ['required', 'integer'],
+            'profId' => ['required', 'integer']
+        ])->validate();
+
+            // Check validity of foreign keys
+        // Check if the prof and the classe exist and prof teach this class
+        $rowCheck=DB::table('professeur_classe')
+        ->where('Classe',(int)$request->classeId)
+        ->where('Professeur',(int)$request->profId);
+        if($rowCheck==null)
+        return response(json_encode([
+            "flag" => "fail",
+            "message" => "Vous n'avez pas le droite pour effectuer cette opération"
+        ]), 403);
+
+        $heures=explode("-",$request['event-heure']);
+        
+
+
+
+        try {
+            
+
+            DB::table('planning_events')->insert(
+                [
+                'Classe' => $request['classeId'] ,
+                'Titre' => $request['event-titre'] ,
+                'Professeur' => $request['profId'] ,
+                'Date' => $request['event-date'] ,
+                'Heure_Debut' => $heures[0] ,
+                'Heure_Fin' => $heures[1] 
+                ]
+            );
+            
+        }
+        catch(Exception $e) {
+          
+            return back()->with([
+                'event-flag'=>'fail',
+                'event-message'=> 'Une erreur s\'est produite. Impossible de planifier cet évènnement'
+                ]);
+        }
+
+
+      
+        return back()->with([
+            'event-flag'=>'success',
+            'event-message'=> 'Evènnement planifié avec succès'
+            ]);
+
+    }
         // TO BE REVIEWED
     protected function update(Request $request,$id){
        
@@ -168,7 +225,16 @@ class EvaluationsController extends Controller
         ->unique()
         ->values()
         ;   
-        return response(json_encode(["evaluations"=>$evaluations], 200));
+        $events = DB::table('planning_events as PE')
+        ->leftjoin('professeur_classe as PC','PE.Classe','PC.Classe')
+        ->where('PE.Classe',$classeId)
+        ->whereRaw('MONTH(Date)='.date('m'))
+        ->select('PE.*')
+        ->get()
+        ->unique()
+        ->values()
+        ;   
+        return response(json_encode(["evaluations"=>$evaluations,"events"=>$events], 200));
 
     }
     

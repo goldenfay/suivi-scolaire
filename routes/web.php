@@ -106,6 +106,8 @@ Route::get('/evaluations/planning/classe/{classeId}/{profId?}', 'App\Http\Contro
 Route::post('/evaluations/planning/add', 'App\Http\Controllers\API\EvaluationsController@add');
 Route::put('/evaluations/planning/{id}', 'App\Http\Controllers\API\EvaluationsController@update');
 
+Route::post('/events/planning/add', 'App\Http\Controllers\API\EvaluationsController@addEvent');
+
 Route::put('/settings/smsinfos', 'App\Http\Controllers\API\SettingsController@updateSMSInfos')->name('settings.updateSMSInfos');
 Route::put('/settings/notifprefs', 'App\Http\Controllers\API\SettingsController@updateNotifPreferences')->name('settings.updateNotifPref');
 

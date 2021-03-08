@@ -256,6 +256,7 @@ class ObservationsController extends Controller
             "flag" => "fail",
             "message" => "Paramètres invalides"
         ]), 422);
+        
             // Check validity of the observation
         $observation = DB::table('observation')->find($obsId);
         if($observation==null)

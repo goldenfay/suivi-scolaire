@@ -114,7 +114,7 @@ switch($etat){
               {{-- <input type="hidden" name="_method" value="POST"> --}}
               <input type="hidden" value="{{$eleve->id}}" name="eleveId" />
               <input type="hidden" value="{{$user->prof->id}}" name="profId" />
-              <div class="form-row my-3">
+              <div class="form-row my-3 d-flex align-items-end">
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="type-input">Type</label>
                   <select id="type-input" name="type" class="form-control">

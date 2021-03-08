@@ -72,7 +72,7 @@ class SettingsController extends Controller
                         $request['sms-host'],$request['sms-port'],
                         $request['sms-username'],$request['sms-password'],$request['sms-senderId']
                     );
-                    $normalized_phone="+213".substr($request['test-phone'],1);
+                    $normalized_phone="213".substr($request['test-phone'],1);
                     $res=$sender->Submit("SMS de Test",$normalized_phone,"2");
                     $flag=\explode('|',$res)[0];
                     if($flag!="1701"){

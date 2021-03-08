@@ -216,12 +216,16 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
   $(document).ready(function() {
 
       var calendarEvents=@json($upcomming_evals);
-      console.log(calendarEvents);
       calendarEvents=Object.values(calendarEvents).map(eval=>({
             day: new Date(eval.Date).getDate(),
             title: `Examen en ${eval.Matiere}`
 
-          }));
+          })).concat(Object.values(@json($upcomming_events))
+          .map(event=>({
+            day: new Date(event.Date).getDate(),
+            title: `${event.Titre}`
+
+          })));
 
       displayEvents('up-events-calendar',calendarEvents);
       // Javascript method's body can be found in assets/js/demos.js

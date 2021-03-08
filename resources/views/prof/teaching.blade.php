@@ -169,7 +169,7 @@ function badge_class($etat){
 
               <input type="hidden" value="{{$user->prof->id}}" name="profId" />
               <input type="hidden" value="{{$currentClasse->classe->id}}" name="classeId" />
-              <div class="form-row my-3">
+              <div class="form-row my-3 d-flex align-items-end">
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="matiere-input">Matiere</label>
                   <select id="matiere-input" name="matiere" class="form-control">
@@ -187,7 +187,7 @@ function badge_class($etat){
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="titre-input">Titre</label>
                   <input type="text" class="form-control" name="titre" id="titre-input"
-                    placeholder="Titre de la communication ...">
+                    placeholder="Titre de l'épreuve ...">
                   @if ($errors->has('titre'))
                   <div id="titre-error" class="error text-danger pl-3" for="titre" style="display: block;">
                     <strong>{{ $errors->first('titre') }}</strong>
@@ -204,9 +204,9 @@ function badge_class($etat){
                   class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
                   <input type="date" class="form-control" name="date" id="timepicker">
                 </div>
-                @if ($errors->has('corps'))
-                <div id="corps-error" class="error text-danger pl-3" for="corps" style="display: block;">
-                  <strong>{{ $errors->first('corps') }}</strong>
+                @if ($errors->has('date'))
+                <div id="date-error" class="error text-danger pl-3" for="date" style="display: block;">
+                  <strong>{{ $errors->first('date') }}</strong>
                 </div>
                 @endif
               </div>
@@ -230,7 +230,7 @@ function badge_class($etat){
               </div>
 
 
-              <button type="submit" class="btn btn-primary">Envoyer</button>
+              <button type="submit" class="btn btn-primary">Planifier</button>
             </form>
           </div>
 
@@ -252,6 +252,104 @@ function badge_class($etat){
         </div>
 
       </div>
+    </div>
+    <div class="row">
+
+      <div class="col-sm-8">
+        <div class="d-flex flex-row justify-content-center">
+          @if(session('event-flag'))
+          @if(session('event-flag')=='fail')
+          <div class="col-md-10">
+            <div class="alert alert-danger alert-with-icon w-60" data-notify="container">
+              <i class="material-icons" data-notify="icon">error</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span>{{session('event-message')}}</span>
+            </div>
+          </div>
+          @else
+          @if(session('event-flag')=='success')
+          <div class="col-md-10">
+            <div class="alert alert-success alert-with-icon w-60" data-notify="container">
+              <i class="material-icons" data-notify="icon">check_circle</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span>{{session('event-message')}}</span>
+            </div>
+          </div>
+          @endif
+
+          @endif
+
+          @endif
+        </div>
+        <h4>Planifier un évènnement spécifique</h4>
+        <div class="card">
+          <div class="card-body">
+
+            <form method="POST" action="{{url("events/planning/add")}}" id="addEventform">
+              @csrf
+
+              <input type="hidden" value="{{$user->prof->id}}" name="profId" />
+              <input type="hidden" value="{{$currentClasse->classe->id}}" name="classeId" />
+              <div class="form-row my-3">
+                
+                <div class="form-group col-md-6 col-sm-12">
+                  <label for="titre-input">Titre</label>
+                  <input type="text" class="form-control" name="event-titre" id="titre-input"
+                    placeholder="Titre de l'évènnement' ...">
+                  @if ($errors->has('event-titre'))
+                  <div id="titre-error" class="error text-danger pl-3" for="event-titre" style="display: block;">
+                    <strong>{{ $errors->first('event-titre') }}</strong>
+                  </div>
+                  @endif
+                </div>
+
+
+              </div>
+
+              <div class="form-group my-3">
+                <label for="event-input">Date</label>
+                <div
+                  class="form-group pmd-textfield pmd-textfield-floating-label pmd-textfield-floating-label-completed">
+                  <input type="date" class="form-control" name="event-date" id="event-input">
+                </div>
+                @if ($errors->has('event-date'))
+                <div id="corps-error" class="error text-danger pl-3" for="event-date" style="display: block;">
+                  <strong>{{ $errors->first('event-date') }}</strong>
+                </div>
+                @endif
+              </div>
+              <div class="form-row my-3">
+                <div class="form-group col-md-6 col-sm-12">
+                  <label for="event-heure-input">Heure</label>
+                  <select id="event-heure-input" name="event-heure" class="form-control">
+                    @foreach($hours as $hour)
+                    <option value="{{$hour}}">{{$hour}}</option>
+                    @endforeach
+
+                  </select>
+                  @if ($errors->has('event-heure'))
+                  <div id="event-heure-error" class="error text-danger pl-3" for="event-heure" style="display: block;">
+                    <strong>{{ $errors->first('event-heure') }}</strong>
+                  </div>
+                  @endif
+                </div>
+
+
+              </div>
+
+
+              <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+      
     </div>
   </div>
   <script>
@@ -288,7 +386,13 @@ function badge_class($etat){
             day: new Date(eval.Date).getDate(),
             title: `Examen en ${eval.Matiere}`
 
-          }))
+          })).concat(result.events
+          .map(event=>({
+            day: new Date(event.Date).getDate(),
+            title: `${event.Titre}`
+
+          })))
+          
           displayEvents('up-events-calendar',calendarEvents);
 
 

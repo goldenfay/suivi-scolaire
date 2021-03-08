@@ -458,7 +458,12 @@ switch($etat){
             day: new Date(eval.Date).getDate(),
             title: `Examen en ${eval.Matiere}`
 
-          }))
+          })).concat(result.events
+          .map(event=>({
+            day: new Date(event.Date).getDate(),
+            title: `${event.Titre}`
+
+          })))
           displayEvents('up-events-calendar',calendarEvents);
 
 
