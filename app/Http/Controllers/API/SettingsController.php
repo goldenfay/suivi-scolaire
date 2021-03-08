@@ -68,7 +68,6 @@ class SettingsController extends Controller
             if($request->test=="on" || $request->test==true){
                 
                 try {
-                    dd("dsfkjsdhfjkdshdsjh");
                     $sender = new SMSSender(
                         $request['sms-host'],$request['sms-port'],
                         $request['sms-username'],$request['sms-password'],$request['sms-senderId']
