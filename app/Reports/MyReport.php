@@ -14,7 +14,7 @@ class MyReport extends \koolreport\KoolReport
     {
         return array(
             "dataSources"=>array(
-                "ecolesDB"=>array(
+                "scolariteDB"=>array(
                     'host' => 'localhost',
                     'username' => 'root',
                     'password' => 'Azerty123$$123',
@@ -28,24 +28,105 @@ class MyReport extends \koolreport\KoolReport
     
 
     function setup()
-    {
-        // Let say, you have "sale_database" is defined in Laravel's database settings.
-        // Now you can use that database without any futher setitngs.
-        try {
-            $this->src("ecolesDB")
-            ->query("SELECT EC.id,nom_ecole, adresse, telephone, COUNT(*) as total_eleves, SUM(pension) as total_revenues FROM ecoles EC,eleves E WHERE EC.id=E.ecole_id GROUP BY EC.id")
-            ->pipe($this->dataStore("all_ecoles"));        
-            $this->src("ecolesDB")
-            ->query("SELECT COUNT(*) as total_eleves, SUM(pension) as total_revenues FROM eleves WHERE YEAR(date_ajout) = YEAR(CURRENT_DATE - INTERVAL 0 MONTH) AND MONTH(date_ajout) = MONTH(CURRENT_DATE - INTERVAL 0 MONTH)")
-            ->pipe($this->dataStore("totals_this_month"));        
-            $this->src("ecolesDB")
-            ->query("SELECT COUNT(*) as total_eleves, SUM(pension) as total_revenues FROM eleves WHERE YEAR(date_ajout) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH) AND MONTH(date_ajout) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)")
-            ->pipe($this->dataStore("totals_last_month"));        
+    {   
+        try{
+
+            // # of profs per formation
+        $nbr_parents=$this->src("scolariteDB")
+            ->query(
+            "SELECT  COUNT(*) as Count "
+            ."FROM parent"
+        );
+        $nbr_parents->pipe($this->dataStore('nbr_parents'));
+
+            // # of profs per formation
+        $profs_per_formation=$this->src("scolariteDB")
+            ->query(
+            "SELECT F.id as id,F.Des as NomF, COUNT(*) as Count "
+            ."FROM formation as F, professeur_formation as PF "
+            ."WHERE F.id=PF.Formation "
+            ."GROUP by F.id, F.Des"
+        );
+        $profs_per_formation->pipe($this->dataStore('nbr_prof_formation'));
+            // # of eleves per formation
+        $eleves_per_formation=$this->src("scolariteDB")
+            ->query(
+            "SELECT F.id as id,F.Des as NomF, COUNT(*) as Count "
+            ."FROM formation as F, eleve_formation as EF "
+            ."WHERE F.id=EF.Formation "
+            ."GROUP by F.id, F.Des"
+            );
+
+        $eleves_per_formation->pipe($this->dataStore('nbr_eleves_formation'));
+            # of eleves per classe
+        $this->src("scolariteDB")
+            ->query(
+           "SELECT C.id as id,C.Des as NomC, COUNT(*) as Count "
+            ."FROM classe as C, eleve_classe as EC  "
+           ."WHERE C.id=EC.Classe  "
+           ."GROUP by C.id, C.Des"
+           ) 
+            ->pipe($this->dataStore('nbr_eleves_classe'));
+            # of observations per month
+        $this->src("scolariteDB")
+            ->query(
+           "SELECT MONTH(Date) as Mois, COUNT(*) as Count "
+            ."FROM observation  "
+            ."WHERE YEAR(Date)=YEAR(CURRENT_DATE)  "
+           ."GROUP by MONTH(Date)"
+           ) 
+            ->pipe($this->dataStore('nbr_observ_month'));
+            // Total profits per formation
+        $formations_prices=$this->src("scolariteDB")
+            ->query(
+           "SELECT Formation as id, Prix from catalogue_formation"
+           ) ;
+           $join = new Join($formations_prices,$eleves_per_formation,array("id"=>"id"));
            
-        } catch (\Throwable $th) {
+           $join->pipe(new CalculatedColumn(array(
+            "Total"=>"{Count}*{Prix}")
+            ))
+            ->pipe($this->dataStore('revenues_formation'));
+        }catch(\Throwable $th){
+            
+            dd($th);
         }
     }
-    function getStats(){
-        return $this->dataStore("totals_this_month");
+    function getStats($profId){
+        
+        try{
+
+                // # of eleves per formation
+            $this->src("scolariteDB")
+                ->query(
+                "SELECT F.id as id,F.Des as NomF, EF.Eleve as EleveId "
+                ."FROM formation as F, professeur_formation as PF, eleve_formation as EF "
+                ."WHERE F.ID=$profId AND F.id=PF.Professeur AND PF.Formation= EF.Formation "
+                )
+                // ->pipe(new Filter(array(
+                //     array("id","=",$profId),  
+                // )))
+                ->pipe(new Group(array(
+                    "by"=>array("id","NomF"),
+                    "count"=> "EleveId"
+                )))
+                ->pipe($this->dataStore('nbr_eleves_formation'));
+                // # of eleves per classe
+            $this->src("scolariteDB")
+                ->query(
+               "SELECT C.id as id,C.Des as NomC, PC.Eleve as EleveId "
+                ."FROM classe as C, professeur_classe as PC "
+               ." WHERE  C.id=PC.Professeur ")
+                ->pipe(new Filter(array(
+                    array("id","=",$profId),  
+                )))
+                ->pipe(new Group(array(
+                    "by"=>array("id","NomC"),
+                    "count"=> "EleveId"
+                )))
+                ->pipe($this->dataStore('nbr_eleves_classe'));
+        }catch(\Throwable $th){
+           
+        }
     }
 }

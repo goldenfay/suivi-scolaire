@@ -4,7 +4,7 @@ use \koolreport\processes\Group;
 use \koolreport\processes\Filter;
 use \koolreport\processes\CalculatedColumn;
 use \koolreport\processes\Join;
-
+use App\Reports\Configs;
 
 class MyReport extends \koolreport\KoolReport
 {
@@ -22,9 +22,9 @@ class MyReport extends \koolreport\KoolReport
             "dataSources"=>array(
                 "scolariteDB"=>array(
                     // 'host' => 'localhost',
-                    'username' => 'root',
-                    'password' => '',
-                    'dbname' => 'projet_scolarite',
+                    'username' => Configs::$PHP_MYADMIN_USERNAME,
+                    'password' => Configs::$PHP_MYADMIN_PASSWORD,
+                    'dbname' => Configs::$PHP_MYADMIN_DBNAME,
                     'charset' => 'utf8',  
                     'class' => "\koolreport\datasources\MySQLDataSource"  
                 ),
