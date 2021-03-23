@@ -21,7 +21,7 @@ class MyReport extends \koolreport\KoolReport
         return array(
             "dataSources"=>array(
                 "scolariteDB"=>array(
-                    'host' => 'localhost',
+                    // 'host' => 'localhost',
                     'username' => 'root',
                     'password' => '',
                     'dbname' => 'projet_scolarite',
@@ -95,6 +95,7 @@ class MyReport extends \koolreport\KoolReport
             ->pipe($this->dataStore('revenues_formation'));
         }catch(\Throwable $th){
             
+            dd($th);
         }
     }
     function getStats($profId){
