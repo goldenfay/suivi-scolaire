@@ -221,6 +221,8 @@ switch($etat){
 
 
     </div>
+
+    {{-- Observations Summary section --}}
     <h4>Récapitulatif</h4>
     <div class="row">
       <div class="col-lg-6 col-md-12">
@@ -263,7 +265,7 @@ switch($etat){
               <div class="tab-pane active" id="diciplines">
                 <table class="table">
                   <tbody>
-                    @if(!($observations->where('UPPER(Type)','DICIPLINE')->count()))
+                    @if(!($observations->where('UPPER(Type)','DISCIPLINE')->count()))
                     <tr>
                       <td colspan="8">
                         <h4 class="text-secondary text-center"> Aucune observation sur la dscipline</h4>
@@ -387,6 +389,8 @@ switch($etat){
         </div>
       </div>
     </div>
+
+    {{-- Children's schedule section --}}
     <h4>Emploi Du Temps</h4>
     <div class="row my-3">
       <div class="col-sm-12 p-3">

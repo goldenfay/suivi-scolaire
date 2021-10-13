@@ -57,6 +57,7 @@ function badge_class($etat){
         </form>
       </div>
     </div>
+    {{-- Students lsisting --}}
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
@@ -128,6 +129,8 @@ function badge_class($etat){
 
       </div>
     </div>
+
+    {{-- Evaluations & exams planning section --}}
     <div class="row">
 
       <div class="col-sm-8">
@@ -253,6 +256,8 @@ function badge_class($etat){
 
       </div>
     </div>
+
+    {{-- Evants planification section --}}
     <div class="row">
 
       <div class="col-sm-8">

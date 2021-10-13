@@ -62,6 +62,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       </div>
 
     </div>
+    {{-- Exams & remarks summary section --}}
     <h4>Epreuves Et Remarques</h4>
     <div class="row my-3">
       <div class="col-sm-12 col-md-6">
@@ -73,6 +74,13 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
           <div class="card-body table-responsive">
             <table class="table table-hover">
               <tbody>
+                @if(!($week_observations->count()))
+                    <tr>
+                      <td colspan="8">
+                        <h4 class="text-secondary text-center"> Aucune observation pour cette semaine</h4>
+                      </td>
+                    </tr>
+                @endif
                 @foreach ($week_observations as $observation)
                 <tr>
                   <td>{{$observation->Type}}</td>
@@ -116,6 +124,8 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
 
       </div>
     </div>
+
+    {{-- Children summary --}}
     <h4> Vos enfants</h4>
     <div class="row">
       @foreach ($user->children as $key => $child)
@@ -127,7 +137,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
               <div class="row">
                 <div class="col-md-6">
                   <img
-                    src="{{__($child->eleve->Pic_Path!=null?$child->eleve->Pic_Path: asset('assets')."/autres/default-eleve-avatar-male.jpg" )}}"
+                    src="{{__($child->eleve->Pic_Path!=null?$child->eleve->Pic_Path: ($child->eleve->Civilite==1 ?asset('assets')."/autres/default-eleve-avatar-male.jpg" : asset('assets')."/autres/default-eleve-avatar-female.jpg" ))}}"
                     class="img-fluid img-round" alt="" />
 
                 </div>
