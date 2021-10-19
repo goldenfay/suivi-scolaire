@@ -11,7 +11,7 @@
     <a class="nav-link" href="{{ route('admin.classes') }}">
       <i class="material-icons">home_work</i>
       {{-- <i class="fa fa-school"></i> --}}
-        <p>{{ __('Classes') }}</p>
+        <p>{{ __('Classes & Formations') }}</p>
     </a>
   </li>
   <li class="nav-item{{ $activePage == 'enseignants' ? ' active' : '' }}">

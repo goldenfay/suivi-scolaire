@@ -82,6 +82,51 @@ switch($etat){
         </form>
       </div>
     </div>
+
+    {{-- Ecrire un message pour l'observation --}}
+    @foreach ($observations as $idx => $observation)
+    <div class="modal fade" id="write-message-modal-{{$observation->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Réponse sur l'observation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" action="{{url("observations/add")}}" id="addObservation-form">
+              @csrf
+            
+              <div class="form-group my-3">
+                <label for="contenu-input">Votre réponse</label>
+                <textarea type="text" class="form-control" name="corps" 
+                  placeholder="Ecrivez en bref votre réponse"></textarea>
+                @if ($errors->has('corps'))
+                <div id="corps-error" class="error text-danger pl-3" for="corps" style="display: block;">
+                  <strong>{{ $errors->first('corps') }}</strong>
+                </div>
+                @endif
+              </div>
+
+
+              {{-- <button type="submit" class="btn btn-primary">Envoyer</button> --}}
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button id="{{$observation->id}}"
+            type="submit" class="btn btn-primary" 
+            onclick="send_observation_feedback(event)">
+            Envoyer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    @endforeach
+
     <h4> Cahier de correspondance</h4>
     <div class="row mb-3">
       <div class="col-sm-12">
@@ -115,7 +160,16 @@ switch($etat){
                 <td>{{$observation->Type}}</td>
                 <td>{{$observation->NomProfesseur}} {{$observation->PrenomProfesseur}}</td>
                 <td>{{$observation->Libelle}}</td>
-                <td>{{$observation->Corps}}</td>
+                <td>{{$observation->Corps}}
+                  @if($observation->ReponseParent!=NULL)
+                  <div>
+                    <i rel="tooltip" 
+                    data-placement="top" title="{{$observation->ReponseParent}}"
+                    data-toggle="tooltip" 
+                    class="material-icons">comment</i>
+                  </div>
+                  @endif
+                </td>
                 <td class="d-flex justify-content-center badge badge-pill {{badge_class($observation->Etat)}}">{{
                 ($observation->Etat=="NV"? "Non consultée":
                 ($observation->Etat=="V"? "Consultée":
@@ -130,6 +184,14 @@ switch($etat){
                     data-placement="top" title="Marquer en attente de validation" class="my-3 btn btn-round btn-warning"
                     onclick="set_observation_pending(event)">
                     <i class="material-icons">pending_actions</i>
+                  </button>
+                  @endif
+                  @if($observation->ReponseParent==NULL)
+                  <button type="button" id="reply-{{$observation->id}}" rel="tooltip" 
+                    data-placement="top" title="Répondre par un message" class="my-3 btn btn-round btn-secondary"
+                    data-toggle="modal" data-target="#write-message-modal-{{$observation->id}}"
+                    >
+                    <i class="material-icons">comment</i>
                   </button>
                   @endif
                   <button type="button" id="{{$observation->id}}" rel="tooltip" data-toggle="tooltip"
@@ -509,10 +571,11 @@ switch($etat){
     function set_observation_validated(e){
       update_observation(e,"VAL");
     }
-    function set_observation_pending(e){
-      update_observation(e,"ATV");
+    function send_observation_feedback(e){
+    
+      update_observation(e,"ATV",document.getElementsByName("corps")[0].value);
     }
-      function update_observation(e,etat){
+    function update_observation(e,etat,reponse=null){
       var target=e.currentTarget;
       var id=target.id;
 
@@ -521,6 +584,7 @@ switch($etat){
       type: 'PUT',
       data: {
         Etat: etat,
+        ReponseParent: reponse,
         actionner: "{{$enc_parent}}",
         eleve: "{{$enc_eleve}}",
         } ,
@@ -551,8 +615,12 @@ switch($etat){
           $(target).remove()
         
         $(resultDiv).show();
+
+        // Hide response modal
+        $(`#write-message-modal-${id}`).modal('hide')
         setTimeout(function () {
       	$(resultDiv).slideUp(500);
+        if(reponse) window.location.reload()
         }, 2000);
 
       },

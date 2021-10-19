@@ -207,7 +207,10 @@ class ObservationsController extends Controller
             DB::table('observation')
             ->where('id',$observation->id)
             ->update(
-                ['Etat'=>$request->Etat]
+                [
+                    'Etat'=>$request->Etat,
+                    'ReponseParent'=>$request->ReponseParent,
+                ]
             );
                 // If it's a convocation, push notification to prof
             if($obs_eleve_check->first()->Type=="Convocation" && $request->Etat=="VAL"){
