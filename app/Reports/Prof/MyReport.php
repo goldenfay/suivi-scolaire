@@ -24,7 +24,7 @@ class MyReport extends \koolreport\KoolReport
                 "scolariteDB"=>array(
                     'host' => 'localhost',
                     'username' => 'root',
-                    'password' => '',
+                    'password' => 'Ifast2022$',
                     'dbname' => 'projet_scolarite',
                     'charset' => 'utf8',  
                     'class' => "\koolreport\datasources\MySQLDataSource"  
