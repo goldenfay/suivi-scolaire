@@ -22,9 +22,9 @@ class MyReport extends \koolreport\KoolReport
             "dataSources"=>array(
                 "scolariteDB"=>array(
                     // 'host' => 'localhost',
-                    'username' => Configs::$PHP_MYADMIN_USERNAME,
-                    'password' => Configs::$PHP_MYADMIN_PASSWORD,
-                    'dbname' => Configs::$PHP_MYADMIN_DBNAME,
+                    'username' => env("DB_USERNAME","root"),
+                    'password' => env("DB_PASSWORD",""),
+                    'dbname' => env("DB_DATABASE","projet_scolarite"),
                     'charset' => 'utf8',  
                     'class' => "\koolreport\datasources\MySQLDataSource"  
                 ),
