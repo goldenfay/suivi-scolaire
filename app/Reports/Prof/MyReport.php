@@ -4,7 +4,7 @@ use \koolreport\processes\Group;
 use \koolreport\processes\Filter;
 use \koolreport\processes\CalculatedColumn;
 use \koolreport\processes\Join;
-
+use App\Reports\Configs;
 
 class MyReport extends \koolreport\KoolReport
 {

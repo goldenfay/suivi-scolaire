@@ -1,6 +1,7 @@
 <?php
 namespace App\Reports;
 
+use App\Reports\Configs;
 class MyReport extends \koolreport\KoolReport
 {
     use \koolreport\laravel\Friendship;
