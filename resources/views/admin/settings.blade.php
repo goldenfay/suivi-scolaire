@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'settings', 'titlePage' => __('Paramètres')])
 <?php 
-$email_prefs=explode(',',$events_prefs->events_via_email);
-$sms_prefs=explode(',',$events_prefs->events_via_sms);
+$email_prefs=explode(',',$events_prefs->events_via_email ?? "");
+$sms_prefs=explode(',',$events_prefs->events_via_sms ?? "");
 ?>
 @section('content')
 <div class="content">
