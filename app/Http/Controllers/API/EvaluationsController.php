@@ -125,7 +125,7 @@ class EvaluationsController extends Controller
           
             return back()->with([
                 'event-flag'=>'fail',
-                'event-message'=> 'Une erreur s\'est produite. Impossible de planifier cet évènnement'
+                'event-message'=> 'Une erreur s\'est produite. Impossible de planifier cet évènement'
                 ]);
         }
 

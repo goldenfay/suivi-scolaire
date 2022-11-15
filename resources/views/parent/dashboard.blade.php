@@ -29,7 +29,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
             <div class="card-icon">
               <i class="material-icons">history_edu</i>
             </div>
-            <p class="card-category">Correspondence cette semaine</p>
+            <p class="card-category">Correspondences cette semaine</p>
             <h3 class="card-title">{{$week_observations->sum('Count')}}</h3>
           </div>
 
@@ -53,7 +53,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
             <div class="card-icon">
               <i class="material-icons">hourglass_top</i>
             </div>
-            <p class="card-category">Evènnements en attente</p>
+            <p class="card-category">Evènements en attente</p>
             <h3 class="card-title">{{$pending_observations}}</h3>
             {{-- <h3 class="card-title">{{$week_observations->where('Etat','!=','VAL')->sum('Count')}}</h3> --}}
           </div>

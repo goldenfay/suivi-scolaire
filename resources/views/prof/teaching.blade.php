@@ -93,7 +93,7 @@ function badge_class($etat){
                     <td class="text-center">
                       @if(array_key_exists($eleve->id,$user->observations_per_eleve))
                       <span class="badge badge-warning">{{$user->observations_per_eleve[$eleve->id]}} </span>
-                      évènnements non validés
+                      évènements non validés
                       @endif
 
 
@@ -290,7 +290,7 @@ function badge_class($etat){
 
           @endif
         </div>
-        <h4>Planifier un évènnement spécifique</h4>
+        <h4>Planifier un évènement spécifique</h4>
         <div class="card">
           <div class="card-body">
 
@@ -304,7 +304,7 @@ function badge_class($etat){
                 <div class="form-group col-md-6 col-sm-12">
                   <label for="titre-input">Titre</label>
                   <input type="text" class="form-control" name="event-titre" id="titre-input"
-                    placeholder="Titre de l'évènnement' ...">
+                    placeholder="Titre de l'évènement' ...">
                   @if ($errors->has('event-titre'))
                   <div id="titre-error" class="error text-danger pl-3" for="event-titre" style="display: block;">
                     <strong>{{ $errors->first('event-titre') }}</strong>

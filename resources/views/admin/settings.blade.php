@@ -158,7 +158,7 @@ $sms_prefs=explode(',',$events_prefs->events_via_sms ?? "");
           <div class="card ">
             <div class="card-header card-header-primary">
               <h4 class="card-title">{{ __('Configuration des notifications') }}</h4>
-              <p class="card-category">{{ __("Sélectionnez les types d'évènnements pour les notifications") }}</p>
+              <p class="card-category">{{ __("Sélectionnez les types d'évènements pour les notifications") }}</p>
             </div>
             <div class="card-body ">
               @if (session('flag-events'))

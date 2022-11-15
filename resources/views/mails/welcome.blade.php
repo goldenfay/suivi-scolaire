@@ -49,7 +49,7 @@
                 <p class="mt-2">Merci d'avoir rejoindre l'application de suivi scolaire. Votre compte sera très
                     prochainement activé.</p>
                 <p class="mt-1">L'application vous permet de suivre le progrès de vos enfants et d'être informés par les
-                    correspondances et les évènnements pédagogiques à tout moment.</p>
+                    correspondances et les évènements pédagogiques à tout moment.</p>
 
             </div>
         </div>
