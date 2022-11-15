@@ -83,7 +83,7 @@ class EvaluationsController extends Controller
 
     protected function addEvent(Request $request){
         Validator::make($request->all(), [
-            'event-titre' => ['required', 'string', 'max:30'],
+            'event-titre' => ['required', 'string', 'max:120'],
             'event-heure' => ['required', 'string', 'max:11','min:11'],
             'event-date' => ['required', 'date'],
             'classeId' => ['required', 'integer'],
