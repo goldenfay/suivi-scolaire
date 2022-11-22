@@ -117,7 +117,7 @@ setlocale(LC_TIME, "fr_FR");
               <h5 class="font-weight-bold text-secondary"> Liste des classes définies :</h5>
             </div>
             <div class="col-sm-12 ml-3">
-              <input class="form-control" id="search-eleve" type="text" placeholder="Search..">
+              <input class="form-control" id="search-classe" type="text" placeholder="Search..">
             </div>
             <table class="table table-responsive-lg">
               <thead>
@@ -131,7 +131,7 @@ setlocale(LC_TIME, "fr_FR");
 
                 </tr>
               </thead>
-              <tbody id="eleves-table">
+              <tbody id="classes-table">
                 @if($classes->count()==0)
                 <tr>
                   <td colspan="8">
@@ -219,7 +219,7 @@ setlocale(LC_TIME, "fr_FR");
               <h5 class="font-weight-bold text-secondary"> Liste des formations définies :</h5>
             </div>
             <div class="col-sm-12 ml-3">
-              <input class="form-control" id="search-eleve" type="text" placeholder="Search..">
+              <input class="form-control" id="search-formation" type="text" placeholder="Search..">
             </div>
             <table class="table table-responsive-lg">
               <thead>
@@ -232,7 +232,7 @@ setlocale(LC_TIME, "fr_FR");
 
                 </tr>
               </thead>
-              <tbody id="eleves-table">
+              <tbody id="formations-table">
                 @if($formations->count()==0)
                 <tr>
                   <td colspan="8">
@@ -466,9 +466,15 @@ setlocale(LC_TIME, "fr_FR");
 {{-- Search in table script --}}
 <script>
   $(document).ready(function(){
-  $("#search-eleve").on("keyup", function() {
+  $("#search-classe").on("keyup", function() {
     var value = $(this).val().toLowerCase();
-    $("#eleves-table tr").filter(function() {
+    $("#classes-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  $("#search-formation").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#formations-table tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
