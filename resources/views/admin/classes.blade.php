@@ -267,6 +267,104 @@ setlocale(LC_TIME, "fr_FR");
 
 
 
+    {{-- Matières --}}
+    <div class="row my-4">
+      <div class="col">
+
+        <div class="card  mb-3">
+          <div class="card-header card-header-danger text-center">
+            <h4 class="card-title"><strong>{{ __('Matières') }}</strong></h4>
+
+
+          </div>
+          <div class="card-body ">
+            <div class="col-sm-12 ml-3 my-4">
+              <h5 class="font-weight-bold text-secondary"> Définir une nouvelle matière :</h5>
+            </div>
+            <div class="col-sm-12">
+              <form method="POST" action="{{route('registerMatiere')}}">
+                @csrf
+
+                <div class="form-row mt-2 d-flex align-items-end">
+                  
+                  <div class="form-group col-md-5">
+                    <label for="code-input">Code</label>
+                    <input type="text" class="form-control" name="code" id="code-input">
+                    @if ($errors->has('code'))
+                    <div id="code-error" class="error text-danger pl-3" for="code" style="display: block;">
+                      <strong>{{ $errors->first('code') }}</strong>
+                    </div>
+                    @endif
+
+                  </div>
+                  <div class="form-group col-md-5">
+                    <label for="des-input">Description</label>
+                    <input type="text" class="form-control" name="des" id="des-input">
+                    @if ($errors->has('des'))
+                    <div id="des-error" class="error text-danger pl-3" for="des" style="display: block;">
+                      <strong>{{ $errors->first('des') }}</strong>
+                    </div>
+                    @endif
+
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-danger">Enregistrer</button>
+              </form>
+            </div>
+
+            <div class="col-sm-12 ml-3 mt-4">
+              <h5 class="font-weight-bold text-secondary"> Liste des matières :</h5>
+            </div>
+            <div class="col-sm-12 ml-3">
+              <input class="form-control" id="search-matiere" type="text" placeholder="Rechercher une matière..">
+            </div>
+            <table class="table table-responsive-lg">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Code</th>
+                  <th scope="col">Description</th>
+                  
+                  {{-- <th scope="col" class="text-center">Actions</th> --}}
+
+                </tr>
+              </thead>
+              <tbody id="formations-table">
+                @if($formations->count()==0)
+                <tr>
+                  <td colspan="8">
+                    <h4 class="text-secondary text-center"> Aucune matière</h4>
+                  </td>
+                </tr>
+                @endif
+                @foreach ($formations as $idx => $formation)
+                <tr id="{{$formation->id}}">
+                  <td>{{$idx+1}}</td>
+                  <td>{{$formation->Code}}</td>
+                  <td>{{$formation->Des}}</td>
+                  
+                </tr>
+                @endforeach
+
+              </tbody>
+            </table>
+
+
+
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
 
     
     <div class="row">
@@ -382,7 +480,7 @@ setlocale(LC_TIME, "fr_FR");
             <div class="container">
               <div class="row">
                 <div class="col-sm-12 ml-3">
-                  <h5> Formation et matières :</h5>
+                  <h5> Formations et matières :</h5>
                 </div>
                 <div class="col-sm-12">
                   <form  method="POST" action="{{route('affectMatiereFormation')}}">
