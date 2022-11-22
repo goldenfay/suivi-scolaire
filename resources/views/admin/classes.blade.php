@@ -181,7 +181,7 @@ setlocale(LC_TIME, "fr_FR");
           </div>
           <div class="card-body ">
             <div class="col-sm-12 ml-3 my-4">
-              <h5 class="font-weight-bold text-secondary"> Ajouter une nouvelle classe :</h5>
+              <h5 class="font-weight-bold text-secondary"> Ajouter une nouvelle formation :</h5>
             </div>
             <div class="col-sm-12">
               <form method="POST" action="{{route('registerFormation')}}">
