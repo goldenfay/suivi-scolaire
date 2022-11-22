@@ -203,7 +203,7 @@ setlocale(LC_TIME, "fr_FR");
               <h5 class="font-weight-bold text-secondary"> Liste des élèves :</h5>
             </div>
             <div class="col-sm-12 ml-3">
-              <input class="form-control" id="search-eleve" type="text" placeholder="Search..">
+              <input class="form-control" id="search-eleve" type="text" placeholder="Rechercher un élève..">
             </div>
             <table class="table table-responsive-lg">
               <thead>

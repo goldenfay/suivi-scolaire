@@ -315,10 +315,7 @@ setlocale(LC_TIME, "fr_FR");
             </div>
             
          
-             
-
-
-           
+      
           </div>
           
         </div>
@@ -331,11 +328,6 @@ setlocale(LC_TIME, "fr_FR");
     </div>
 
     
-    
-    
-
-   
-
 
   </div>
 </div>
