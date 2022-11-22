@@ -117,7 +117,7 @@ setlocale(LC_TIME, "fr_FR");
               <h5 class="font-weight-bold text-secondary"> Liste des classes définies :</h5>
             </div>
             <div class="col-sm-12 ml-3">
-              <input class="form-control" id="search-classe" type="text" placeholder="Search..">
+              <input class="form-control" id="search-classe" type="text" placeholder="Rechercher..">
             </div>
             <table class="table table-responsive-lg">
               <thead>
@@ -135,7 +135,7 @@ setlocale(LC_TIME, "fr_FR");
                 @if($classes->count()==0)
                 <tr>
                   <td colspan="8">
-                    <h4 class="text-secondary text-center"> Aucun élève</h4>
+                    <h4 class="text-secondary text-center"> Aucune classe</h4>
                   </td>
                 </tr>
                 @endif
@@ -219,7 +219,7 @@ setlocale(LC_TIME, "fr_FR");
               <h5 class="font-weight-bold text-secondary"> Liste des formations définies :</h5>
             </div>
             <div class="col-sm-12 ml-3">
-              <input class="form-control" id="search-formation" type="text" placeholder="Search..">
+              <input class="form-control" id="search-formation" type="text" placeholder="Rechercher..">
             </div>
             <table class="table table-responsive-lg">
               <thead>
@@ -236,7 +236,7 @@ setlocale(LC_TIME, "fr_FR");
                 @if($formations->count()==0)
                 <tr>
                   <td colspan="8">
-                    <h4 class="text-secondary text-center"> Aucun élève</h4>
+                    <h4 class="text-secondary text-center"> Aucune formation</h4>
                   </td>
                 </tr>
                 @endif
