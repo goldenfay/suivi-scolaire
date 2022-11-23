@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \ParagonIE\Halite\KeyFactory;
+use Illuminate\Support\Facades\Validator;
 
 use App\Reports\Admin\MyReport;
 use Auth;
@@ -178,6 +179,28 @@ class DashboardController extends Controller
     
 
 
+    
+    /**
+     * Config page auth check
+     *
+     *  
+     */
+    public function sysConfigAuth(Request $request)
+    {  
+
+        Validator::make($request->all(), [
+            'civilite' => ['required', 'exists:civilite,id'],
+            'password' => ['required', 'string', 'min:4'],
+        ])->validate();
+        
+      
+        if($request->password!='Ifast2022')        
+        return back()->withInput($request->input());
+        else{
+            $request->session()->put('access-granted',true);
+            return view('admin.sys-settings');
+        }
+    }
     
     /**
      * Show app configuration page.
