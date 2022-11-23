@@ -148,14 +148,14 @@
     </div>
     @else
     <div class="row justify-content-center">
-      <div class="col-md-4 text-center">
+      <div class="col-md-6 text-center">
         <form method="post" action="{{ route('admin.updatePassword') }}" class="form-horizontal">
           @csrf
           @method('put')
 
           <div class="card ">
             <div class="card-header card-header-warning">
-              <h4 class="card-title"><i class="material-icon h2">lock</i> {{ __('Page protégée!') }}</h4>
+              <h4 class="card-title"><i class="material-icon">lock</i> {{ __('Page protégée!') }}</h4>
             </div>
             <div class="card-body ">
               @if (session('flag-password'))
@@ -177,7 +177,7 @@
                   <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
                     <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" input
                       type="password" name="password" id="input-access-password"
-                      placeholder="{{ __('Votres mot de passe actuel...') }}" value="" required />
+                      placeholder="{{ __('Mot de passe de la page') }}" value="" required />
                     @if ($errors->has('password'))
                     <span id="name-error" class="error text-danger"
                       for="input-name">{{ $errors->first('password') }}</span>
