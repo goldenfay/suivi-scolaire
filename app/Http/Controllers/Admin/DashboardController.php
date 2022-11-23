@@ -184,6 +184,24 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public function sysConfig(Request $request)
+    {  
+        
+      
+        if($request->session()->exists('access-granted'))        
+        return view('admin.sys-settings');
+        else{
+            $request->session()->put('access-denied',true);
+            return view('admin.settings');
+        }
+    }
+
+
+    /**
+     * Show app configuration page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function settings()
     {  
         
@@ -196,9 +214,7 @@ class DashboardController extends Controller
         $sms_settings=DB::table('parametres_sms')
         ->first();
       
-        
-        // dd($event_types);
-        
+                
         return view('admin.settings',[
             "user"=> $this->user,
             "types"=> $event_types,

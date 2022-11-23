@@ -61,6 +61,8 @@ Route::prefix('/admin')->name('admin.')->group(function(){
     Route::get('/parents', 'App\Http\Controllers\Admin\DashboardController@parents')->name('parents');
     Route::get('/eleves', 'App\Http\Controllers\Admin\DashboardController@eleves')->name('eleves');
     Route::get('/settings', 'App\Http\Controllers\Admin\DashboardController@settings')->name('settings');
+    Route::get('/config', 'App\Http\Controllers\Admin\DashboardController@sysConfig')->name('sysConfig');
+    Route::post('/config', 'App\Http\Controllers\Admin\DashboardController@sysConfig')->name('sysConfigAuth');
     Route::put('/compte/password', 'App\Http\Controllers\Admin\AccountController@updatePassword')->name('updatePassword');
    
   
