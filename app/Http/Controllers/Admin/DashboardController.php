@@ -189,7 +189,6 @@ class DashboardController extends Controller
     {  
 
         Validator::make($request->all(), [
-            'civilite' => ['required', 'exists:civilite,id'],
             'password' => ['required', 'string', 'min:4'],
         ])->validate();
         
