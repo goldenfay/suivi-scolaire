@@ -195,12 +195,12 @@ class DashboardController extends Controller
         
       
         if($request->password!='Ifast2022')        
-        return back();
+        return back()->with([
+            'flag-password'=> 'fail'
+        ]);
         else{
             $request->session()->put('access-granted',true);
-            return view('admin.sys-settings')->with([
-                'flag-password'=> 'fail'
-            ]);
+            return view('admin.sys-settings');
         }
     }
     
