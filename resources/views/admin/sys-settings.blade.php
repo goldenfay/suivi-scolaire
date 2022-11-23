@@ -148,14 +148,49 @@
     </div>
     @else
     <div class="row justify-content-center">
-      <div class="col-md-12 text-center">
-        <div>
-          <i class="material-icon h2">lock</i>
+      <div class="col-md-4 text-center">
+        <form method="post" action="{{ route('admin.updatePassword') }}" class="form-horizontal">
+          @csrf
+          @method('put')
 
-        </div>
-        <div>
-          <h3>Page protégée!</h3>
-        </div>
+          <div class="card ">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title"><i class="material-icon h2">lock</i> {{ __('Page protégée!') }}</h4>
+            </div>
+            <div class="card-body ">
+              @if (session('flag-password'))
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="alert {{session('flag-password')=='success'?"alert-success": "alert-danger"}} w-60">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <i class="material-icons">close</i>
+                    </button>
+                    <span>{{ session('message-password') }}</span>
+                  </div>
+                </div>
+              </div>
+              @endif
+              <div class="row">
+                <label class="col-sm-2 col-form-label"
+                  for="input-access-password">{{ __('Mot de passe') }}</label>
+                <div class="col-sm-7">
+                  <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
+                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" input
+                      type="password" name="password" id="input-access-password"
+                      placeholder="{{ __('Votres mot de passe actuel...') }}" value="" required />
+                    @if ($errors->has('password'))
+                    <span id="name-error" class="error text-danger"
+                      for="input-name">{{ $errors->first('password') }}</span>
+                    @endif
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer ml-auto mr-auto">
+              <button type="submit" class="btn btn-warning">{{ __('Accéder') }}</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
    
