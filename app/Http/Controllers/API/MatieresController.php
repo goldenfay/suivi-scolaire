@@ -33,6 +33,7 @@ class MatieresController extends Controller
                 );
 
         }catch(\Throwable $e){
+            dd($e);
             return back()->withInput($request->input())
             ->with(
                 [
