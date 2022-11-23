@@ -3,7 +3,7 @@
 @section('content')
 <div class="content">
   <div class="container-fluid">
-   
+    @if (session('access-granted'))
     <div class="row">
       <div class="col-md-12">
         <form method="post" action="{{ route('settings.updateSMSInfos') }}" autocomplete="off" class="form-horizontal">
@@ -146,6 +146,9 @@
         </form>
       </div>
     </div>
+    @else
+    PAssword protected page
+    @endif
   </div>
 </div>
 @endsection

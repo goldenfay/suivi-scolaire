@@ -192,7 +192,7 @@ class DashboardController extends Controller
         return view('admin.sys-settings');
         else{
             $request->session()->put('access-denied',true);
-            return view('admin.settings');
+            return view('admin.sys-settings');
         }
     }
 
