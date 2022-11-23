@@ -6,6 +6,9 @@
       @if(Auth::check())
       
       {{Auth::user()->Nom}} {{Auth::user()->Prenom}}
+      @elseif(Auth::guard('admin')->check())
+      {{ __('Bonjour Administrateur') }}
+
       @else
       {{ __('Bonjour') }}
       @endif
