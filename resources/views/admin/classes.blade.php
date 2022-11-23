@@ -326,23 +326,21 @@ setlocale(LC_TIME, "fr_FR");
                   <th scope="col">Code</th>
                   <th scope="col">Description</th>
                   
-                  {{-- <th scope="col" class="text-center">Actions</th> --}}
-
                 </tr>
               </thead>
-              <tbody id="formations-table">
-                @if($formations->count()==0)
+              <tbody id="matieres-table">
+                @if($matieres->count()==0)
                 <tr>
                   <td colspan="8">
                     <h4 class="text-secondary text-center"> Aucune matière</h4>
                   </td>
                 </tr>
                 @endif
-                @foreach ($formations as $idx => $formation)
-                <tr id="{{$formation->id}}">
+                @foreach ($matieres as $idx => $matiere)
+                <tr id="{{$matiere->id}}">
                   <td>{{$idx+1}}</td>
-                  <td>{{$formation->Code}}</td>
-                  <td>{{$formation->Des}}</td>
+                  <td>{{$matiere->Code}}</td>
+                  <td>{{$matiere->Des}}</td>
                   
                 </tr>
                 @endforeach
