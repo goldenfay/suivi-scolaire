@@ -155,7 +155,8 @@
 
           <div class="card ">
             <div class="card-header card-header-warning">
-              <h4 class="card-title"><i class="material-icons">lock</i> {{ __('Page protégée!') }}</h4>
+              <h4 class="card-title"><i class="material-icons">lock</i></h4>
+              <h4 class="card-title">{{ __('Page protégée!') }}</h4>
             </div>
             <div class="card-body ">
               @if (session('flag-password'))
