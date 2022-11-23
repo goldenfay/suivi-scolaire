@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Validator;
 class MatieresController extends Controller
 {
    
+    protected function create(Request $request){
+        Validator::make($request->all(), [
+            'code' => ['required', 'string', 'max:4'],
+            'desc' => ['required', 'string', 'max:40','min:5'],
+        ])->validate();
+
+        DB::table('matiere')->insert([
+            'Code' => $request->code,
+            'Desc' => $request->desc,
+        ])
+
+
+    }
+    /**
+     * Schedule a matiere in academic schedule for a class
+     */
     protected function add(Request $request){
         Validator::make($request->all(), [
             'matiere' => ['required', 'integer'],
