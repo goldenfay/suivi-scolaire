@@ -149,13 +149,13 @@
     @else
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
-        <form method="post" action="{{ route('admin.updatePassword') }}" class="form-horizontal">
+        <form method="post" action="{{ route('admin.sysConfigAuth') }}" class="form-horizontal">
           @csrf
           @method('put')
 
           <div class="card ">
             <div class="card-header card-header-warning">
-              <h4 class="card-title"><i class="fa-solid fa-lock"></i> {{ __('Page protégée!') }}</h4>
+              <h4 class="card-title"><i class="material-icons">lock</i> {{ __('Page protégée!') }}</h4>
             </div>
             <div class="card-body ">
               @if (session('flag-password'))
