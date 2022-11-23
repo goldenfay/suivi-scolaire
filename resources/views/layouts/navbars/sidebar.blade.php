@@ -2,6 +2,7 @@
 
   <div class="logo my-5">
     <a href="#" class="simple-text logo-normal">
+      khkgjhghjkgkjghg
       {{-- {{ __('Bonjour') }} --}}
       @if(Auth::check())
       
