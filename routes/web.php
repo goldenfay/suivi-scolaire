@@ -88,12 +88,12 @@ Route::post('/affectations/matiere/formation', 'App\Http\Controllers\API\DBInitC
 
 Route::post('/classes', 'App\Http\Controllers\API\ClassFormatController@addClasse')->name('registerClasse');
 Route::post('/formations', 'App\Http\Controllers\API\ClassFormatController@addFormation')->name('registerFormation');
-Route::post('/formations', 'App\Http\Controllers\API\MatieresController@create')->name('registerMatiere');
 
 Route::get('/eleves/view/{eleveId}', 'App\Http\Controllers\API\ElevesController@getPublicInfos')->name('viewEleve');
 Route::post('/eleves', 'App\Http\Controllers\API\ElevesController@add')->name('registerEleve');
 Route::delete('/eleves/{eleveId}', 'App\Http\Controllers\API\ElevesController@delete')->name('deleteEleve');
 Route::get('/matieres', 'App\Http\Controllers\API\MatieresController@getAll');
+Route::post('/matieres', 'App\Http\Controllers\API\MatieresController@create')->name('registerMatiere');
 
 Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
 Route::post('/observations/add', 'App\Http\Controllers\API\ObservationsController@add');
