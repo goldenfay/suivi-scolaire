@@ -574,6 +574,12 @@ setlocale(LC_TIME, "fr_FR");
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+  $("#search-matiere").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#matieres-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 });
 </script>
 @endpush
