@@ -175,14 +175,11 @@
                 <label class="col-sm-2 col-form-label"
                   for="input-access-password">{{ __('Mot de passe') }}</label>
                 <div class="col-sm-7">
-                  <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
-                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" input
+                  <div class="form-group">
+                    <input class="form-control" input
                       type="password" name="password" id="input-access-password"
                       placeholder="{{ __('Mot de passe de la page') }}" value="" required />
-                    @if ($errors->has('password'))
-                    <span id="name-error" class="error text-danger"
-                      for="input-name">{{ $errors->first('password') }}</span>
-                    @endif
+                    
                   </div>
                 </div>
               </div>
