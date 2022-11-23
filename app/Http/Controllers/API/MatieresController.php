@@ -20,7 +20,7 @@ class MatieresController extends Controller
         try{
             DB::table('matiere')->insert([
                 'Code' => $request->code,
-                'Desc' => $request->desc,
+                'Des' => $request->des,
             ]);
             
 
