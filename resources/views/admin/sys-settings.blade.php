@@ -151,7 +151,7 @@
       <div class="col-md-6 text-center">
         <form method="post" action="{{ route('admin.sysConfigAuth') }}" class="form-horizontal">
           @csrf
-          @method('put')
+          @method('post')
 
           <div class="card ">
             <div class="card-header card-header-warning">
