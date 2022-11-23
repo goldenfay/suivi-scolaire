@@ -272,7 +272,7 @@ setlocale(LC_TIME, "fr_FR");
       <div class="col">
 
         <div class="card  mb-3">
-          <div class="card-header card-header-danger text-center">
+          <div class="card-header card-header-primary text-center">
             <h4 class="card-title"><strong>{{ __('Matières') }}</strong></h4>
 
 
