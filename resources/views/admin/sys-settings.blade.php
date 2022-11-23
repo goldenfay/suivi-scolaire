@@ -147,7 +147,18 @@
       </div>
     </div>
     @else
-    PAssword protected page
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center">
+        <div>
+          <i class="material-icon h2">lock</i>
+
+        </div>
+        <div>
+          <h3>Page protégée!</h3>
+        </div>
+      </div>
+    </div>
+   
     @endif
   </div>
 </div>
