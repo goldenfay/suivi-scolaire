@@ -196,7 +196,8 @@ class DashboardController extends Controller
       
         if($request->password!='Ifast2022')        
         return back()->with([
-            'flag-password'=> 'fail'
+            'flag-password'=> 'fail',
+            'message-password'=> 'Mot de passe invalide'
         ]);
         else{
             $request->session()->put('access-granted',true);
