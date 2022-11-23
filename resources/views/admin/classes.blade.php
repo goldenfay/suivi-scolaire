@@ -309,7 +309,7 @@ setlocale(LC_TIME, "fr_FR");
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-danger">Enregistrer</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
               </form>
             </div>
 
