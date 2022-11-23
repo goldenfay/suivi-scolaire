@@ -14,7 +14,7 @@ class MatieresController extends Controller
     protected function create(Request $request){
         Validator::make($request->all(), [
             'code' => ['required', 'string', 'max:4'],
-            'desc' => ['required', 'string', 'max:40','min:5'],
+            'des' => ['required', 'string', 'max:40','min:5'],
         ])->validate();
 
         try{
