@@ -17,10 +17,34 @@ class MatieresController extends Controller
             'desc' => ['required', 'string', 'max:40','min:5'],
         ])->validate();
 
-        DB::table('matiere')->insert([
-            'Code' => $request->code,
-            'Desc' => $request->desc,
-        ])
+        try{
+            DB::table('matiere')->insert([
+                'Code' => $request->code,
+                'Desc' => $request->desc,
+            ]);
+            
+
+            return back()
+            ->with(
+                [
+                    'register-flag'=>'success',
+                    'register-message'=>'Matière enregistrée avec succès.'
+                ]
+                );
+
+        }catch(\Throwable $e){
+            return back()->withInput($request->input())
+            ->with(
+                [
+                    'register-flag'=>'fail',
+                    'register-message'=>'Une erreur s\'est produite. Impossible d\'jouter la matière.'
+
+                    
+                ]
+                );
+
+        } 
+
 
 
     }
