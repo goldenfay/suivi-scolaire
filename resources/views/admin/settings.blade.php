@@ -8,7 +8,8 @@ $sms_prefs = explode(',', $events_prefs->events_via_sms ?? '');
         <div class="container-fluid">
             <div class="row justify-content-end">
                 <a class="nav-link" href="{{ route('admin.sysConfig') }}">
-                    <p>{{ __('Configuration du système') }} <i class="material-icons">wrench</i></p>
+                    <i class="material-icons">wrench</i>
+                    <p>{{ __('Configuration du système') }} </p>
 
                 </a>
             </div>
