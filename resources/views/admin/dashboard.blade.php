@@ -74,7 +74,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <h4> Statistiques</h4>
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        @if($report->dataStore("nbr_prof_formation"))
+        @if($report->dataStore("nbr_prof_formation")->count()>0)
         {{
           ColumnChart::create(array(
           "title"=>"Répartition des enseignants par formation",
@@ -85,6 +85,8 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
         )
         ))
         }}
+        @else
+        <h5 class="text-muted">Aucune donnée à afficher</h5>
         @endif
 
 
