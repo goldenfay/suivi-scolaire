@@ -79,7 +79,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
         {{
           ColumnChart::create(array(
           "title"=>"Répartition des enseignants par formation",
-          "dataSource"=>array(
+          "data"=>array(
         array("name"=>"Peter","age"=>35),
         array("name"=>"Karl","age"=>32),
     ),
