@@ -74,7 +74,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <h4> Statistiques</h4>
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        {{json_encode($report->dataStore("nbr_prof_formation")) }}
+        {{json_encode($report->dataStore("nbr_prof_formation")->isEmpty()) }}
         @if($report->dataStore("nbr_prof_formation")->count()>0)
         {{
           ColumnChart::create(array(
