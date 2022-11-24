@@ -74,17 +74,19 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <h4> Statistiques</h4>
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        {{$report->render()}}
         {{json_encode($report->dataStore("nbr_prof_formation")->toArray()) }}
         @if($report->dataStore("nbr_prof_formation")->count()>0)
         {{
           ColumnChart::create(array(
           "title"=>"Répartition des enseignants par formation",
-          "dataSource"=>$report->dataStore("nbr_prof_formation"),
-          "columns"=>array(
-              "NomF"=>array("label"=>"Formation"),
-              "Count"
-        )
+          "dataSource"=>array(
+        array("name"=>"Peter","age"=>35),
+        array("name"=>"Karl","age"=>32),
+    ),
+        //   "columns"=>array(
+        //       "NomF"=>array("label"=>"Formation"),
+        //       "Count"
+        // )
         ))
         }}
         @else
