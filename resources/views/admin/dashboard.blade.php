@@ -1,104 +1,99 @@
 @extends('layouts.app', ['activePage' => 'dashboard', 'titlePage' => __('Tableau de bord')])
 
 <?php
-use \koolreport\widgets\koolphp\Table;
-use \koolreport\widgets\koolphp\Card;
-use \koolreport\widgets\google\PieChart;
-use \koolreport\widgets\google\ColumnChart;
-use \koolreport\widgets\google\LineChart;
-$nbr_eleves_formation=$report["eleves_per_formation"];
-$nbr_eleves_classe=$report["eleves_per_classe"];
-$revenues_formation=$report["revenues_formation"];
-$nbr_parents=$report["nbr_parents"];
-$days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
+use koolreport\widgets\koolphp\Table;
+use koolreport\widgets\koolphp\Card;
+use koolreport\widgets\google\PieChart;
+use koolreport\widgets\google\ColumnChart;
+use koolreport\widgets\google\LineChart;
+$nbr_eleves_formation = $report['eleves_per_formation'];
+$nbr_eleves_classe = $report['eleves_per_classe'];
+$revenues_formation = $report['revenues_formation'];
+$nbr_parents = $report['nbr_parents'];
+$days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
 ?>
 @section('content')
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row my-3">
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-info card-header-icon">
+                            <div class="card-icon">
+                                <i class="fa fa-graduation-cap"></i>
+                            </div>
+                            <p class="card-category">Formations fournies</p>
+                            <h3 class="card-title">{{ $nbr_eleves_formation->count() }}</h3>
+                        </div>
 
-<div class="content">
-  <div class="container-fluid">
-    <div class="row my-3">
-      <div class="col-lg-3 col-md-3 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-info card-header-icon">
-            <div class="card-icon">
-              <i class="fa fa-graduation-cap"></i>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-success card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">attach_money</i>
+                            </div>
+                            <p class="card-category">Revenues Estimées</p>
+                            <h3 class="card-title">{{ $revenues_formation->sum('Total') }}</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">group</i>
+                            </div>
+                            <p class="card-category">Elèves dans toutes les formations</p>
+                            {{-- <h3 class="card-title">{{$nbr_eleves_formation->get()->sum("id")}}</h3> --}}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-primary card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">escalator_warning</i>
+                            </div>
+                            <p class="card-category">Parents Inscrits</p>
+                            <h3 class="card-title">{{ $nbr_parents }}</h3>
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
-            <p class="card-category">Formations fournies</p>
-            <h3 class="card-title">{{$nbr_eleves_formation->count()}}</h3>
-          </div>
-          
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">attach_money</i>
-            </div>
-            <p class="card-category">Revenues Estimées</p>
-            <h3 class="card-title">{{$revenues_formation->sum("Total")}}</h3>
-          </div>
-
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-warning card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">group</i>
-            </div>
-            <p class="card-category">Elèves dans toutes les formations</p>
-            {{-- <h3 class="card-title">{{$nbr_eleves_formation->get()->sum("id")}}</h3> --}}
-          </div>
-
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-3 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-primary card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">escalator_warning</i>
-            </div>
-            <p class="card-category">Parents Inscrits</p>
-            <h3 class="card-title">{{$nbr_parents}}</h3>
-          </div>
-
-        </div>
-      </div>
 
 
-    </div>
+            <h4> Statistiques</h4>
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+                  <div id="profs-per-formation-chart-div"></div>  
+                  @if (false)
+                        {{ ColumnChart::create([
+                            'title' => 'Répartition des enseignants par formation',
+                            'data' => [['name' => 'Peter', 'age' => 35], ['name' => 'Karl', 'age' => 32]],
+                            //   "columns"=>array(
+                            //       "NomF"=>array("label"=>"Formation"),
+                            //       "Count"
+                            // )
+                        ]) }}
+                    @else
+                        <h5 class="text-muted">Aucune donnée à afficher</h5>
+                    @endif
 
 
-    <h4> Statistiques</h4>
-    <div class="row mb-3">
-      <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        @if(false)
-        {{
-          ColumnChart::create(array(
-          "title"=>"Répartition des enseignants par formation",
-          "data"=>array(
-        array("name"=>"Peter","age"=>35),
-        array("name"=>"Karl","age"=>32),
-    ),
-        //   "columns"=>array(
-        //       "NomF"=>array("label"=>"Formation"),
-        //       "Count"
-        // )
-        ))
-        }}
-        @else
-        <h5 class="text-muted">Aucune donnée à afficher</h5>
-        @endif
+                </div>
 
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+                    <div class="h-100 d-flex flex-row justify-content-center align-items-center">
 
-      </div>
-
-      <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        <div class="h-100 d-flex flex-row justify-content-center align-items-center">
-
-          {{-- {{PieChart::create(array(
+                        {{-- {{PieChart::create(array(
             "title"=>"Répartition des élèves sur les formations",
             "dataSource"=>$report->dataStore('nbr_eleves_formation'),
             "columns"=>array(
@@ -108,20 +103,20 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
           }} --}}
 
 
-        </div>
+                    </div>
 
 
-      </div>
+                </div>
 
 
 
 
-    </div>
+            </div>
 
-    <div class="row mb-3">
-      <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
 
-          {{-- {{PieChart::create(array(
+                    {{-- {{PieChart::create(array(
             "title"=>"Revenues  des formations",
             "dataSource"=>$report->dataStore('revenues_formation'),
             "columns"=>array(
@@ -134,12 +129,12 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
                 )) 
                 
               }} --}}
-      </div>
+                </div>
 
-      <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        <div class="h-100 d-flex flex-row justify-content-center align-items-center">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+                    <div class="h-100 d-flex flex-row justify-content-center align-items-center">
 
-              {{-- {{PieChart::create(array(
+                        {{-- {{PieChart::create(array(
                   "title"=>"Répartition des élèves sur les différentes classes",
                   "dataSource"=>$report->dataStore('nbr_eleves_classe'),
                   "columns"=>array(
@@ -150,21 +145,21 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
                     )
                   )) 
                 }} --}}
-          
-
-
-        </div>
-
-
-      </div>
 
 
 
+                    </div>
 
-    </div>
 
-    <div class="row mb-3">
-      {{-- <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+                </div>
+
+
+
+
+            </div>
+
+            <div class="row mb-3">
+                {{-- <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
         {{PieChart::create(array(
           "title"=>"Répartition des élèves sur les formations",
           "dataSource"=>$report->dataStore('nbr_eleves_formation'),
@@ -177,10 +172,10 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
         
       </div> --}}
 
-      <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center" >
-        {{-- <div class="w-100 d-flex flex-row justify-content-center align-items-center"> --}}
+                <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center">
+                    {{-- <div class="w-100 d-flex flex-row justify-content-center align-items-center"> --}}
 
-          {{-- {{
+                    {{-- {{
             LineChart::create(array(
               "title"=>"Total des correspondances entre parents/prof par mois",
           "dataSource"=>$report->dataStore('nbr_observ_month'),
@@ -194,36 +189,50 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
           }} --}}
 
 
-        {{-- </div> --}}
+                    {{-- </div> --}}
 
 
-      </div>
+                </div>
 
 
 
 
+            </div>
+
+        </div>
     </div>
-
-  </div>
-</div>
 @endsection
 
 @push('js')
-<script src="{{ asset('js') }}/charts.js"></script>
+    <script src="{{ asset('js') }}/charts.js"></script>
 
 
-<script>
-  $(document).ready(function() {
-      
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
+    <script>
+        $(document).ready(function() {
 
-      /** 
-       * Render charts
-      */
-      var stats=@json($report);
-      console.log(stats);
-      // renderChart()
-    });
-</script>
+            // Javascript method's body can be found in assets/js/demos.js
+            md.initDashboardPageCharts();
+
+            /** 
+             * Render charts
+             */
+            var stats = @json($report);
+            console.log(stats);
+            var profs_per_formation_stats = {
+                labels: [],
+                datasets: [{
+                    label: '# profs',
+                    data: []
+                }]
+            }
+            stats.profs_per_formation.forEach(row => {
+                profs_per_formation_stats.labels.push(row.NomF)
+                profs_per_formation_stats.datasets.data.push(row.Count)
+            })
+            renderChart("profs-per-formation-chart-div", {
+                title: "Répartition des enseignants par formation",
+                data: profs_per_formation_stats
+            })
+        });
+    </script>
 @endpush
