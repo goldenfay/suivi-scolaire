@@ -74,18 +74,6 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <canvas id="profs-per-formation-chart-div"></canvas>
-                    @if (false)
-                        {{ ColumnChart::create([
-                            'title' => 'Répartition des enseignants par formation',
-                            'data' => [['name' => 'Peter', 'age' => 35], ['name' => 'Karl', 'age' => 32]],
-                            //   "columns"=>array(
-                            //       "NomF"=>array("label"=>"Formation"),
-                            //       "Count"
-                            // )
-                        ]) }}
-                    @else
-                        <h5 class="text-muted">Aucune donnée à afficher</h5>
-                    @endif
 
 
                 </div>
