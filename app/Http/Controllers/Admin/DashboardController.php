@@ -75,7 +75,7 @@ class DashboardController extends Controller
             "report" => array(
                 "nbr_parents"=>$nbr_parents,
                 "profs_per_formation"=>$profs_per_formation,
-                "eleves_per_formation"=>$eleves_per_formation->get(),
+                "eleves_per_formation"=>$eleves_per_formation,
                 "eleves_per_classe"=>$eleves_per_classe,
                 "revenues_formation"=>$revenues_formation,
             )
