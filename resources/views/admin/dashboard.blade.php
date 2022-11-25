@@ -210,8 +210,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
 @endsection
 
 @push('js')
-<script type="text/javascript" src="{{ asset('js') }}/calendar.js"></script>
-<script src="{{ asset('js') }}/services/teacher-services.js"></script>
+<script src="{{ asset('js') }}/charts.js"></script>
 
 
 <script>
@@ -219,6 +218,12 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
+
+      /** 
+       * Render charts
+      */
+      var 
+      renderChart()
     });
 </script>
 @endpush
