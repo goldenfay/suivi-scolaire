@@ -65,7 +65,14 @@ class DashboardController extends Controller
         classe.id as id,classe.Des as NomC, COUNT(*) as Count '))
         ->groupBy('classe.id','classe.Des')
         ->get();
-
+        $revenues_formation = DB::table('formation')
+        ->join('eleve_formation','formation.id','=','eleve_formation.Formation')
+        ->selectRaw(('formation.id as idF,formation.Des as NomF, COUNT(*) as Count '))
+        ->groupBy('formation.id','formation.Des')
+        ->join('catalogue_formation','idF','=','catalogue_formation.id')
+        ->selectRaw(('catalogue_formation.id as id,NomF, Prix* Count as Total '))
+        ->groupBy('catalogue_formation.id','NomF')
+        ->get();
         return view('admin.dashboard', [
             "user" => $this->user,
             "report" => array(
@@ -73,6 +80,7 @@ class DashboardController extends Controller
                 "profs_per_formation"=>$profs_per_formation,
                 "eleves_per_formation"=>$eleves_per_formation,
                 "eleves_per_classe"=>$eleves_per_classe,
+                "revenues_formation"=>$revenues_formation,
             )
 
 
