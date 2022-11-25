@@ -49,7 +49,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
               <i class="material-icons">group</i>
             </div>
             <p class="card-category">Elèves dans toutes les formations</p>
-            <h3 class="card-title">{{$nbr_eleves_formation->get()->sum("id")}}</h3>
+            {{-- <h3 class="card-title">{{$nbr_eleves_formation->get()->sum("id")}}</h3> --}}
           </div>
 
         </div>
@@ -61,7 +61,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
               <i class="material-icons">escalator_warning</i>
             </div>
             <p class="card-category">Parents Inscrits</p>
-            <h3 class="card-title">{{$nbr_parents->sum('Count')}}</h3>
+            <h3 class="card-title">{{$nbr_parents}}</h3>
           </div>
 
         </div>
@@ -74,7 +74,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <h4> Statistiques</h4>
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        @if($report->dataStore("nbr_prof_formation")->count()>0  && false)
+        @if(false)
         {{
           ColumnChart::create(array(
           "title"=>"Répartition des enseignants par formation",
