@@ -221,8 +221,8 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       /** 
        * Render charts
       */
-      var stats=@json($report)
-      console.log(stats)
+      var stats=@json($report);
+      console.log(stats);
       // renderChart()
     });
 </script>
