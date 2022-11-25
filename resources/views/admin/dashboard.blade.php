@@ -73,8 +73,8 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             <h4> Statistiques</h4>
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-                  <div id="profs-per-formation-chart-div"></div>  
-                  @if (false)
+                    <div id="profs-per-formation-chart-div"></div>
+                    @if (false)
                         {{ ColumnChart::create([
                             'title' => 'Répartition des enseignants par formation',
                             'data' => [['name' => 'Peter', 'age' => 35], ['name' => 'Karl', 'age' => 32]],
@@ -208,7 +208,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
 
     <script>
-        $(document).load(function() {
+        $(document).on("load",function() {
 
             // Javascript method's body can be found in assets/js/demos.js
             md.initDashboardPageCharts();
