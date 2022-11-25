@@ -208,7 +208,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
 
     <script>
-        $(document).ready(function() {
+        $(document).load(function() {
 
             // Javascript method's body can be found in assets/js/demos.js
             md.initDashboardPageCharts();
