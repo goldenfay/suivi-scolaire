@@ -70,7 +70,7 @@ class DashboardController extends Controller
         ->selectRaw(('formation.id as idF,formation.Des as NomF, COUNT(*) as Count '))
         ->groupBy('formation.id','formation.Des')
         ->join('catalogue_formation','idF','=','catalogue_formation.id')
-        ->selectRaw(('catalogue_formation.id as id,NomF, Prix* Count as Total '))
+        ->selectRaw(('catalogue_formation.id as id, Prix* Count as Total '))
         ->groupBy('catalogue_formation.id','NomF')
         ->get();
         return view('admin.dashboard', [
