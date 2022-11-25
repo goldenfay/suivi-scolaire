@@ -66,7 +66,7 @@ class DashboardController extends Controller
         ->groupBy('classe.id','classe.Des')
         ->get();
         $revenues_formation = DB::table('catalogue_formation')
-        ->joinSub($eleves_per_formation,'eleves_per_formation','eleves_per_formation.id','=','catalogue_formation.id')
+        ->joinSub($eleves_per_formation->toQuery(),'eleves_per_formation','eleves_per_formation.id','=','catalogue_formation.id')
         ->selectRaw(('catalogue_formation.id as id,eleves_per_formation.NomF as NomF, catalogue_formation.Prix* eleves_per_formation.Count as Total '))
         ->groupBy('catalogue_formation.id','eleves_per_formation.NomF')
         ->get();
