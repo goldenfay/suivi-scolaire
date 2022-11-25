@@ -6,10 +6,10 @@ use \koolreport\widgets\koolphp\Card;
 use \koolreport\widgets\google\PieChart;
 use \koolreport\widgets\google\ColumnChart;
 use \koolreport\widgets\google\LineChart;
-$nbr_eleves_formation=$report->dataStore("nbr_eleves_formation");
-$nbr_eleves_classe=$report->dataStore("nbr_eleves_classe");
-$revenues_formation=$report->dataStore("revenues_formation");
-$nbr_parents=$report->dataStore("nbr_parents");
+$nbr_eleves_formation=$report["eleves_per_formation"];
+$nbr_eleves_classe=$report["eleves_per_classe"];
+$revenues_formation=$report["revenues_formation"];
+$nbr_parents=$report["nbr_parents"];
 $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
 
 ?>
