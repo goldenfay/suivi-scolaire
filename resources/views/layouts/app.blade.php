@@ -74,6 +74,8 @@
         
         <!-- Chartist JS -->
         <script src="{{ asset('material') }}/js/plugins/chartist.min.js"></script>
+        <!-- ChartJS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!--  Notifications Plugin    -->
         <script src="{{ asset('material') }}/js/plugins/bootstrap-notify.js"></script>
         <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
