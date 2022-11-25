@@ -74,8 +74,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <h4> Statistiques</h4>
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        {{json_encode($report->dataStore("nbr_prof_formation")->toArray()) }}
-        @if($report->dataStore("nbr_prof_formation")->count()>0)
+        @if($report->dataStore("nbr_prof_formation")->count()>0  && false)
         {{
           ColumnChart::create(array(
           "title"=>"Répartition des enseignants par formation",
@@ -99,14 +98,14 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
         <div class="h-100 d-flex flex-row justify-content-center align-items-center">
 
-          {{PieChart::create(array(
+          {{-- {{PieChart::create(array(
             "title"=>"Répartition des élèves sur les formations",
             "dataSource"=>$report->dataStore('nbr_eleves_formation'),
             "columns"=>array(
               "NomF"=>array("label"=>"Nom Formation"),
               "Count")
             )) 
-          }}
+          }} --}}
 
 
         </div>
@@ -122,7 +121,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
 
-          {{PieChart::create(array(
+          {{-- {{PieChart::create(array(
             "title"=>"Revenues  des formations",
             "dataSource"=>$report->dataStore('revenues_formation'),
             "columns"=>array(
@@ -134,13 +133,13 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
                 
                 )) 
                 
-              }}
+              }} --}}
       </div>
 
       <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
         <div class="h-100 d-flex flex-row justify-content-center align-items-center">
 
-              {{PieChart::create(array(
+              {{-- {{PieChart::create(array(
                   "title"=>"Répartition des élèves sur les différentes classes",
                   "dataSource"=>$report->dataStore('nbr_eleves_classe'),
                   "columns"=>array(
@@ -150,7 +149,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
                       "#003f5c","#f95d6a","#2f4b7c","#ffa600","#665191","#a05195","#d45087","#ff7c43"
                     )
                   )) 
-                }}
+                }} --}}
           
 
 
@@ -181,7 +180,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center" >
         {{-- <div class="w-100 d-flex flex-row justify-content-center align-items-center"> --}}
 
-          {{
+          {{-- {{
             LineChart::create(array(
               "title"=>"Total des correspondances entre parents/prof par mois",
           "dataSource"=>$report->dataStore('nbr_observ_month'),
@@ -192,7 +191,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
                   "curveType"=>"function"
               )
           ))
-          }}
+          }} --}}
 
 
         {{-- </div> --}}
@@ -222,8 +221,9 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
       /** 
        * Render charts
       */
-      var 
-      renderChart()
+      var stats=@json($report)
+      console.log(stats)
+      // renderChart()
     });
 </script>
 @endpush

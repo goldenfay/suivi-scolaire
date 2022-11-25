@@ -42,8 +42,8 @@ class DashboardController extends Controller
     {
 
 
-        $report = new MyReport();
-        $report->run();
+        // $report = new MyReport();
+        // $report->run();
 
         $nbr_parents = DB::table('parent')
             ->count();
