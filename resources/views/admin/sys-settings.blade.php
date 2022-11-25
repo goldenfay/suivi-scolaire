@@ -13,7 +13,7 @@
           <div class="card ">
             <div class="card-header card-header-info">
               <h4 class="card-title">{{ __('Informations de messagerie par SMS (ICOSNET)') }}</h4>
-              <p class="card-category">{{ __('Soyez vigilants à props de ces informations sensibles') }}</p>
+              <p class="card-category">{{ __('Soyez vigilants à propos de ces informations sensibles') }}</p>
             </div>
             <div class="card-body ">
               @if (session('sms-flag'))
@@ -106,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row justify-content-center align-items-center">
+              <div class="row mt-4 justify-content-center align-items-center">
                 <div class="col-sm-3">
                     <div class="form-check">
                       <label class="form-check-label">
