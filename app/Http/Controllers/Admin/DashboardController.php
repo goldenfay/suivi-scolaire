@@ -57,8 +57,8 @@ class DashboardController extends Controller
         ->join('eleve_formation','formation.id','=','eleve_formation.Formation')
         ->selectRaw(('
         formation.id as id,formation.Des as NomF, COUNT(*) as Count '))
-        ->groupBy('formation.id','formation.Des')
-        ->get();
+        ->groupBy('formation.id','formation.Des');
+        
         $eleves_per_classe = DB::table('classe')
         ->join('eleve_classe','classe.id','=','eleve_classe.Classe')
         ->selectRaw(('
@@ -66,7 +66,7 @@ class DashboardController extends Controller
         ->groupBy('classe.id','classe.Des')
         ->get();
         $revenues_formation = DB::table('catalogue_formation')
-        ->joinSub($eleves_per_formation->toQuery(),'eleves_per_formation','eleves_per_formation.id','=','catalogue_formation.id')
+        ->joinSub($eleves_per_formation,'eleves_per_formation','eleves_per_formation.id','=','catalogue_formation.id')
         ->selectRaw(('catalogue_formation.id as id,eleves_per_formation.NomF as NomF, catalogue_formation.Prix* eleves_per_formation.Count as Total '))
         ->groupBy('catalogue_formation.id','eleves_per_formation.NomF')
         ->get();
@@ -75,7 +75,7 @@ class DashboardController extends Controller
             "report" => array(
                 "nbr_parents"=>$nbr_parents,
                 "profs_per_formation"=>$profs_per_formation,
-                "eleves_per_formation"=>$eleves_per_formation,
+                "eleves_per_formation"=>$eleves_per_formation->get(),
                 "eleves_per_classe"=>$eleves_per_classe,
                 "revenues_formation"=>$revenues_formation,
             )
