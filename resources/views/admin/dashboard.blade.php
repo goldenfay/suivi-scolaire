@@ -227,7 +227,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             }
             stats.profs_per_formation.forEach(row => {
                 profs_per_formation_stats.labels.push(row.NomF)
-                profs_per_formation_stats.datasets.data.push(row.Count)
+                profs_per_formation_stats.datasets[0].data.push(row.Count)
             })
             renderChart("profs-per-formation-chart-div", {
                 title: "Répartition des enseignants par formation",
