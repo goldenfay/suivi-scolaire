@@ -65,12 +65,9 @@ class DashboardController extends Controller
         classe.id as id,classe.Des as NomC, COUNT(*) as Count '))
         ->groupBy('classe.id','classe.Des')
         ->get();
-        $revenues_formation = DB::table('formation')
-        ->join('eleve_formation','formation.id','=','eleve_formation.Formation')
-        ->selectRaw(('formation.id as idF,formation.Des as NomF, COUNT(*) as Count '))
-        ->groupBy('formation.id','formation.Des')
-        ->join('catalogue_formation','idF','=','catalogue_formation.id')
-        ->selectRaw(('catalogue_formation.id as id, Prix* Count as Total '))
+        $revenues_formation = DB::table('catalogue_formation')
+        ->join($eleves_per_formation,'id','=','catalogue_formation.id')
+        ->selectRaw(('catalogue_formation.id as id,NomF, Prix* Count as Total '))
         ->groupBy('catalogue_formation.id','NomF')
         ->get();
         return view('admin.dashboard', [
