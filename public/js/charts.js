@@ -13,9 +13,12 @@ function renderChart(containerId,{type,title,data,...others}){
                     }
                 },
                 responsive: true,
-                title: {
-                    display: true,
-                    text: title
+                plugins: {
+                    title: {
+                        display: true,
+                        text: title
+                    }
+
                 },
                 ...others
             }
