@@ -49,7 +49,7 @@ $days=["Dimanche","Lundi","Mardi","Mercredi","Jeudi"];
               <i class="material-icons">group</i>
             </div>
             <p class="card-category">Elèves dans toutes les formations</p>
-            <h3 class="card-title">{{$nbr_eleves_formation->sum("Count")}}</h3>
+            <h3 class="card-title">{{$nbr_eleves_formation->sum("id")}}</h3>
           </div>
 
         </div>
