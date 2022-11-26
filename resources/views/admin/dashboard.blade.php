@@ -48,7 +48,6 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                                 <i class="material-icons">group</i>
                             </div>
                             <p class="card-category">Elèves dans toutes les formations</p>
-                            {{-- <h3 class="card-title">{{ array_sum(array_map(function ($el){ return $el->Count;}, $nbr_eleves_formation))}}</h3> --}}
                             <h3 class="card-title">{{ $nbr_eleves_formation->sum('Count')}}</h3>
                         </div>
 
@@ -236,6 +235,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 data: profs_per_formation_stats
             })
             renderChart("eleves-per-formation-chart-div", {
+                type: 'pie',
                 title: "Répartition des élèves sur les formations",
                 data: eleves_per_formation_stats
             })
