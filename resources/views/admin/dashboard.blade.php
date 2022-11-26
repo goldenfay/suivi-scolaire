@@ -76,7 +76,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                     @if ($report['profs_per_formation']->count() > 0)
                         <canvas id="profs-per-formation-chart-div"></canvas>
                     @else
-                        <h6 class="lead">Aucune donnée à afficher</h6>
+                        <p class="lead">Aucune donnée à afficher</p>
                     @endif
 
 
@@ -87,7 +87,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                         @if ($report['eleves_per_formation']->count() > 0)
                             <canvas id="eleves-per-formation-chart-div"></canvas>
                         @else
-                            <h6 class="lead">Aucune donnée à afficher</h6>
+                            <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
                     </div>
@@ -105,7 +105,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                     @if ($report['revenues_formation']->count() > 0)
                         <canvas id="revenus-per-formation-chart-div"></canvas>
                     @else
-                        <h6 class="lead">Aucune donnée à afficher</h6>
+                        <p class="lead">Aucune donnée à afficher</p>
                     @endif
                 </div>
 
@@ -114,7 +114,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                         @if ($report['eleves_per_classe']->count() > 0)
                             <canvas id="eleves-per-classe-chart-div"></canvas>
                         @else
-                            <h6 class="lead">Aucune donnée à afficher</h6>
+                            <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
                         {{-- {{PieChart::create(array(
@@ -235,6 +235,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                         data: []
                     }]
                 }
+            //Prepare charts data
             stats.profs_per_formation.forEach(row => {
                 profs_per_formation_stats.labels.push(row.NomF)
                 profs_per_formation_stats.datasets[0].data.push(row.Count)
@@ -251,16 +252,17 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 eleves_per_classe_stats.labels.push(row.NomC)
                 eleves_per_classe_stats.datasets[0].data.push(row.Count)
             })
-            renderChart("profs-per-formation-chart-div", {
+            // Render charts
+            stats.profs_per_formation.length > 0 && renderChart("profs-per-formation-chart-div", {
                 title: "Répartition des enseignants par formation",
                 data: profs_per_formation_stats
             })
-            renderChart("eleves-per-formation-chart-div", {
+            stats.eleves_per_formation.length > 0 && renderChart("eleves-per-formation-chart-div", {
                 type: 'pie',
                 title: "Répartition des élèves sur les formations",
                 data: eleves_per_formation_stats
             })
-            renderChart("revenus-per-formation-chart-div", {
+            stats.revenues_formation.length > 0 && renderChart("revenus-per-formation-chart-div", {
                 type: 'pie',
                 title: "Revenues  des formations",
                 data: revenus_per_formation_stats,
@@ -272,7 +274,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                     }
                 },
             })
-            renderChart("eleves-per-classe-chart-div", {
+            stats.eleves_per_classe.length > 0 && renderChart("eleves-per-classe-chart-div", {
                 type: 'pie',
                 title: "Répartition des élèves sur les différentes classes",
                 data: eleves_per_classe_stats,
