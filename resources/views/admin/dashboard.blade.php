@@ -138,7 +138,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                             <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
-                    {{-- {{
+                        {{-- {{
             LineChart::create(array(
               "title"=>"Total des correspondances entre parents/prof par mois",
           "dataSource"=>$report->dataStore('nbr_observ_month'),
@@ -236,15 +236,20 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 eleves_per_classe_stats.labels.push(row.NomC)
                 eleves_per_classe_stats.datasets[0].data.push(row.Count)
             })
-            stats.month_observations.forEach((row,index) => {
+            stats.month_observations.forEach((row, index) => {
                 month_observations_stats.labels.push(row.Type)
                 month_observations_stats.datasets.push({
-                        label: row.Type,
-                        backgroundColor:["#003f5c", "#f95d6a", "#2f4b7c", "#ffa600", "#665191", "#a05195",
-                            "#d45087", "#ff7c43"
-                        ][index] ,
-                        data: [row.Count]
-                    })
+                    label: row.Type,
+                    backgroundColor: ['rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ][index],
+                    data: [row.Count]
+                })
             })
             // Render charts
             stats.profs_per_formation.length > 0 && renderChart("profs-per-formation-chart-div", {
@@ -277,6 +282,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 type: 'bar',
                 title: "Observation ce mois-ci",
                 data: month_observations_stats,
+                barThickness: '30'
             })
         });
     </script>
