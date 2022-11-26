@@ -282,7 +282,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 type: 'bar',
                 title: "Observation ce mois-ci",
                 data: month_observations_stats,
-                barThickness: '30'
+                barThickness: '100'
             })
         });
     </script>
