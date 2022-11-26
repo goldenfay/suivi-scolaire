@@ -80,6 +80,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <div class="h-100 d-flex flex-row justify-content-center align-items-center">
+                        <canvas id="eleves-per-formation-chart-div"></canvas>
 
                         {{-- {{PieChart::create(array(
             "title"=>"Répartition des élèves sur les formations",
@@ -213,14 +214,29 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                     backgroundColor: '#FFB1C1',
                     data: []
                 }]
+            },eleves_per_formation_stats = {
+                labels: [],
+                datasets: [{
+                    label: 'Formation',
+                    backgroundColor: '#9BD0F5',
+                    data: []
+                }]
             }
             stats.profs_per_formation.forEach(row => {
                 profs_per_formation_stats.labels.push(row.NomF)
                 profs_per_formation_stats.datasets[0].data.push(row.Count)
             })
+            stats.eleves_per_formation_stats.forEach(row => {
+                eleves_per_formation_stats.labels.push(row.NomF)
+                eleves_per_formation_stats.datasets[0].data.push(row.Count)
+            })
             renderChart("profs-per-formation-chart-div", {
                 title: "Répartition des enseignants par formation",
                 data: profs_per_formation_stats
+            })
+            renderChart("eleves-per-formation-chart-div", {
+                title: "Répartition des élèves sur les formations",
+                data: eleves_per_formation_stats
             })
         });
     </script>
