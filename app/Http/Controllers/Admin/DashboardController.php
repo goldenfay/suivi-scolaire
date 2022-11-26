@@ -71,7 +71,7 @@ class DashboardController extends Controller
         ->groupBy('catalogue_formation.id','eleves_per_formation.NomF')
         ->get();
         $month_observations = DB::table('observation')
-        ->whereRaw('MONTH(Date)=MONTH(CURRENT_DATE)')
+        ->whereRaw('YEAR(Date)=YEAR(CURRENT_DATE) AND MONTH(Date)=MONTH(CURRENT_DATE)')
         ->selectRaw('Type, count(*) as Count')
         ->groupBy('Type')
         ->get();
