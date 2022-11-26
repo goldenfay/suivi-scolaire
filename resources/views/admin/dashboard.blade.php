@@ -48,7 +48,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                                 <i class="material-icons">group</i>
                             </div>
                             <p class="card-category">Elèves dans toutes les formations</p>
-                            <h3 class="card-title">{{ $nbr_eleves_formation->sum('Count')}}</h3>
+                            <h3 class="card-title">{{ $nbr_eleves_formation->sum('Count') }}</h3>
                         </div>
 
                     </div>
@@ -81,17 +81,17 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <div class="h-100 d-flex flex-row justify-content-center align-items-center">
                         <canvas id="eleves-per-formation-chart-div"></canvas>
-                        
+
                     </div>
-                    
-                    
+
+
                 </div>
-                
-                
-                
-                
+
+
+
+
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <canvas id="revenus-per-formation-chart-div"></canvas>
@@ -199,28 +199,29 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             var stats = @json($report);
             console.log(stats);
             var profs_per_formation_stats = {
-                labels: [],
-                datasets: [{
-                    label: '# Profs',
-                    backgroundColor: '#FFB1C1',
-                    data: []
-                }]
-            },eleves_per_formation_stats = {
-                labels: [],
-                datasets: [{
-                    label: '# Elèves',
-                    backgroundColor: ['#9BD0F5','#ff6384','#36A2EB','#FF9F40','#9966FF'],
-                    data: []
-                }]
-            }
-            ,revenus_per_formation_stats = {
-                labels: [],
-                datasets: [{
-                    label: 'Revenues',
-                    backgroundColor: ['#9BD0F5','#ff6384','#36A2EB','#FF9F40','#9966FF'],
-                    data: []
-                }]
-            }
+                    labels: [],
+                    datasets: [{
+                        label: '# Profs',
+                        backgroundColor: '#FFB1C1',
+                        data: []
+                    }]
+                },
+                eleves_per_formation_stats = {
+                    labels: [],
+                    datasets: [{
+                        label: '# Elèves',
+                        backgroundColor: ['#9BD0F5', '#ff6384', '#36A2EB', '#FF9F40', '#9966FF'],
+                        data: []
+                    }]
+                },
+                revenus_per_formation_stats = {
+                    labels: [],
+                    datasets: [{
+                        label: 'Revenus',
+                        backgroundColor: ["#00876c", "#10689c", "#a2b997", "#dfa47e", "#d43d51"],
+                        data: []
+                    }]
+                }
             stats.profs_per_formation.forEach(row => {
                 profs_per_formation_stats.labels.push(row.NomF)
                 profs_per_formation_stats.datasets[0].data.push(row.Count)
@@ -245,7 +246,14 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             renderChart("revenus-per-formation-chart-div", {
                 type: 'pie',
                 title: "Revenues  des formations",
-                data: revenus_per_formation_stats
+                data: revenus_per_formation_stats,
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            return tooltipItems.yLabel + ' DA';
+                        }
+                    }
+                },
             })
         });
     </script>
