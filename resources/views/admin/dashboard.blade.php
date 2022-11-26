@@ -73,11 +73,10 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             <h4> Statistiques</h4>
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-                    @if($report["profs_per_formation"]->count()>0)
-                    <canvas id="profs-per-formation-chart-div"></canvas>
+                    @if ($report['profs_per_formation']->count() > 0)
+                        <canvas id="profs-per-formation-chart-div"></canvas>
                     @else
-                    <h6 class="lead">Aucune donnée à afficher</h6>
-
+                        <h6 class="lead">Aucune donnée à afficher</h6>
                     @endif
 
 
@@ -85,11 +84,10 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <div class="h-100 d-flex flex-row justify-content-center align-items-center">
-                        @if($report["eleves_per_formation"]->count()>0)
-                        <canvas id="eleves-per-formation-chart-div"></canvas>
+                        @if ($report['eleves_per_formation']->count() > 0)
+                            <canvas id="eleves-per-formation-chart-div"></canvas>
                         @else
-                        <h6>
-
+                            <h6 class="lead">Aucune donnée à afficher</h6>
                         @endif
 
                     </div>
@@ -104,16 +102,19 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-                    <canvas id="revenus-per-formation-chart-div"></canvas>
+                    @if ($report['revenues_formation']->count() > 0)
+                        <canvas id="revenus-per-formation-chart-div"></canvas>
+                    @else
+                        <h6 class="lead">Aucune donnée à afficher</h6>
+                    @endif
                 </div>
-                
+
                 <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <div class="h-100 d-flex flex-row justify-content-center align-items-center">
-                        @if($report["eleves_per_classe"]->count()>0)
-                        <canvas id="eleves-per-classe-chart-div"></canvas>
+                        @if ($report['eleves_per_classe']->count() > 0)
+                            <canvas id="eleves-per-classe-chart-div"></canvas>
                         @else
-                        <h6>
-
+                            <h6 class="lead">Aucune donnée à afficher</h6>
                         @endif
 
                         {{-- {{PieChart::create(array(
@@ -228,7 +229,9 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                     labels: [],
                     datasets: [{
                         label: 'Elèves',
-                        backgroundColor: ["#003f5c","#f95d6a","#2f4b7c","#ffa600","#665191","#a05195","#d45087","#ff7c43"],
+                        backgroundColor: ["#003f5c", "#f95d6a", "#2f4b7c", "#ffa600", "#665191", "#a05195",
+                            "#d45087", "#ff7c43"
+                        ],
                         data: []
                     }]
                 }
