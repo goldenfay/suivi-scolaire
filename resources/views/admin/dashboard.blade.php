@@ -226,7 +226,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 profs_per_formation_stats.labels.push(row.NomF)
                 profs_per_formation_stats.datasets[0].data.push(row.Count)
             })
-            @json($nbr_eleves_formation->get()).forEach(row => {
+            stats.eleves_per_formation_stats.forEach(row => {
                 eleves_per_formation_stats.labels.push(row.NomF)
                 eleves_per_formation_stats.datasets[0].data.push(row.Count)
             })

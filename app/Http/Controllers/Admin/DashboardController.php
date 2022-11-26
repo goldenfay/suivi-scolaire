@@ -57,7 +57,8 @@ class DashboardController extends Controller
         ->join('eleve_formation','formation.id','=','eleve_formation.Formation')
         ->selectRaw(('
         formation.id as id,formation.Des as NomF, COUNT(*) as Count '))
-        ->groupBy('formation.id','formation.Des');
+        ->groupBy('formation.id','formation.Des')
+        ->get();
         
         $eleves_per_classe = DB::table('classe')
         ->join('eleve_classe','classe.id','=','eleve_classe.Classe')
