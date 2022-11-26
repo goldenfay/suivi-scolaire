@@ -218,7 +218,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 labels: [],
                 datasets: [{
                     label: '# Elèves',
-                    backgroundColor: '#9BD0F5',
+                    backgroundColor: ['#9BD0F5','#ff6384','#36A2EB','#FF9F40','#9966FF'],
                     data: []
                 }]
             }
