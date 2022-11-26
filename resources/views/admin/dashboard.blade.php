@@ -132,7 +132,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
                 <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center">
                     <div class="w-100 d-flex flex-row justify-content-center align-items-center">
-                        @if ($report['eleves_per_classe']->count() > 0)
+                        @if ($report['month_observations']->count() > 0)
                             <canvas id="month-observ-chart-div"></canvas>
                         @else
                             <p class="lead">Aucune donnée à afficher</p>
