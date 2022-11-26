@@ -210,14 +210,14 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             var profs_per_formation_stats = {
                 labels: [],
                 datasets: [{
-                    label: 'Formation',
+                    label: '# Profs',
                     backgroundColor: '#FFB1C1',
                     data: []
                 }]
             },eleves_per_formation_stats = {
                 labels: [],
                 datasets: [{
-                    label: 'Formation',
+                    label: '# Elèves',
                     backgroundColor: '#9BD0F5',
                     data: []
                 }]
