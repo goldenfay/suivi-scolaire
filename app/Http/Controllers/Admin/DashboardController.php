@@ -70,6 +70,11 @@ class DashboardController extends Controller
         ->selectRaw(('catalogue_formation.id as id,eleves_per_formation.NomF as NomF, catalogue_formation.Prix* eleves_per_formation.Count as Total '))
         ->groupBy('catalogue_formation.id','eleves_per_formation.NomF')
         ->get();
+        $month_observations = DB::table('observation')
+        ->whereRaw('MONTH(Date)=MONTH(CURRENT_DATE)')
+        ->selectRaw('Type, count(*) as Count')
+        ->groupBy('Type')
+        ->get();
         return view('admin.dashboard', [
             "user" => $this->user,
             "report" => array(
@@ -78,6 +83,7 @@ class DashboardController extends Controller
                 "eleves_per_formation"=>$eleves_per_formation->get(),
                 "eleves_per_classe"=>$eleves_per_classe,
                 "revenues_formation"=>$revenues_formation,
+                "month_observations"=>$month_observations,
             )
 
 

@@ -117,19 +117,6 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                             <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
-                        {{-- {{PieChart::create(array(
-                  "title"=>"Répartition des élèves sur les différentes classes",
-                  "dataSource"=>$report->dataStore('nbr_eleves_classe'),
-                  "columns"=>array(
-                    "NomC"=>array("label"=>"Classe"),
-                    "Count"),
-                    "colorScheme"=>array(
-                      "#003f5c","#f95d6a","#2f4b7c","#ffa600","#665191","#a05195","#d45087","#ff7c43"
-                    )
-                  )) 
-                }} --}}
-
-
 
                     </div>
 
@@ -142,21 +129,14 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             </div>
 
             <div class="row mb-3">
-                {{-- <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-        {{PieChart::create(array(
-          "title"=>"Répartition des élèves sur les formations",
-          "dataSource"=>$report->dataStore('nbr_eleves_formation'),
-          "columns"=>array(
-            "NomF"=>array("label"=>"Nom Formation"),
-            "Count")
-          )) 
-        }}
-
-        
-      </div> --}}
 
                 <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center">
-                    {{-- <div class="w-100 d-flex flex-row justify-content-center align-items-center"> --}}
+                    <div class="w-100 d-flex flex-row justify-content-center align-items-center">
+                        @if ($report['eleves_per_classe']->count() > 0)
+                            <canvas id="month-observ-chart-div"></canvas>
+                        @else
+                            <p class="lead">Aucune donnée à afficher</p>
+                        @endif
 
                     {{-- {{
             LineChart::create(array(
@@ -172,7 +152,7 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
           }} --}}
 
 
-                    {{-- </div> --}}
+                    </div>
 
 
                 </div>
@@ -234,6 +214,10 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                         ],
                         data: []
                     }]
+                },
+                month_observations_stats = {
+                    labels: [],
+                    datasets: []
                 }
             //Prepare charts data
             stats.profs_per_formation.forEach(row => {
@@ -251,6 +235,16 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
             stats.eleves_per_classe.forEach(row => {
                 eleves_per_classe_stats.labels.push(row.NomC)
                 eleves_per_classe_stats.datasets[0].data.push(row.Count)
+            })
+            stats.month_observations.forEach((row,index) => {
+                month_observations_stats.labels.push(row.Type)
+                month_observations_stats.datasets.push({
+                        label: row.Type,
+                        backgroundColor:["#003f5c", "#f95d6a", "#2f4b7c", "#ffa600", "#665191", "#a05195",
+                            "#d45087", "#ff7c43"
+                        ][index] ,
+                        data: [row.Count]
+                    })
             })
             // Render charts
             stats.profs_per_formation.length > 0 && renderChart("profs-per-formation-chart-div", {
@@ -278,6 +272,11 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
                 type: 'pie',
                 title: "Répartition des élèves sur les différentes classes",
                 data: eleves_per_classe_stats,
+            })
+            stats.month_observations.length > 0 && renderChart("month-observ-chart-div", {
+                type: 'bar',
+                title: "Observation ce mois-ci",
+                data: month_observations_stats,
             })
         });
     </script>
