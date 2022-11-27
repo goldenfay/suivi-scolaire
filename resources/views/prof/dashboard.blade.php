@@ -63,7 +63,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             {{-- Formations statistics section --}}
             <h4> Formations</h4>
             <div class="row mb-3">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     @if ($nbr_eleves_formation->count() > 0)
                         <canvas id="eleves-per-formation-chart-div"></canvas>
                     @else
@@ -71,7 +71,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                     @endif
                 </div>
 
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                   @if ($revenues_formation->count() > 0)
                         <canvas id="revenus-per-formation-chart-div"></canvas>
                     @else
@@ -98,7 +98,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             {{-- Classes statistics section --}}
             <h4> Classes</h4>
             <div class="row mb-3">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                   @if ($nbr_eleves_classe->count() > 0)
                         <canvas id="eleves-per-classe-chart-div"></canvas>
                     @else
@@ -107,7 +107,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
 
                 </div>
 
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
                     <div class="h-100 d-flex flex-row justify-content-center align-items-center">
 
                         {{-- <h5 class="card-title">Calendrier des évaluations</h5> --}}
