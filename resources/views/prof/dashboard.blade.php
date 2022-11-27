@@ -246,7 +246,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
              * Render charts
              */
             var stats = {
-                eleves_per_formation: @json($nbr_eleves_formation->toJson())
+                eleves_per_formation: @json($nbr_eleves_formation->toArray())
             };
             console.log(stats)
             var
