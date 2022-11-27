@@ -69,20 +69,16 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                     @else
                         <p class="lead">Aucune donnée à afficher</p>
                     @endif
-
-                    {{-- {{ PieChart::create([
-                        'title' => 'Répartition des élèves sur les formations',
-                        'dataSource' => $report->dataStore('nbr_eleves_formation'),
-                        'columns' => [
-                            'NomF' => ['label' => 'Nom Formation'],
-                            'Count',
-                        ],
-                    ]) }} --}}
                 </div>
 
                 <div class="col-sm-12 col-md-6">
+                  @if ($revenues_formation->count() > 0)
+                        <canvas id="revenus-per-formation-chart-div"></canvas>
+                    @else
+                        <p class="lead">Aucune donnée à afficher</p>
+                    @endif
 
-                    {{ PieChart::create([
+                    {{-- {{ PieChart::create([
                         'title' => 'Revenues  des formations',
                         'dataSource' => $report->dataStore('revenues_formation'),
                         'columns' => [
@@ -90,7 +86,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                             'Total' => ['suffix' => 'DA'],
                         ],
                         'colorScheme' => ['#00876c', '#10689c', '#a2b997', '#dfa47e', '#d43d51'],
-                    ]) }}
+                    ]) }} --}}
                 </div>
 
 
@@ -109,15 +105,6 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                         <p class="lead">Aucune donnée à afficher</p>
                     @endif
 
-                    {{-- {{ PieChart::create([
-                        'title' => 'Répartition des élèves sur les différentes classes',
-                        'dataSource' => $report->dataStore('nbr_eleves_classe'),
-                        'columns' => [
-                            'NomC' => ['label' => 'Classe'],
-                            'Count',
-                        ],
-                        'colorScheme' => ['#003f5c', '#f95d6a', '#2f4b7c', '#ffa600', '#665191', '#a05195', '#d45087', '#ff7c43'],
-                    ]) }} --}}
                 </div>
 
                 <div class="col-sm-12 col-md-6">
@@ -253,6 +240,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             var stats = {
                 eleves_per_formation: @json($nbr_eleves_formation->toArray()),
                 eleves_per_classe: @json($nbr_eleves_classe->toArray()),
+                revenues_formation: @json($revenues_formation->toArray()),
             };
             console.log(stats)
             var
@@ -291,10 +279,10 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                 eleves_per_formation_stats.labels.push(row.NomF)
                 eleves_per_formation_stats.datasets[0].data.push(row.Count)
             })
-            // stats.revenues_formation.forEach(row => {
-            //     revenus_per_formation_stats.labels.push(row.NomF)
-            //     revenus_per_formation_stats.datasets[0].data.push(row.Total)
-            // })
+            stats.revenues_formation.forEach(row => {
+                revenus_per_formation_stats.labels.push(row.NomF)
+                revenus_per_formation_stats.datasets[0].data.push(row.Total)
+            })
             stats.eleves_per_classe.forEach(row => {
                 eleves_per_classe_stats.labels.push(row.NomC)
                 eleves_per_classe_stats.datasets[0].data.push(row.Count)
@@ -320,18 +308,18 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                 title: "Répartition des élèves sur les formations que vous enseignez",
                 data: eleves_per_formation_stats
             })
-            // stats.revenues_formation.length > 0 && renderChart("revenus-per-formation-chart-div", {
-            //     type: 'pie',
-            //     title: "Revenues  des formations",
-            //     data: revenus_per_formation_stats,
-            //     tooltips: {
-            //         callbacks: {
-            //             label: function(tooltipItems, data) {
-            //                 return tooltipItems.yLabel + ' DA';
-            //             }
-            //         }
-            //     },
-            // })
+            stats.revenues_formation.length > 0 && renderChart("revenus-per-formation-chart-div", {
+                type: 'pie',
+                title: "Revenues  des formations",
+                data: revenus_per_formation_stats,
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItems, data) {
+                            return tooltipItems.yLabel + ' DA';
+                        }
+                    }
+                },
+            })
             stats.eleves_per_classe.length > 0 && renderChart("eleves-per-classe-chart-div", {
                 type: 'pie',
                 title: "Répartition des élèves sur les classes",
