@@ -37,7 +37,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                             <div class="card-icon">
                                 <i class="material-icons">group</i>
                             </div>
-                            <p class="card-category">Elèves dans toutes les formations</p>
+                            <p class="card-category">Elèves dans vos formations</p>
                             <h3 class="card-title">{{ $nbr_eleves_formation->sum('Count') }}</h3>
                         </div>
 
@@ -103,8 +103,13 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             <h4> Classes</h4>
             <div class="row mb-3">
                 <div class="col-sm-12 col-md-6">
+                  @if ($nbr_eleves_classe->count() > 0)
+                        <canvas id="eleves-per-classe-chart-div"></canvas>
+                    @else
+                        <p class="lead">Aucune donnée à afficher</p>
+                    @endif
 
-                    {{ PieChart::create([
+                    {{-- {{ PieChart::create([
                         'title' => 'Répartition des élèves sur les différentes classes',
                         'dataSource' => $report->dataStore('nbr_eleves_classe'),
                         'columns' => [
@@ -112,7 +117,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
                             'Count',
                         ],
                         'colorScheme' => ['#003f5c', '#f95d6a', '#2f4b7c', '#ffa600', '#665191', '#a05195', '#d45087', '#ff7c43'],
-                    ]) }}
+                    ]) }} --}}
                 </div>
 
                 <div class="col-sm-12 col-md-6">
@@ -246,7 +251,8 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
              * Render charts
              */
             var stats = {
-                eleves_per_formation: @json($nbr_eleves_formation->toArray())
+                eleves_per_formation: @json($nbr_eleves_formation->toArray()),
+                eleves_per_classe: @json($nbr_eleves_classe->toArray()),
             };
             console.log(stats)
             var
@@ -289,10 +295,10 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             //     revenus_per_formation_stats.labels.push(row.NomF)
             //     revenus_per_formation_stats.datasets[0].data.push(row.Total)
             // })
-            // stats.eleves_per_classe.forEach(row => {
-            //     eleves_per_classe_stats.labels.push(row.NomC)
-            //     eleves_per_classe_stats.datasets[0].data.push(row.Count)
-            // })
+            stats.eleves_per_classe.forEach(row => {
+                eleves_per_classe_stats.labels.push(row.NomC)
+                eleves_per_classe_stats.datasets[0].data.push(row.Count)
+            })
             // stats.month_observations.forEach((row, index) => {
             //     month_observations_stats.labels.push(row.Type)
             //     month_observations_stats.datasets.push({
@@ -311,7 +317,7 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             // Render charts
             stats.eleves_per_formation.length > 0 && renderChart("eleves-per-formation-chart-div", {
                 type: 'pie',
-                title: "Répartition des élèves sur les formations",
+                title: "Répartition des élèves sur les formations que vous enseignez",
                 data: eleves_per_formation_stats
             })
             // stats.revenues_formation.length > 0 && renderChart("revenus-per-formation-chart-div", {
@@ -326,11 +332,11 @@ $hours = ['08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '13:30-14:
             //         }
             //     },
             // })
-            // stats.eleves_per_classe.length > 0 && renderChart("eleves-per-classe-chart-div", {
-            //     type: 'pie',
-            //     title: "Répartition des élèves sur les différentes classes",
-            //     data: eleves_per_classe_stats,
-            // })
+            stats.eleves_per_classe.length > 0 && renderChart("eleves-per-classe-chart-div", {
+                type: 'pie',
+                title: "Répartition des élèves sur les classes",
+                data: eleves_per_classe_stats,
+            })
             // stats.month_observations.length > 0 && renderChart("month-observ-chart-div", {
             //     type: 'bar',
             //     title: "Observation ce mois-ci",
