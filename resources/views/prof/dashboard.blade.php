@@ -247,7 +247,7 @@ $hours=[
             /** 
              * Render charts
              */
-            var stats = @json($nbr_eleves_formation);
+            var stats = @json($nbr_eleves_formation->toJson());
             console.log(stats)
             // var profs_per_formation_stats = {
             //         labels: [],
