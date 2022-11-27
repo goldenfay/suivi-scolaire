@@ -237,3 +237,121 @@ $hours=[
     });
 </script>
 @endpush
+@push('js')
+    <script src="{{ asset('js') }}/charts.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            /** 
+             * Render charts
+             */
+            var stats = @json($report);
+            console.log(stats)
+            // var profs_per_formation_stats = {
+            //         labels: [],
+            //         datasets: [{
+            //             label: '# Profs',
+            //             backgroundColor: '#FFB1C1',
+            //             data: []
+            //         }]
+            //     },
+            //     eleves_per_formation_stats = {
+            //         labels: [],
+            //         datasets: [{
+            //             label: '# Elèves',
+            //             backgroundColor: ['#9BD0F5', '#ff6384', '#36A2EB', '#FF9F40', '#9966FF'],
+            //             data: []
+            //         }]
+            //     },
+            //     revenus_per_formation_stats = {
+            //         labels: [],
+            //         datasets: [{
+            //             label: 'Revenus',
+            //             backgroundColor: ["#00876c", "#10689c", "#a2b997", "#dfa47e", "#d43d51"],
+            //             data: []
+            //         }]
+            //     },
+            //     eleves_per_classe_stats = {
+            //         labels: [],
+            //         datasets: [{
+            //             label: 'Elèves',
+            //             backgroundColor: ["#003f5c", "#f95d6a", "#2f4b7c", "#ffa600", "#665191", "#a05195",
+            //                 "#d45087", "#ff7c43"
+            //             ],
+            //             data: []
+            //         }]
+            //     },
+            //     month_observations_stats = {
+            //         labels: [],
+            //         datasets: []
+            //     }
+            // //Prepare charts data
+            // stats.profs_per_formation.forEach(row => {
+            //     profs_per_formation_stats.labels.push(row.NomF)
+            //     profs_per_formation_stats.datasets[0].data.push(row.Count)
+            // })
+            // stats.eleves_per_formation.forEach(row => {
+            //     eleves_per_formation_stats.labels.push(row.NomF)
+            //     eleves_per_formation_stats.datasets[0].data.push(row.Count)
+            // })
+            // stats.revenues_formation.forEach(row => {
+            //     revenus_per_formation_stats.labels.push(row.NomF)
+            //     revenus_per_formation_stats.datasets[0].data.push(row.Total)
+            // })
+            // stats.eleves_per_classe.forEach(row => {
+            //     eleves_per_classe_stats.labels.push(row.NomC)
+            //     eleves_per_classe_stats.datasets[0].data.push(row.Count)
+            // })
+            // stats.month_observations.forEach((row, index) => {
+            //     month_observations_stats.labels.push(row.Type)
+            //     month_observations_stats.datasets.push({
+            //         label: row.Type,
+            //         backgroundColor: ['rgb(255, 99, 132)',
+            //             'rgb(255, 159, 64)',
+            //             'rgb(255, 205, 86)',
+            //             'rgb(75, 192, 192)',
+            //             'rgb(54, 162, 235)',
+            //             'rgb(153, 102, 255)',
+            //             'rgb(201, 203, 207)'
+            //         ][index],
+            //         data: [row.Count]
+            //     })
+            // })
+            // // Render charts
+            // stats.profs_per_formation.length > 0 && renderChart("profs-per-formation-chart-div", {
+            //     title: "Répartition des enseignants par formation",
+            //     data: profs_per_formation_stats
+            // })
+            // stats.eleves_per_formation.length > 0 && renderChart("eleves-per-formation-chart-div", {
+            //     type: 'pie',
+            //     title: "Répartition des élèves sur les formations",
+            //     data: eleves_per_formation_stats
+            // })
+            // stats.revenues_formation.length > 0 && renderChart("revenus-per-formation-chart-div", {
+            //     type: 'pie',
+            //     title: "Revenues  des formations",
+            //     data: revenus_per_formation_stats,
+            //     tooltips: {
+            //         callbacks: {
+            //             label: function(tooltipItems, data) {
+            //                 return tooltipItems.yLabel + ' DA';
+            //             }
+            //         }
+            //     },
+            // })
+            // stats.eleves_per_classe.length > 0 && renderChart("eleves-per-classe-chart-div", {
+            //     type: 'pie',
+            //     title: "Répartition des élèves sur les différentes classes",
+            //     data: eleves_per_classe_stats,
+            // })
+            // stats.month_observations.length > 0 && renderChart("month-observ-chart-div", {
+            //     type: 'bar',
+            //     title: "Observation ce mois-ci",
+            //     data: month_observations_stats,
+            //     barThickness: '100'
+            // })
+        });
+    </script>
+@endpush
