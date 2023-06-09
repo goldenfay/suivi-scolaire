@@ -71,22 +71,24 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
 
             <h4> Statistiques</h4>
-            <div class="row mb-3">
-                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+            <div class="row mb-5">
+                <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                     @if ($report['profs_per_formation']->count() > 0)
                         <canvas id="profs-per-formation-chart-div"></canvas>
                     @else
+                        <h6 class="h6 mb-5">Répartition des enseignants par formation</h6>
                         <p class="lead">Aucune donnée à afficher</p>
                     @endif
 
 
                 </div>
 
-                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-                    <div class="h-100 d-flex flex-row justify-content-center align-items-center">
+                <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
                         @if ($report['eleves_per_formation']->count() > 0)
                             <canvas id="eleves-per-formation-chart-div"></canvas>
                         @else
+                            <h6 class="h6 mb-5">Répartition des élèves sur les formations</h6>
                             <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
@@ -100,20 +102,22 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
             </div>
 
-            <div class="row mb-3">
-                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
+            <div class="row mb-5">
+                <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
                     @if ($report['revenues_formation']->count() > 0)
                         <canvas id="revenus-per-formation-chart-div"></canvas>
                     @else
+                        <h6 class="h6 mb-5">Revenues des formations</h6>
                         <p class="lead">Aucune donnée à afficher</p>
                     @endif
                 </div>
 
-                <div class="col-sm-12 col-md-6 d-flex flex-row justify-content-center align-items-center">
-                    <div class="h-100 d-flex flex-row justify-content-center align-items-center">
+                <div class="col-sm-12 col-md-6 d-flex flex-column justify-content-center align-items-center">
+                    <div class="h-100 d-flex flex-column justify-content-center align-items-center">
                         @if ($report['eleves_per_classe']->count() > 0)
                             <canvas id="eleves-per-classe-chart-div"></canvas>
                         @else
+                            <h6 class="h6 mb-5">Répartition des élèves sur les différentes classes</h6>
                             <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
@@ -128,13 +132,14 @@ $days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
 
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-5">
 
                 <div class="col-sm-12 col-md-12 d-flex flex-row justify-content-center align-items-center">
-                    <div class="w-100 d-flex flex-row justify-content-center align-items-center">
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center">
                         @if ($report['month_observations']->count() > 0)
                             <canvas id="month-observ-chart-div"></canvas>
                         @else
+                            <h6 class="h6 mb-5">Observation ce mois-ci</h6>
                             <p class="lead">Aucune donnée à afficher</p>
                         @endif
 
