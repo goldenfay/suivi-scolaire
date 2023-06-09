@@ -42,7 +42,7 @@ class ParentNotification extends Notification
     public function toMail($notifiable)
     {
         $greeting=((int)date('H') )>15?"Bonsoir":"Bonjour";
-        $civilite=$notifiable->Cvilite==null?"Mr/Mme":$notifiable->Cvilite;
+        $civilite=$notifiable->Cvilite==null?"Mr/Mme":$notifiable->civilite()->Des;
         return (new MailMessage)
                     
                     ->subject('Scolarité')
