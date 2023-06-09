@@ -68,7 +68,7 @@ class DashboardController extends Controller
         $revenues_formation = DB::table('catalogue_formation')
         ->joinSub($eleves_per_formation,'eleves_per_formation','eleves_per_formation.id','=','catalogue_formation.id')
         ->selectRaw(('catalogue_formation.id as id,eleves_per_formation.NomF as NomF, catalogue_formation.Prix* eleves_per_formation.Count as Total '))
-        ->groupBy('catalogue_formation.id','eleves_per_formation.NomF')
+        ->groupBy('catalogue_formation.id','eleves_per_formation.NomF', 'catalogue_formation.Prix', 'eleves_per_formation.Count')
         ->get();
         $month_observations = DB::table('observation')
         ->whereRaw('YEAR(Date)=YEAR(CURRENT_DATE) AND MONTH(Date)=MONTH(CURRENT_DATE)')
