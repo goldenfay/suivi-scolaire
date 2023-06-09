@@ -111,15 +111,17 @@ class DashboardController extends Controller
             $eleve=reset($this->user->children);
         else $eleve=$this->user->children[$eleveId.""];
         
-        if($eleve==null)
-            return abort(404);
+        if($eleve==null){
+            return abort(404, "Informations de l'élèves introuvables");
+
+        }
         $classe=null;
         if($classeId==null)
             $classe=$this->user->children[$eleve->eleve->id.""]->classes->first();
         else $classe=$this->user->children[$eleve->eleve->id.""]->classes->where('id',$classeId)->first();
         
         if($classe==null)
-            return abort(404);
+            return abort(404, "Informations des classes de vos enfants introuvables");
             // Fetch for his classes schedules
         $schedule=DB::table('emplois_temps')
         ->where('Classe',$classe->id)
@@ -184,6 +186,10 @@ class DashboardController extends Controller
             ]);
     }
 
+
+    /**
+     * Get all parent's children and their info
+     */
 
     protected function fetchParentData(){
         $this->user->parent = Auth::user();
