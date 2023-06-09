@@ -47,9 +47,9 @@ class ParentNotification extends Notification
                     
                     ->subject('Scolarité')
                     ->greeting("$greeting $civilite $notifiable->Nom")
-                    ->line('Nous voulons vous informer que votre fils vient de recevoir une observations.')
+                    ->line('Nous voulons vous informer que votre enfant vient de recevoir une observations.')
                     ->line('Vous trouverez cette dernière dans son cahier de correspondance numérique.')
-                    ->action('Consulter', url('/'))
+                    ->action('Consulter', route('enfants'))
                     ->line('Cordialement.');
     }
 
