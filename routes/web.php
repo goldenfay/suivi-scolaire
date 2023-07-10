@@ -115,6 +115,9 @@ Route::put('/settings/smsinfos', 'App\Http\Controllers\API\SettingsController@up
 Route::put('/settings/notifprefs', 'App\Http\Controllers\API\SettingsController@updateNotifPreferences')->name('settings.updateNotifPref');
 
 
+Route::post('telegram/class/{classId}/prof/{profId}/add-channel', 'TelegramController@addChannel');
+Route::delete('telegram/class/{classId}/prof/{profId}/delete-channel', 'TelegramController@deleteChannel');
+
 Route::prefix('/api')->name('api.')->group(function(){
     // Route::get('/observations/{id}', 'App\Http\Controllers\API\ObservationsController@getObservation');
 

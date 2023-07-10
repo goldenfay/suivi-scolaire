@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+
 class Prof extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $table="professeur";
-    protected $guard="prof";
+    protected $table = "professeur";
+    protected $guard = "prof";
     public $timestamps = false;
 
     /**
@@ -51,24 +52,33 @@ class Prof extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function routeNotificationForMail(){
+    public function routeNotificationForMail()
+    {
         return $this->Email;
     }
 
-    public function civilite(){
+    public function civilite()
+    {
 
         return DB::table('civilite')
-        ->where('id',$this->Civilite)
-        ->first();
+            ->where('id', $this->Civilite)
+            ->first();
     }
 
-    public function classes(){
+    public function classes()
+    {
 
         return DB::table('professeur_classe')
-        ->where('Professeur',$this->id)
-        ->leftjoin('classe as c','Classe','c.id')
-        ->select('c.*')
-        ->get()
-        ->unique();
+            ->where('Professeur', $this->id)
+            ->leftjoin('classe as c', 'Classe', 'c.id')
+            ->select('c.*')
+            ->get()
+            ->unique();
+    }
+
+    public function channels()
+    {
+        return DB::table('class_prof_telegram')
+            ->where('prof_id', $this->id)->get();
     }
 }
