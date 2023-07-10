@@ -96,7 +96,7 @@ setlocale(LC_TIME, "fr_FR");
         
         <div class="card  mb-3">
           <div class="card-header card-header-primary text-center">
-            <h4 class="card-title"><strong>{{ __('parents Confirmés') }}</strong></h4>
+            <h4 class="card-title"><strong>{{ __('Parents Confirmés') }}</strong></h4>
            
             
           </div>
@@ -283,6 +283,79 @@ setlocale(LC_TIME, "fr_FR");
 
 
     </div>
+    {{-- Comptes refusés --}}
+    <div class="row my-4">
+      <div class="col">
+        
+          <div class="card  mb-3">
+            <div class="card-header card-header-danger text-center">
+              <h4 class="card-title"><strong>{{ __('Comptes refusés') }}</strong></h4>
+             
+              
+            </div>
+            <div class="card-body ">
+              <table class="table table-responsive-lg">
+                <thead >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Téléphone</th>
+                    {{-- <th scope="col" class="text-center">Actions</th> --}}
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  @if($parents->where('Etat','R')->count()==0)
+                  <tr>
+                    <td colspan="8">
+                      <h4 class="text-secondary text-center"> Aucun parent</h4>
+                    </td>
+                  </tr>
+                  @endif
+                  @foreach ($parents->where('Etat','R') as $idx => $parent)
+                  <tr id="{{$parent->id}}">
+                    <td>{{$idx+1}}</td>
+                    <td>{{$parent->civilite()->Des ?? null}}.  {{$parent->Nom}}</td>
+                    <td>{{$parent->Prenom}}</td>
+                    <td>{{$parent->Email}}</td>
+                    <td>{{$parent->NumTel}}</td>
+                    {{-- <td  class="td-actions d-flex justify-content-around">
+                      <button type="button" id="{{$parent->id}}" rel="tooltip" data-toggle="tooltip"
+                        data-placement="top" title="Valider le compte" class="my-3 btn btn-round btn-success"
+                        onclick="confirm_parent_account(event)"
+                        >
+                        <i class="material-icons">check</i>
+                      </button>
+                      <button type="button" id="{{$parent->id}}" rel="tooltip" data-toggle="tooltip"
+                        data-placement="top" title="Refuser" class="my-3 btn btn-round btn-danger"
+                        onclick="refuse_parent_account(event)"
+                        >
+                        <i class="material-icons">block</i>
+                      </button>
+                    </td> --}}
+    
+                    
+    
+                  </tr>
+                  @endforeach
+    
+                </tbody>
+              </table>
+           
+               
+  
+  
+             
+            </div>
+            
+          </div>
+        
+      </div>
+      
+      
+    </div>
 
     
     
@@ -328,12 +401,12 @@ setlocale(LC_TIME, "fr_FR");
         var resultDiv=document.getElementById('account-actions-results');
         resultDiv.innerHTML=`
         <div class="alert alert-success alert-with-icon w-60" data-notify="container">
-        <i class="material-icons" data-notify="icon">check</i>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <i class="material-icons">close</i>
-        </button>
-      <span>Compte confirmé avec succès</span>
-      </div>
+          <i class="material-icons" data-notify="icon">check</i>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="material-icons">close</i>
+            </button>
+          <span>Opération effectuée avec succès</span>
+        </div>
         `
         
         $(resultDiv).show();
