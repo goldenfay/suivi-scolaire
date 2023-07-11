@@ -15,6 +15,7 @@ class EvaluationsController extends Controller
         Validator::make($request->all(), [
             'matiere' => ['required', 'integer'],
             'titre' => ['required', 'string', 'max:30'],
+            'type' => ['required', 'in:interrogation,test,devoir,examen'],
             'heure' => ['required', 'string', 'max:11','min:11'],
             'date' => ['required', 'date'],
             'classeId' => ['required', 'integer'],
@@ -57,6 +58,7 @@ class EvaluationsController extends Controller
                 'Tranche' => $tranche==null?null:$tranche->first()->id ,
                 'Classe' => $request['classeId'] ,
                 'Matiere' => $request['matiere'] ,
+                'Type' => $request['type'] ,
                 'Date' => $request['date'] ,
                 'Heure_Debut' => $heures[0] ,
                 'Heure_Fin' => $heures[1] 
