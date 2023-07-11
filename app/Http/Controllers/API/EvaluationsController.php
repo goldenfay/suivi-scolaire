@@ -55,7 +55,7 @@ class EvaluationsController extends Controller
 
             DB::table('planning_examens')->insert(
                 ['Annee' => null ,
-                'Tranche' => $tranche==null?null:$tranche->first()->id ,
+                'Tranche' => $tranche->first()==null?null:$tranche->first()->id ,
                 'Classe' => $request['classeId'] ,
                 'Matiere' => $request['matiere'] ,
                 'Type' => $request['type'] ,
