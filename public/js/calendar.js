@@ -34,7 +34,9 @@ function displayEvents(DOMElementId, events=[]) {
                 if(dayEvents.length){
                     dayCell.className = "circle";
                     dayCell.setAttribute("data-title",dayEvents.map(el=>el.title).join(' et '));
-                    
+                    dayCell.setAttribute("data-toggle","tooltip");
+                    dayCell.setAttribute("data-placement","top");
+                    // dayCell.setAttribute("title",dayEvents.map(el=>el.title).join(' et '));
 
                     dayEvents.forEach(el=>{
     

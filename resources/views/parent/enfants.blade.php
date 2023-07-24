@@ -261,7 +261,7 @@ switch($etat){
 
       </div>
       <div class="col-sm-4">
-        <h4>Calendrier des évaluations</h4>
+        <h4>Calendrier des épreuves</h4>
         <div class="calendar-box jzdbasf calendar-container dark-green-bg mt-2" id="up-events-calendar">
 
           <div class="jzdcalt">{{date('F, Y')}} </div>
@@ -522,7 +522,7 @@ switch($etat){
           var calendarEvents=result.evaluations
           .map(eval=>({
             day: new Date(eval.Date).getDate(),
-            title: `Examen en ${eval.Matiere}`
+            title:  `${eval.Type || "Examen"} en ${eval.Matiere}`
 
           })).concat(result.events
           .map(event=>({
